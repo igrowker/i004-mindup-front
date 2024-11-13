@@ -7,24 +7,6 @@ import CustomButton from "../components/shared/CustomButton";
 
 const RegisterForm = () => {
   const [soy, setSoy] = useState("");
-  const [fade, setFade] = useState(true);
-  const [next, setNext] = useState(false);
-
-  const nextForm = (): void => {
-    if (soy) {
-      setNext(true);
-    } else {
-      alert("Seleccione una opción");
-    }
-  };
-
-  useEffect(() => {
-    setFade(false);
-    const timeout = setTimeout(() => {
-      setFade(true);
-    }, 300);
-    return () => clearTimeout(timeout);
-  }, [soy]);
 
   const fadeInOut = {
     initial: { opacity: 0, y: 20 },
@@ -34,28 +16,28 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="mx-[44px] min-h-screen flex flex-col justify-center">
+    <div className="w-full min-w-mobile flex flex-col items-center justify-center bg-background">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
         <div
-          className={`flex flex-col  items-center ${next ? "gap-4" : "gap-60"}`}
+          className={`flex flex-col  items-center ${soy ? "gap-4" : "gap-36"}`}
         >
           <AnimatePresence mode="wait">
-            <motion.div key={soy} {...fadeInOut} className="h-11">
+            <motion.div key={soy} {...fadeInOut} className="h-11 w-72 text-center">
               {soy === "" ? (
-                <p className="text-center font-semibold">
+                <p className="text-text text-center font-semibold">
                   En MindUp, puedes buscar ayuda o brindar tus servicios como
                   profesional.
                 </p>
               ) : soy === "Paciente" ? (
-                <p className="text-center font-semibold">
+                <p className="text-text ext-center font-semibold">
                   Encuentra tu psicólogo/a ideal.
                 </p>
               ) : (
-                <p className="text-center font-semibold">
+                <p className="text-text text-center font-semibold">
                   Tú también puedes ser un psicólogo de Mindup.
                 </p>
               )}
@@ -67,20 +49,10 @@ const RegisterForm = () => {
             options={["Paciente", "Profesional"]}
             onChange={(e) => setSoy(e.target.value)}
           />
-
-          {!next && (
-            <motion.div {...fadeInOut}>
-              <CustomButton
-                title="Continuar"
-                appearance={true}
-                onClick={nextForm}
-              />
-            </motion.div>
-          )}
         </div>
 
         <AnimatePresence>
-          {next && (
+          {soy && (
             <motion.form
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
