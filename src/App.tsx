@@ -1,21 +1,14 @@
-
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Profile from './pages/profile';
-
-// function App() {
-//  return (
-//   <div className="min-h-screen bg-background">
-//   <Profile/>
-
-import "./App.css";
+import RegisterForm from './pages/RegisterForm';
 
 function App() {
   return (
-    <div className="max-w-mobile min-w-mobile mx-auto min-h-screen">
-      <p className="text-center text-xl text-white">main</p>
-      <p className="text-center text-lg text-white">probado probandp</p>
-
-    </div>
+    <Routes>
+      <Route path="/" element={<RegisterForm/>} />
+      <Route path="/profile" element={<Profile/>} />
+    </Routes>
   );
 }
 
