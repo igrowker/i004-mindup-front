@@ -16,14 +16,14 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="w-full min-w-mobile flex flex-col items-center justify-center bg-background">
+    <div className="min-h-screen w-full min-w-mobile flex flex-col items-center justify-center bg-background">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
         <div
-          className={`flex flex-col  items-center ${soy ? "gap-4" : "gap-36"}`}
+          className={`flex flex-col items-center ${soy ? "gap-4" : "gap-36"}`}
         >
           <AnimatePresence mode="wait">
             <motion.div key={soy} {...fadeInOut} className="h-11 w-72 text-center">
