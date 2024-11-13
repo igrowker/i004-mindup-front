@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import InputSelect from "../components/shared/Inputs/InputSelect";
 import InputText from "../components/shared/Inputs/InputText";
@@ -26,7 +26,11 @@ const RegisterForm = () => {
           className={`flex flex-col items-center ${soy ? "gap-4" : "gap-36"}`}
         >
           <AnimatePresence mode="wait">
-            <motion.div key={soy} {...fadeInOut} className="h-11 w-72 text-center">
+            <motion.div
+              key={soy}
+              {...fadeInOut}
+              className="h-11 w-72 text-center"
+            >
               {soy === "" ? (
                 <p className="text-text text-center font-semibold">
                   En MindUp, puedes buscar ayuda o brindar tus servicios como
