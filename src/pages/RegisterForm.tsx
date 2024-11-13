@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import InputSelect from "../components/shared/Inputs/InputSelect";
 import InputText from "../components/shared/Inputs/InputText";
@@ -15,25 +15,32 @@ const RegisterForm = () => {
     transition: { duration: 0.3 },
   };
 
+  console.log(soy);
+
   return (
     <div className="min-h-screen w-full min-w-mobile flex flex-col items-center justify-center bg-background">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
       >
         <div
           className={`flex flex-col items-center ${soy ? "gap-4" : "gap-36"}`}
         >
           <AnimatePresence mode="wait">
-            <motion.div key={soy} {...fadeInOut} className="h-11 w-72 text-center">
+            <motion.div
+              key={soy}
+              {...fadeInOut}
+              className="h-11 w-72 text-center"
+            >
               {soy === "" ? (
                 <p className="text-text text-center font-semibold">
                   En MindUp, puedes buscar ayuda o brindar tus servicios como
                   profesional.
                 </p>
               ) : soy === "Paciente" ? (
-                <p className="text-text ext-center font-semibold">
+                <p className="text-text text-center font-semibold">
                   Encuentra tu psicólogo/a ideal.
                 </p>
               ) : (
@@ -44,11 +51,19 @@ const RegisterForm = () => {
             </motion.div>
           </AnimatePresence>
 
-          <InputSelect
-            title="Soy..."
-            options={["Paciente", "Profesional"]}
-            onChange={(e) => setSoy(e.target.value)}
-          />
+          <motion.div
+          key={soy}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+            <InputSelect
+              title={soy ? soy : "Soy..."}
+              options={["Paciente", "Profesional"]}
+              onChange={(e) => setSoy(e.target.value)}
+            />
+          </motion.div>
         </div>
 
         <AnimatePresence>

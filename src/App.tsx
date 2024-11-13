@@ -5,7 +5,7 @@ import RegisterForm from "./pages/RegisterForm";
 function App() {
   return (
     <>
-      <Profile />
+      {/* <Profile /> */}
       <RegisterForm />
     </>
   );
