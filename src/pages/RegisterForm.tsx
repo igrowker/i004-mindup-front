@@ -1,56 +1,112 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import InputSelect from "../components/shared/Inputs/InputSelect";
 import InputText from "../components/shared/Inputs/InputText";
 import InputPassword from "../components/shared/Inputs/InputPassword";
 import CustomButton from "../components/shared/CustomButton";
 
-interface FormData {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
-interface FormErrors {
-  username?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-}
-
 const RegisterForm = () => {
   const [soy, setSoy] = useState("");
-  
+  const [fade, setFade] = useState(true);
+  const [next, setNext] = useState(false);
+
+  const nextForm = (): void => {
+    if (soy) {
+      setNext(true);
+    } else {
+      alert("Seleccione una opción");
+    }
+  };
+
+  useEffect(() => {
+    setFade(false);
+    const timeout = setTimeout(() => {
+      setFade(true);
+    }, 300);
+    return () => clearTimeout(timeout);
+  }, [soy]);
+
+  const fadeInOut = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -20 },
+    transition: { duration: 0.3 },
+  };
+
   return (
-    <>
-      <div className="mx-[44px] h-full">
-        <div className="flex flex-col h-[600px] w-full justify-center items-center">
-        <p className="text-center text-2xl font-semibold">Tú tambien puedes ser un psicólogo de Mindup</p>
-        <InputSelect
-          title="Soy..."
-          options={["Paciente", "Profesional"]}
-          onChange={(e) => {
-            setSoy(e.target.value);
-          }}
-        />
+    <div className="mx-[44px] min-h-screen flex flex-col justify-center">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div
+          className={`flex flex-col  items-center ${next ? "gap-4" : "gap-60"}`}
+        >
+          <AnimatePresence mode="wait">
+            <motion.div key={soy} {...fadeInOut} className="h-11">
+              {soy === "" ? (
+                <p className="text-center font-semibold">
+                  En MindUp, puedes buscar ayuda o brindar tus servicios como
+                  profesional.
+                </p>
+              ) : soy === "Paciente" ? (
+                <p className="text-center font-semibold">
+                  Encuentra tu psicólogo/a ideal.
+                </p>
+              ) : (
+                <p className="text-center font-semibold">
+                  Tú también puedes ser un psicólogo de Mindup.
+                </p>
+              )}
+            </motion.div>
+          </AnimatePresence>
+
+          <InputSelect
+            title="Soy..."
+            options={["Paciente", "Profesional"]}
+            onChange={(e) => setSoy(e.target.value)}
+          />
+
+          {!next && (
+            <motion.div {...fadeInOut}>
+              <CustomButton
+                title="Continuar"
+                appearance={true}
+                onClick={nextForm}
+              />
+            </motion.div>
+          )}
         </div>
-        <div className="">
-        <form action="" className="flex flex-col gap-2">
-          <InputText name="Nombre completo" placeholder="Ej. Alicia Gonzalez" />
-          <InputText name="Email" placeholder="user@user.com" />
-          <InputPassword
-            name="Nueva contraseña"
-            placeholder="Ingrese su contraseña"
-          />
-          <InputPassword
-            name="Repetir nueva contraseña"
-            placeholder="Ingrese su contraseña"
-          />
-          <CustomButton title="Registrarme" appearance={true}/>
-        </form>
-      </div>
-      </div>
-    </>
+
+        <AnimatePresence>
+          {next && (
+            <motion.form
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex flex-col gap-2 mt-4"
+            >
+              <InputText
+                name="Nombre completo *"
+                placeholder="Ej. Alicia Gonzalez"
+              />
+              <InputText name="Email *" placeholder="user@user.com" />
+              <InputPassword
+                name="Nueva contraseña *"
+                placeholder="Ingrese su contraseña"
+              />
+              <InputPassword
+                name="Repetir nueva contraseña *"
+                placeholder="Ingrese su contraseña"
+              />
+              <CustomButton title="Registrarme" appearance={true} />
+            </motion.form>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </div>
   );
 };
 

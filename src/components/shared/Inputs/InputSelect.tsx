@@ -25,13 +25,13 @@ const InputSelect: React.FC<InputSelectProps> = ({
         id={title}
         value={selectedValue}
         onChange={handleChange}
-        className="relative w-full block rounded-md border-2 p-1 border-gray-200"
+        className="relative w-[200px] block rounded-md border-2 p-1 border-gray-200 text-black"
       >
         <option value="" disabled hidden>
           {title}
         </option>
         {options.map((option) => (
-          <option key={option} value={option}>
+          <option key={option} value={option} className="text-center text-black">
             {option}
           </option>
         ))}
