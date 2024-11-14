@@ -5,6 +5,8 @@ import InputText from "../components/shared/Inputs/InputText";
 import InputPassword from "../components/shared/Inputs/InputPassword";
 import CustomButton from "../components/shared/CustomButton";
 
+import { useNavigate } from "react-router-dom";
+
 const RegisterForm = () => {
   const [soy, setSoy] = useState("");
 
@@ -15,7 +17,7 @@ const RegisterForm = () => {
     transition: { duration: 0.3 },
   };
 
-  console.log(soy);
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen w-full min-w-mobile flex flex-col items-center justify-center bg-background">
@@ -52,12 +54,12 @@ const RegisterForm = () => {
           </AnimatePresence>
 
           <motion.div
-          key={soy}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      >
+            key={soy}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             <InputSelect
               title={soy ? soy : "Soy..."}
               options={["Paciente", "Profesional"]}
@@ -88,7 +90,11 @@ const RegisterForm = () => {
                 name="Repetir nueva contraseña *"
                 placeholder="Ingrese su contraseña"
               />
-              <CustomButton title="Registrarme" appearance={true} />
+              <CustomButton
+                title="Registrarme"
+                appearance={true}
+                onClick={() => navigate("/onboard")}
+              />
             </motion.form>
           )}
         </AnimatePresence>
