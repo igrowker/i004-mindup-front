@@ -33,20 +33,18 @@ function LoginForm() {
         </Link>
 
         <div className="h-36 flex flex-col items-center justify-evenly">
-
-        <CustomButton
-          title="Iniciar Sesión"
-          appearance={true}
-          onClick={() => navigate("/onboard")}
-        />
-        <Link to="/register">
-      <p className="text-text font-medium text-center">¿Eres nuevo? Regístrate aquí </p>
-      </Link>
-
-      </div>
-
+          <CustomButton
+            title="Iniciar Sesión"
+            appearance={true}
+            onClick={() => navigate("/onboard")}
+          />
+          <Link to="/register">
+            <p className="text-text font-medium text-center">
+              ¿Eres nuevo? Regístrate aquí{" "}
+            </p>
+          </Link>
+        </div>
       </motion.form>
-
     </div>
   );
 }

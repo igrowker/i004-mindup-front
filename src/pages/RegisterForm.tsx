@@ -6,7 +6,7 @@ import InputPassword from "../components/shared/Inputs/InputPassword";
 import CustomButton from "../components/shared/CustomButton";
 import logo2 from "../../public/logo2.png";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
   const [soy, setSoy] = useState("");
@@ -106,7 +106,13 @@ const RegisterForm = () => {
                 appearance={true}
                 onClick={() => navigate("/onboard")}
               />
+              <Link to="/">
+            <p className="text-text font-medium text-center mt-2">
+             ¿Ya tienes un cuenta? Inicia sesión aquí
+            </p>
+          </Link>
             </motion.form>
+            
           )}
         </AnimatePresence>
       </motion.div>
