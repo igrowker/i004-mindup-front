@@ -6,11 +6,6 @@ import HomePsychologist from '../pages/HomePsychologist';
 import LoginForm from '../pages/LoginForm';
 import Profile from '../pages/Profile';
 
-// import { createBrowserRouter } from 'react-router-dom';
-// import App from '../App'
-// import RegisterForm from '../pages/RegisterForm';
-// import Onboarding from '../pages/Onboarding';
-
 export const router = createBrowserRouter([
   {
     path: '/',
