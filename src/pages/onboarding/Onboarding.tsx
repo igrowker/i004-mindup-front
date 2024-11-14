@@ -3,6 +3,7 @@ import bg1 from '../../public/Onboardingbg1.png';
 import bgGif from '../../public/onboardingBackground.gif';
 import logo from '../../public/logo.png';
 import logo2 from '../../public/logo2.png';
+import { useNavigate } from 'react-router-dom';
 
 interface PhaseContent {
   logo: string;
@@ -45,10 +46,14 @@ const phaseContent: { [key: number]: PhaseContent } = {
 
 const Onboarding: React.FC = () => {
   const [currentPhase, setCurrentPhase] = useState<number>(1);
+  const navigate = useNavigate();
 
   const handleNextPhase = () => {
     if (currentPhase < 4) {
       setCurrentPhase(currentPhase + 1);
+    }
+    else if (currentPhase >= 4) {
+      navigate('/profile')
     }
   };
 
