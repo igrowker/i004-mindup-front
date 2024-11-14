@@ -4,6 +4,7 @@ import InputSelect from "../components/shared/Inputs/InputSelect";
 import InputText from "../components/shared/Inputs/InputText";
 import InputPassword from "../components/shared/Inputs/InputPassword";
 import CustomButton from "../components/shared/CustomButton";
+import logo2 from "../../public/logo2.png";
 
 import { useNavigate } from "react-router-dom";
 
@@ -21,6 +22,16 @@ const RegisterForm = () => {
 
   return (
     <div className="min-h-screen w-full min-w-mobile flex flex-col items-center justify-center bg-background">
+      <motion.div
+        key={soy}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        <img src={logo2} alt="" className="translate-y-[-50px]"/>
+      </motion.div>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
