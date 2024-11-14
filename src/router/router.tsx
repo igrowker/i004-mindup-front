@@ -1,13 +1,10 @@
+import { createBrowserRouter } from 'react-router-dom';
 import App from '../App'
 import RegisterForm from '../pages/RegisterForm';
 import Onboarding from '../pages/Onboarding';
-
-import { createBrowserRouter } from 'react-router-dom';
-
 import HomePsychologist from '../pages/HomePsychologist';
-
 import LoginForm from '../pages/LoginForm';
-import Profile from '../pages/profile';
+import Profile from '../pages/Profile';
 
 export const router = createBrowserRouter([
     {
