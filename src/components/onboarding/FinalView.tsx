@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import InputText from '../../../components/shared/Inputs/InputText';
+import InputText from '../shared/Inputs/InputText';
 import DynamicButton from './DynamicButton';
 
 const FinalView: React.FC = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
