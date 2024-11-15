@@ -5,9 +5,16 @@ import InputPassword from "../components/shared/Inputs/InputPassword";
 import CustomButton from "../components/shared/CustomButton";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 function LoginForm() {
+  const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const validate = (e : any) => {
+    e.preventDefault();
+    navigate("/onboard");
+  };
   return (
     <div className="min-h-screen w-full min-w-mobile flex flex-col items-center bg-background">
       <div className="h-64 flex flex-col items-center justify-evenly">
@@ -20,13 +27,16 @@ function LoginForm() {
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.5, delay: 0.2 }}
         className="flex flex-col gap-2 "
+        onSubmit={validate}
       >
-        <InputText name="Email *" placeholder="Ingrese su email " />
+        <InputText name="Email *" placeholder="Ingrese su email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <InputPassword
           name="Contraseña *"
           placeholder="Ingrese su contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
-        <Link to="/register">
+        <Link to="/forgotPassword">
           <p className="text-[#0a135d] text-sm font-medium text-end mt-2 underline">
             ¿Ha olvidado su contraseña?
           </p>
@@ -36,7 +46,8 @@ function LoginForm() {
           <CustomButton
             title="Iniciar Sesión"
             appearance={true}
-            onClick={() => navigate("/home")}
+            type="submit"
+            // onClick={() => navigate("/home")}
           />
           <Link to="/register">
             <p className="text-text font-medium text-center">

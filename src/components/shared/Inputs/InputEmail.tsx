@@ -1,18 +1,18 @@
-interface InputTextProps {
+interface InputEmailProps {
   name: string;
   placeholder: string;
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function InputText({ name, placeholder, onChange,value }: InputTextProps) {
+function InputEmail({ name, placeholder, onChange,value }: InputEmailProps) {
   return (
     <div>
       <label htmlFor={name} className="block font-bold my-1">
         {name}
       </label>
       <input
-        type="text"
+        type="email"
         id={name}
         name={name}
         placeholder={placeholder}
@@ -25,4 +25,4 @@ function InputText({ name, placeholder, onChange,value }: InputTextProps) {
   );
 }
 
-export default InputText;
+export default InputEmail;
