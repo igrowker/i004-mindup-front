@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import FinalView from './components/FinalView';
-import OnboardingView from './components/OnboardingView';
+import FinalView from '../components/onboarding/FinalView';
+import OnboardingView from '../components/onboarding/OnboardingView';
 
 // responsabilidad del componente: Mostrar las vistas del proceso de Onboarding y su informacion pertinente
 const Onboarding = () => {
