@@ -68,26 +68,36 @@ function Profile() {
       <article className="w-[343px] bg-background my-2 pb-2 px-6 gap-2 drop-shadow-[0_2px_1px_rgba(0,0,0,0.1)] flex flex-col text-base rounded-2xl leading-tight">
         <h2 className="font-medium">Más sobre mi</h2>
         <div className="flex flex-col">
-            <div className="flex justify-between">
-                <h3>Idiomas</h3>
-                <div className="flex items-center text-[#969696]">Vacío <IoIosArrowForward/></div>
+          <div className="flex justify-between">
+            <h3>Idiomas</h3>
+            <div className="flex items-center text-[#969696]">
+              Vacío <IoIosArrowForward />
             </div>
-            <div className="flex justify-between">
-                <h3>Animales</h3>
-                <div className="flex items-center text-[#969696]">Vacío <IoIosArrowForward/></div>
+          </div>
+          <div className="flex justify-between">
+            <h3>Animales</h3>
+            <div className="flex items-center text-[#969696]">
+              Vacío <IoIosArrowForward />
             </div>
-            <div className="flex justify-between">
-                <h3>Alimentación</h3>
-                <div className="flex items-center text-[#969696]">Vacío <IoIosArrowForward/></div>
+          </div>
+          <div className="flex justify-between">
+            <h3>Alimentación</h3>
+            <div className="flex items-center text-[#969696]">
+              Vacío <IoIosArrowForward />
             </div>
-            <div className="flex justify-between">
-                <h3>Zodíaco</h3>
-                <div className="flex items-center text-[#969696]">Vacío <IoIosArrowForward/></div>
+          </div>
+          <div className="flex justify-between">
+            <h3>Zodíaco</h3>
+            <div className="flex items-center text-[#969696]">
+              Vacío <IoIosArrowForward />
             </div>
-            <div className="flex justify-between">
-                <h3>Pronombre</h3>
-                <div className="flex items-center text-[#969696]">Vacío <IoIosArrowForward/></div>
+          </div>
+          <div className="flex justify-between">
+            <h3>Pronombre</h3>
+            <div className="flex items-center text-[#969696]">
+              Vacío <IoIosArrowForward />
             </div>
+          </div>
         </div>
       </article>
       <article className="w-[343px] bg-background my-2 pb-2 px-6 gap-2 drop-shadow-[0_2px_1px_rgba(0,0,0,0.1)] flex flex-col text-base rounded-2xl leading-tight">
@@ -95,10 +105,13 @@ function Profile() {
         <p>The Beatles - All my loving</p>
       </article>
       <article className="w-[343px] bg-background my-2 pb-2 px-6 gap-2 drop-shadow-[0_2px_1px_rgba(0,0,0,0.1)] flex flex-col text-base rounded-2xl leading-tight">
-        <p>Graba un breve video de presentación (máximo 1 minuto) para que los pacientes puedan conocerte mejor.</p>
+        <p>
+          Graba un breve video de presentación (máximo 1 minuto) para que los
+          pacientes puedan conocerte mejor.
+        </p>
         <div className="w-[305px] flex flex-col items-center border border-dashed border-secondary p-4">
-            < FiPlusCircle className="text-secondary size-[22px]"/>
-            <p className="font-medium text-[#969696]">Subir o grabar un video</p>
+          <FiPlusCircle className="text-secondary size-[22px]" />
+          <p className="font-medium text-[#969696]">Subir o grabar un video</p>
         </div>
       </article>
     </div>
