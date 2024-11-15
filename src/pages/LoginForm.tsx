@@ -36,7 +36,7 @@ function LoginForm() {
           <CustomButton
             title="Iniciar Sesión"
             appearance={true}
-            onClick={() => navigate("/onboard")}
+            onClick={() => navigate("/home")}
           />
           <Link to="/register">
             <p className="text-text font-medium text-center">
