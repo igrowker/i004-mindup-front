@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import InputText from '../../../components/shared/Inputs/InputText';
 import DynamicButton from './DynamicButton';
 
 const FinalView: React.FC = () => {
+  const navigate = useNavigate()
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
@@ -64,7 +66,7 @@ const FinalView: React.FC = () => {
         <div className="w-full flex justify-center">
           <DynamicButton
             buttonText="Guardar"
-            onClick={() => alert('fin de la operacion xD')} // aca iria la fn para enviar los datos al back
+            onClick={() => navigate('/home')} // aca iria la fn para enviar los datos al back
             bgColor="bg-violet-500"
             textColor="text-white"
           />
