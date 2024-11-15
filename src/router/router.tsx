@@ -1,6 +1,6 @@
 import App from '../App';
 import RegisterForm from '../pages/RegisterForm';
-import Onboarding from '../pages/onboarding/Onboarding';
+import Onboarding from '../pages/Onboarding';
 import { createBrowserRouter } from 'react-router-dom';
 import HomePsychologist from '../pages/HomePsychologist';
 import LoginForm from '../pages/LoginForm';
