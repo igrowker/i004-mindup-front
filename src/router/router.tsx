@@ -5,6 +5,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import HomePsychologist from '../pages/HomePsychologist';
 import LoginForm from '../pages/LoginForm';
 import Profile from '../pages/Profile';
+import ForgotPassword from '../pages/ForgotPassword';
 
 export const router = createBrowserRouter([
   {
@@ -12,6 +13,7 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: 'register', element: <RegisterForm /> },
+      { path: 'forgotPassword', element: <ForgotPassword /> },
       { path: '', element: <LoginForm /> },
       { path: 'onboard', element: <Onboarding /> },
       { path: 'profile', element: <Profile /> },
