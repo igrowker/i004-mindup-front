@@ -1,12 +1,15 @@
 interface ButtonData {
   title: string;
   appearance?: boolean;
+  option?: boolean;
   type?: "button" | "submit" | "reset"; // Define los valores permitidos para `type`
   onClick?: () => void;
 }
 
-function CustomButton({title,appearance,type = "button",onClick,}: ButtonData): JSX.Element {
-  const commonClasses =
+function CustomButton({ title, appearance, option, type = "button", onClick, }: ButtonData): JSX.Element {
+  const commonClasses = option ?
+    "w-24 text-center rounded border px-4 py-3 font-medium focus:outline-none focus:ring"
+    :
     "inline-block text-center rounded border px-24 py-3 font-medium focus:outline-none focus:ring";
   const primaryClasses =
     "border-[#7a5fe7] bg-[#7a5fe7] text-white hover:bg-transparent hover:text-[#7a5fe7] active:text-[#7a5fe7]";
@@ -15,9 +18,8 @@ function CustomButton({title,appearance,type = "button",onClick,}: ButtonData): 
 
   return (
     <button
-      className={`${commonClasses} ${
-        appearance ? primaryClasses : secondaryClasses
-      }`}
+      className={`${commonClasses} ${appearance ? primaryClasses : secondaryClasses
+        }`}
       type={type} // Usa el tipo que recibe como prop
       onClick={(e) => {
         if (type !== "submit") {
