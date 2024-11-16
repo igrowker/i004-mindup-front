@@ -6,6 +6,7 @@ import HomePsychologist from '../pages/HomePsychologist';
 import LoginForm from '../pages/LoginForm';
 import Profile from '../pages/Profile';
 import ForgotPassword from '../pages/ForgotPassword';
+import Modal from '../components/modal/Modal';
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,9 @@ export const router = createBrowserRouter([
       { path: 'onboard', element: <Onboarding /> },
       { path: 'profile', element: <Profile /> },
       { path: 'home', element: <HomePsychologist /> },
+
+      //esta ruta es para probar el mdodal
+      { path: 'modal', element: <Modal /> },
     ],
   },
 ]);
