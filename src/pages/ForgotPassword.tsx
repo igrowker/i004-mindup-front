@@ -9,6 +9,7 @@ import { validateEmail } from "../utils/validationUtils";
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  
 
   const navigate = useNavigate();
 
