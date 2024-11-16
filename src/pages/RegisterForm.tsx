@@ -6,18 +6,65 @@ import InputPassword from "../components/shared/Inputs/InputPassword";
 import CustomButton from "../components/shared/CustomButton";
 import logo2 from "../../public/logo2.png";
 import { Link, useNavigate } from "react-router-dom";
-import InputEmail from "../components/shared/Inputs/InputEmail";
+import { validateEmail, validatePassword, validateName } from "../utils/validationUtils";
 
 const RegisterForm = () => {
-  const [formData, setFormData] = useState({
-    soy: "",
+  const [soy, setSoy] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
+  const [errors, setErrors] = useState({
+    fullName: "",
     email: "",
-    name: "",
     password: "",
-    confirmPassword: "",
+    repeatPassword: "",
   });
-  const [passwordMatch, setPasswordMatch] = useState(false);
+
   const navigate = useNavigate();
+
+  const handleValidation = () => {
+    const nameError = validateName(fullName);
+    const emailError = validateEmail(email);
+    const passwordError = validatePassword(password);
+    const repeatPasswordError =
+      password !== repeatPassword ? "Las contraseñas no coinciden." : "";
+
+    setErrors({
+      fullName: nameError,
+      email: emailError,
+      password: passwordError,
+      repeatPassword: repeatPasswordError,
+    });
+
+    return !nameError && !emailError && !passwordError && !repeatPasswordError;
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    if (handleValidation()) {
+      navigate("/onboard");
+    }
+  };
+
+  const handleChange = (field: string, value: string) => {
+    if (field === "fullName") {
+      setFullName(value);
+      setErrors((prev) => ({ ...prev, fullName: validateName(value) }));
+    } else if (field === "email") {
+      setEmail(value);
+      setErrors((prev) => ({ ...prev, email: validateEmail(value) }));
+    } else if (field === "password") {
+      setPassword(value);
+      setErrors((prev) => ({ ...prev, password: validatePassword(value) }));
+    } else if (field === "repeatPassword") {
+      setRepeatPassword(value);
+      setErrors((prev) => ({
+        ...prev,
+        repeatPassword: value !== password ? "Las contraseñas no coinciden." : "",
+      }));
+    }
+  };
 
   const fadeInOut = {
     initial: { opacity: 0, y: 20 },
@@ -26,125 +73,120 @@ const RegisterForm = () => {
     transition: { duration: 0.3 },
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-
-    // Verifica si las contraseñas coinciden y oculta el mensaje de error si lo hacen
-    if (name === "confirmPassword" || name === "password") {
-      setPasswordMatch(
-        formData.password !== value && name === "confirmPassword"
-      );
-    }
-  };
-
-  const validate = (e : any) => {
-    e.preventDefault();
-    const { password, confirmPassword, soy, name, email } = formData;
-
-    if (password !== confirmPassword) {
-      setPasswordMatch(true);
-      return;
-    }
-    console.log(
-      "Soy:",
-      soy,
-      "Name:",
-      name,
-      "Email:",
-      email,
-      "Password:",
-      password
-    );
-    navigate("/");
-  };
-
-  const renderMessage = () => {
-    switch (formData.soy) {
-      case "":
-        return "En MindUp, puedes buscar ayuda o brindar tus servicios como profesional.";
-      case "Paciente":
-        return "Encuentra tu psicólogo/a ideal.";
-      case "Profesional":
-        return "Tú también puedes ser un psicólogo de Mindup.";
-      default:
-        return "";
-    }
-  };
-
   return (
     <div className="min-h-screen w-full min-w-mobile flex flex-col items-center justify-center bg-background">
-      <motion.div {...fadeInOut}>
-        <img src={logo2} alt="Logo" className="translate-y-[-50px]" />
+      <motion.div
+        key={soy}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        <img src={logo2} alt="" className="translate-y-[-50px]" />
       </motion.div>
 
-      <motion.div {...fadeInOut}>
-        <div
-          className={`flex flex-col items-center ${
-            formData.soy ? "gap-4" : "gap-36"
-          }`}
-        >
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        <div className={`flex flex-col items-center ${soy ? "gap-4" : "gap-36"}`}>
           <AnimatePresence mode="wait">
-            <motion.div
-              key={formData.soy}
-              {...fadeInOut}
-              className="h-11 w-72 text-center"
-            >
-              <p className="text-text text-center font-semibold">
-                {renderMessage()}
-              </p>
+            <motion.div key={soy} {...fadeInOut} className="h-11 w-72 text-center">
+              {soy === "" ? (
+                <p className="text-text text-center font-semibold">
+                  En MindUp, puedes buscar ayuda o brindar tus servicios como profesional.
+                </p>
+              ) : soy === "Paciente" ? (
+                <p className="text-text text-center font-semibold">Encuentra tu psicólogo/a ideal.</p>
+              ) : (
+                <p className="text-text text-center font-semibold">Tú también puedes ser un psicólogo de Mindup.</p>
+              )}
             </motion.div>
           </AnimatePresence>
 
-          <InputSelect
-            title={formData.soy || "Soy..."}
-            options={["Paciente", "Profesional"]}
-            onChange={(e) =>
-              handleChange({ target: { name: "soy", value: e.target.value } })
-            }
-          />
+          <motion.div
+            key={soy}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <InputSelect
+              title={soy ? soy : "Soy..."}
+              options={["Paciente", "Profesional"]}
+              onChange={(e) => setSoy(e.target.value)}
+            />
+          </motion.div>
         </div>
 
         <AnimatePresence>
-          {formData.soy && (
+          {soy && (
             <motion.form
-              {...fadeInOut}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
               className="flex flex-col gap-2 mt-4"
-              onSubmit={validate}
+              onSubmit={handleSubmit}
             >
               <InputText
-                name="name"
+                name="Nombre completo *"
                 placeholder="Ej. Alicia Gonzalez"
-                value={formData.name}
-                onChange={handleChange}
+                value={fullName}
+                onChange={(e) => handleChange("fullName", e.target.value)}
               />
-              <InputEmail
-                name="email"
-                placeholder="user@user.com"
-                value={formData.email}
-                onChange={handleChange}
-              />
-              <InputPassword
-                name="password"
-                placeholder="Ingrese su contraseña"
-                value={formData.password}
-                onChange={handleChange}
-              />
-              <InputPassword
-                name="confirmPassword"
-                placeholder="Ingrese su contraseña"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-              />
-              {passwordMatch && (
-                <AnimatePresence mode="wait">
+              <AnimatePresence>
+                {errors.fullName && (
                   <motion.div {...fadeInOut}>
-                    <p className="text-red-500 text-center">
-                      Las contraseñas no coinciden
-                    </p>
+                    <p className="text-red-500 text-center w-80">{errors.fullName}</p>
                   </motion.div>
-                </AnimatePresence>
-              )}
+                )}
+              </AnimatePresence>
+
+              <InputText
+                name="Email *"
+                placeholder="user@user.com"
+                value={email}
+                onChange={(e) => handleChange("email", e.target.value)}
+              />
+              <AnimatePresence>
+                {errors.email && (
+                  <motion.div {...fadeInOut}>
+                    <p className="text-red-500 text-center w-80">{errors.email}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <InputPassword
+                name="Nueva contraseña *"
+                placeholder="Ingrese su contraseña"
+                value={password}
+                onChange={(e) => handleChange("password", e.target.value)}
+              />
+              <AnimatePresence>
+                {errors.password && (
+                  <motion.div {...fadeInOut}>
+                    <p className="text-red-500 text-center w-80">{errors.password}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <InputPassword
+                name="Repetir nueva contraseña *"
+                placeholder="Repita su contraseña"
+                value={repeatPassword}
+                onChange={(e) => handleChange("repeatPassword", e.target.value)}
+              />
+              <AnimatePresence>
+                {errors.repeatPassword && (
+                  <motion.div {...fadeInOut}>
+                    <p className="text-red-500 text-center w-80">{errors.repeatPassword}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               <CustomButton
                 title="Registrarme"
                 appearance={true}

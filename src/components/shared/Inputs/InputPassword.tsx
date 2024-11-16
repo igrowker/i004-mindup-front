@@ -31,9 +31,6 @@ function InputPassword({
           onChange={onChange}
           value={value}
           className="mt-1 w-full rounded-md border-[#cfd0d2] border-[1px] py-2 px-2 pr-10"
-          required
-          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$"
-          title="La contraseña debe contener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y un carácter especial."
         />
         <button
           type="button"

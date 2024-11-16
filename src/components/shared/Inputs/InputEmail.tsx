@@ -19,7 +19,6 @@ function InputEmail({ name, placeholder, onChange,value }: InputEmailProps) {
         onChange={onChange} 
         value={value}
         className="mt-1 w-full rounded-md border-[#cfd0d2] border-[1px] py-2 px-2"
-        required
       />
     </div>
   );
