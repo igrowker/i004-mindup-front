@@ -23,7 +23,7 @@ const MonthCalendar: React.FC = () => {
     );
   };
 
-  // Función para obtener el primer día del mes
+  // Función para obtener el primer día del mes (inicia en domingo)
   const getFirstDayOfMonth = (date: Date) => {
     return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
   };
@@ -32,19 +32,20 @@ const MonthCalendar: React.FC = () => {
   const getPreviousMonthDays = (date: Date, firstDayIndex: number) => {
     const year = date.getFullYear();
     const month = date.getMonth();
-    const previousMonth = new Date(year, month, 0);
+    const previousMonth = new Date(year, month, 0); // Último día del mes anterior
     const daysInPreviousMonth = previousMonth.getDate();
     return Array.from(
       { length: firstDayIndex },
-      (_, i) => daysInPreviousMonth - firstDayIndex + i + 1
+      (_, i) => new Date(year, month - 1, daysInPreviousMonth - firstDayIndex + i + 1)
     );
   };
 
   // Renderizar el calendario
   const renderCalendar = () => {
     const daysInMonth = getDaysInMonth(currentDate);
-    const firstDayIndex = getFirstDayOfMonth(currentDate);
+    const firstDayIndex = getFirstDayOfMonth(currentDate); // Día inicial (0: Domingo)
     const previousMonthDays = getPreviousMonthDays(currentDate, firstDayIndex);
+    const today = new Date(); // Fecha actual sin horas
 
     // Crear una matriz para los días del mes
     const days = [];
@@ -56,25 +57,27 @@ const MonthCalendar: React.FC = () => {
           key={`prev-${i}`}
           className="text-gray-300 flex items-center justify-center size-9"
         >
-          {day}
+          {day.getDate()}
         </div>
       );
     });
 
     // Agregar los días del mes
     daysInMonth.forEach((day, i) => {
-      const formattedDay = day.getDate(); // Extraer solo el día del mes
+      const isToday = day.toDateString() === today.toDateString(); // Comparar con el día actual
       days.push(
         <div
-          key={i} // Usar el índice como key
+          key={i}
           className={`flex items-center justify-center size-9 cursor-pointer rounded-lg ${
-            selectedDate?.toDateString() === day.toDateString()
+            isToday
+              ? "bg-[#AFF4C6]" // Fondo para el día actual
+              : selectedDate?.toDateString() === day.toDateString()
               ? "bg-zinc-950 text-white"
               : "text-zinc-950 hover:bg-gray-200"
           }`}
           onClick={() => setSelectedDate(day)}
         >
-          {formattedDay}
+          {day.getDate()}
         </div>
       );
     });
@@ -97,16 +100,16 @@ const MonthCalendar: React.FC = () => {
   };
 
   return (
-    <div className="w-[276px] mx-auto font-sans border border-zinc-200 rounded-md px-3">
+    <div className="w-64 mx-auto font-sans border border-zinc-200 rounded-md px-3 py-4">
       {/* Botones para cambiar de mes */}
-      <div className="flex justify-between items-center mb-4 py-4">
+      <div className="flex justify-between items-center mb-2">
         <button
           onClick={() => changeMonth(-1)}
           className="size-7 flex items-center justify-center text-zinc-400 rounded-md border border-zinc-200 hover:text-zinc-950 hover:border-zinc-950"
         >
           <IoIosArrowBack />
         </button>
-        <h2 className="text-zinc-950 font-medium">
+        <h2 className="text-zinc-950 font-medium text-sm">
           {`${currentDate
             .toLocaleString("es-ES", { month: "long" })
             .charAt(0)
@@ -123,24 +126,18 @@ const MonthCalendar: React.FC = () => {
       </div>
 
       {/* Días de la semana */}
-      <div className="grid grid-cols-7 text-center text-zinc-500 mb-2 text-[12px]">
+      <div className="grid grid-cols-7 text-center text-zinc-500 text-[12px]">
         {["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"].map((day) => (
-          <div key={day} className="size-9">
+          <div key={day} className="size-9 flex justify-center items-center">
             {day}
           </div>
         ))}
       </div>
 
       {/* Cuerpo del calendario */}
-      <div className="grid grid-cols-7 gap-2 w-[252px] text-sm">
+      <div className="grid grid-cols-7 text-sm">
         {renderCalendar()}
       </div>
-
-      {/*selectedDate && (
-        <div className="mt-4">
-          <h3 className="text-center font-semibold">{`Seleccionaste: ${selectedDate.toLocaleDateString('es-ES')}`}</h3>
-        </div>
-      )*/}
     </div>
   );
 };
