@@ -22,6 +22,11 @@ export default {
         background: '#FFFFFF',
         text: '#4A4A4A',
         accent: '#7ED321',
+        toastSuccess: '#ECFDF3',
+        toastError: '#FFF0F0',
+        toastInfo: '#F0F8FF',
+        toastWarning: '#FFFCF0',  
+
       },
     },
   },
