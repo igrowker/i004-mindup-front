@@ -12,22 +12,25 @@ const FinalView: React.FC = () => {
       <h2 className="text-center text-xl font-semibold text-gray-800 mb-4">
         Cuentanos sobre ti <br /> para Empezar a Ayudar
       </h2>
-      {/* FORMULARIO DEL PSICOLOGO  */}
+      
+      {/* <div className="w-full max-w-md mb-4">
+          <InputText name="Nombre*" placeholder="Trinidad" value={ACA IRIA EL NOMBRE DE LA VARIABLE DE REFERENCIA } onChange={(e) => { nombre de la variable(e)}}/>
+        </div> */}
       <form onSubmit={handleSubmit}>
         <div className="w-full max-w-md mb-4">
-          <InputText name="Nombre*" placeholder="Trinidad" />
+          <InputText name="Nombre*" placeholder="Trinidad" value='' onChange={() => {}}/>
         </div>
         <div className="w-full max-w-md mb-4">
-          <InputText name="Apellido*" placeholder="García" />
+          <InputText name="Apellido*" placeholder="García" value='' onChange={() => {}} />
         </div>
         <div className="w-full max-w-md mb-4">
-          <InputText name="Especialidad*" placeholder="Clínica" />
+          <InputText name="Especialidad*" placeholder="Clínica" value='' onChange={() => {}}/>
         </div>
         <div className="w-full max-w-md mb-4">
-          <InputText name="Matrícula*" placeholder="3265" />
+          <InputText name="Matrícula*" placeholder="3265" value='' onChange={() => {}}/>
         </div>
         <div className="w-full max-w-md mb-4">
-          <InputText name="Zona de atención*" placeholder="Coloca tu CP" />
+          <InputText name="Zona de atención*" placeholder="Coloca tu CP" value='' onChange={() => {}} />
         </div>
 
         <div className="w-full max-w-md mb-4">

@@ -1,12 +1,20 @@
 import { useState } from "react";
 
-interface InputTextProps {
+interface InputPasswordProps {
   name: string;
   placeholder: string;
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function InputPassword({ name, placeholder }: InputTextProps) {
+function InputPassword({
+  name,
+  placeholder,
+  onChange,
+  value,
+}: InputPasswordProps) {
   const [showPassword, setShowPassword] = useState(false);
+
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   return (
@@ -20,6 +28,8 @@ function InputPassword({ name, placeholder }: InputTextProps) {
           id={name}
           name={name}
           placeholder={placeholder}
+          onChange={onChange}
+          value={value}
           className="mt-1 w-full rounded-md border-[#cfd0d2] border-[1px] py-2 px-2 pr-10"
         />
         <button
