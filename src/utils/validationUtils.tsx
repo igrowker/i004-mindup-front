@@ -27,8 +27,8 @@ export const validateEmail = (email: string) => {
   
   
   export const validateName = (name : string) => {
-    if (!name) return "El nombre no puede estar vacío.";
-    if (name.length < 3) return "El nombre debe tener al menos 3 caracteres.";
+    if (!name) return "No puede estar vacío.";
+    if (name.length < 3) return "Debe tener al menos 3 caracteres.";
     return ""; // No hay errores
   };
   
