@@ -1,8 +1,9 @@
-import { GoArrowLeft } from "react-icons/go";
-import MonthCalendar from "../components/home/MonthCalendar";
-import { useState } from "react";
+import { RxHamburgerMenu } from "react-icons/rx";
 import WeekCalendar from "../components/home/WeekCalendar";
 import DateCardList from "../components/home/DateCardList";
+import CustomButton from "../components/shared/CustomButton";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const appointments = [
   //EJEMPLO SIMULANDO BASE DE DATOS MUCHACHADA
@@ -24,47 +25,67 @@ const appointments = [
 ];
 
 function HomePsychologist() {
-  const [typeCalendar, setTypeCalendar] = useState("month");
+  const navigate = useNavigate();
+  const [availableForUrgencies, setAvailableForUrgencies] = useState(false);
+
+  const filteredAppointments = appointments.filter(
+    (appointment) => appointment.blocked
+  );
 
   return (
     <section className="flex flex-col items-center pb-2">
-      <header className="bg-secondary w-full pl-2 py-5 text-white flex items-center">
+      <header className="bg-secondary w-full pl-4 py-2 gap-2 text-white flex items-center">
         <button className="p-1">
-          <GoArrowLeft />
+          <RxHamburgerMenu className="size-6" />
         </button>
-        <span>Gestión de turnos</span>
+        <img src="/public/logo1.png" alt="MindUp Logo" className="h-11" />
       </header>
-      <article className="mb-8">
-        <div className="flex gap-2 mt-10 mx-2 mb-2">
-          <button
-            onClick={() => setTypeCalendar("week")}
-            className={`border-b w-32 ${
-              typeCalendar == "week"
-                ? "text-[#303030] border-[#303030]"
-                : "text-[#767676] border-[#767676]"
-            }`}
-          >
-            Vista Semanal
-          </button>
-          <button
-            onClick={() => setTypeCalendar("month")}
-            className={`border-b w-32 ${
-              typeCalendar == "month"
-                ? "text-[#303030] border-[#303030]"
-                : "text-[#767676] border-[#767676]"
-            }`}
-          >
-            Vista Mensual
-          </button>
-        </div>
-        {typeCalendar == "month" ? <MonthCalendar /> : <WeekCalendar />}
+      <article className="flex my-4 justify-start items-center gap-2 w-[343px]">
+        <div className="size-10 rounded-full bg-zinc-600"></div>
+        <h2 className="text-xl font-semibold text-gray-800">Hola, Trinidad</h2>
       </article>
-      <article>
-        {typeCalendar == "month" ? (
-          <DateCardList appointments={appointments} />
-        ) : (
-          <></>
-        )}
+      <article className="mb-8 text-center">
+        <h1 className="font-medium text-gray-800 text-lg">
+          Tus turnos de esta semana
+        </h1>
+        <WeekCalendar />
+      </article>
+      <article className="mb-3">
+        <DateCardList appointments={filteredAppointments} />
+      </article>
+      <CustomButton
+        title="Gestionar Turnos"
+        type="button"
+        onClick={() => navigate("/manage-appointment")}
+        appearance={true}
+      />
+
+      {/* Nuevo interruptor */}
+      <article className="mt-4 flex items-center gap-2">
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={availableForUrgencies}
+            onChange={() => setAvailableForUrgencies(!availableForUrgencies)}
+            className="hidden"
+          />
+          <span
+            className={`w-12 h-6 flex items-center flex-shrink-0 p-1 bg-gray-400 rounded-full duration-300 ease-in-out ${
+              availableForUrgencies ? "bg-green-500" : "bg-gray-400"
+            }`}
+          >
+            <span
+              className={`h-4 w-4 bg-white rounded-full shadow-md transform duration-300 ease-in-out ${
+                availableForUrgencies ? "translate-x-6" : "translate-x-0"
+              }`}
+            />
+          </span>
+          <span className="text-gray-800 font-medium w-60 text-start">
+            {availableForUrgencies
+              ? "Disponible para urgencias"
+              : "No Disponible para urgencias"}
+          </span>
+        </label>
       </article>
     </section>
   );
