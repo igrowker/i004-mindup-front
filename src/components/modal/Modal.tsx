@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Modal = () => {
 
-    // poner en context: question, isOpen, toggleModal, handleAccept
+    //TODO poner en context: question, isOpen, toggleModal, handleAccept
     // En el componente donde se va a usar el modal se debe armar la funcion handleAccept conteniendo toggleModal y un toast
     // Es esta funcion handleAccept la que se pasa como props al modal
 
