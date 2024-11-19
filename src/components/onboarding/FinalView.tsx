@@ -40,8 +40,8 @@ const FinalView: React.FC = () => {
           (value as string).length > 100
             ? "El texto no puede exceder los 100 caracteres."
             : value
-            ? ""
-            : "El campo sobre ti no puede estar vacío.",
+              ? ""
+              : "El campo sobre ti no puede estar vacío.",
       }));
     } else if (field === "matricula") {
       setErrors((prev) => ({
@@ -145,9 +145,9 @@ const FinalView: React.FC = () => {
         </div>
         <div className="w-full max-w-md mb-4">
           <label className="font-bold my-1 block mb-1">Tipo de atención*</label>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center justify-between space-x-4">
             <label
-              className="flex items-center px-3 py-2 border border-gray-300 rounded-sm cursor-pointer"
+              className="w-32 flex items-center px-3 py-2 border border-gray-300 rounded-sm cursor-pointer"
               onClick={() => handleCheckboxChange("virtual")}
             >
               <input
@@ -159,7 +159,7 @@ const FinalView: React.FC = () => {
               <span className="text-gray-700">Virtual</span>
             </label>
             <label
-              className="flex items-center px-3 py-2 border border-gray-300 rounded-sm cursor-pointer"
+              className="w-32 flex items-center px-3 py-2 border border-gray-300 rounded-sm cursor-pointer"
               onClick={() => handleCheckboxChange("presencial")}
             >
               <input

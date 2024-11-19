@@ -145,7 +145,7 @@ const RegisterForm = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex flex-col gap-2 mt-4"
+              className="flex flex-col gap-2 mt-4 justify-self-center"
               onSubmit={handleSubmit}
             >
               <InputText
@@ -190,16 +190,18 @@ const RegisterForm = () => {
                 )}
               </AnimatePresence>
 
-              <CustomButton
+              <div className="h-36 flex flex-col items-center justify-evenly">              <CustomButton
                 title="Registrarme"
                 appearance={true}
                 type="submit"
               />
-              <Link to="/">
-                <p className="text-text font-medium text-center mt-2">
-                  ¿Ya tienes una cuenta? Inicia sesión aquí
-                </p>
-              </Link>
+                <Link to="/">
+                  <p className="text-text font-medium text-center mt-2">
+                    ¿Ya tienes una cuenta? Inicia sesión aquí
+                  </p>
+                </Link>
+              </div>
+              
             </motion.form>
           )}
         </AnimatePresence>
