@@ -74,7 +74,7 @@ const ForgotPassword = () => {
           />
           <Link to="/">
             <p className="text-text font-medium text-center">
-              ¿Volver a iniciar sesión?
+              ¿Volver para iniciar sesión?
             </p>
           </Link>
         </div>
