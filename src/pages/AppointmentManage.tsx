@@ -36,12 +36,12 @@ function AppointmentManage() {
         <span>Gestión de turnos</span>
       </header>
       <article className="mb-8">
-        <div className="flex gap-2 mt-10 mx-2 mb-2">
+        <div className="flex justify-center gap-2 mt-10 mx-2 mb-8">
           <button
             onClick={() => setTypeCalendar("week")}
             className={`border-b w-32 ${
               typeCalendar == "week"
-                ? "text-[#303030] border-[#303030]"
+                ? "text-secondary border-secondary"
                 : "text-[#767676] border-[#767676]"
             }`}
           >
@@ -51,7 +51,7 @@ function AppointmentManage() {
             onClick={() => setTypeCalendar("month")}
             className={`border-b w-32 ${
               typeCalendar == "month"
-                ? "text-[#303030] border-[#303030]"
+                ? "text-secondary border-secondary"
                 : "text-[#767676] border-[#767676]"
             }`}
           >
@@ -61,11 +61,7 @@ function AppointmentManage() {
         {typeCalendar == "month" ? <MonthCalendar /> : <WeekCalendar />}
       </article>
       <article>
-        {typeCalendar == "month" ? (
           <DateCardList appointments={appointments} />
-        ) : (
-          <></>
-        )}
       </article>
     </section>
   );
