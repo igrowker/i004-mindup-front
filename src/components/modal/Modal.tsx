@@ -42,7 +42,7 @@ const Modal = () => {
                                 </h2>
                             </div>
                             <hr className='my-4  -mx-4' />
-                            <div className='flex gap-5 justify-center'>
+                            <div className='flex gap-5 justify-center my-2'>
                                 <CustomButton title='Cancelar' appearance={false} option onClick={toggleModal} />
                                 <CustomButton title='Aceptar' appearance={true} option onClick={handleAccept} />
                             </div>

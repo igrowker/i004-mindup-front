@@ -8,9 +8,9 @@ interface ButtonData {
 
 function CustomButton({ title, appearance, option, type = "button", onClick, }: ButtonData): JSX.Element {
   const commonClasses = option ?
-    "w-24 text-center rounded border px-4 py-3 font-medium focus:outline-none focus:ring"
+    "w-24 text-center rounded border px-4 py-3 font-medium focus:outline-none focus:ring shadow-xl shadow-gray-500"
     :
-    "inline-block w-[290px] text-center rounded border px-3 py-3 font-medium focus:outline-none focus:ring";
+    "inline-block w-[290px] text-center rounded border px-3 py-3 font-medium focus:outline-none focus:ring shadow-xl shadow-gray-500";
   const primaryClasses =
     "border-[#7a5fe7] bg-[#7a5fe7] text-white hover:bg-transparent hover:text-[#7a5fe7] active:text-[#7a5fe7]";
   const secondaryClasses =
