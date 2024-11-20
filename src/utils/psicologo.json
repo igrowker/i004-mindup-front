@@ -1,0 +1,97 @@
+{
+    "id": 1,
+    "rol": "Psicólogo",
+    "nombre": "Trinidad",
+    "apellido": "García",
+    "email": "trinidad.garcia@example.com",
+    "password": "Tr1n1G4r",
+    "imagen": "https://example.com/images/profile.jpg",
+    "especialidad": "Clínica",
+    "estudios": {
+        "universidad": "Universidad de Cuyo",
+        "matricula": "3265"
+    },
+    "honorarios": "13,000 a 15,000",
+    "frase": {
+        "texto": "Somos seres con la capacidad de desear pero siempre incompletos, de ahí surge nuestro caminar",
+        "autor": "Jacques Lacan"
+    },
+    "sobreTi": "Soy una profesional con experiencia en terapia cognitivo-conductual. Me apasiona ayudar a mis pacientes a superar sus desafíos emocionales y alcanzar su máximo potencial.",
+    "tipoAtencion": [
+        "Virtual",
+        "Presencial"
+    ],
+    "zonaAtencion": "5500",
+    "motivaciones": "Mi mayor motivación es poder acompañar a las personas en su proceso de cambio y brindarles herramientas para mejorar su calidad de vida.",
+    "Urgencia": true,
+    "masSobreTi": {
+        "idiomas": "Español, Inglés",
+        "animales": [
+            "Perros",
+            "Gatos"
+        ],
+        "alimentacion": "Vegetariana",
+        "zodiaco": "Libra",
+        "pronombre": "Ella"
+    },
+    "cancion": {
+        "titulo": "All My Loving",
+        "artista": "The Beatles"
+    },
+    "video": {
+        "descripcion": "Graba un breve video de presentación (máximo 1 minuto) para que los pacientes puedan conocerte mejor.",
+        "estado": "Vacío"
+    },
+    "horarios": [
+        {
+            "diciembre": [
+                {
+                    "2": [
+                        {
+                            "hora": "8:00 - 9:00",
+                            "estado": "Ocupado",
+                            "paciente": "Miguel Rojas"
+                        },
+                        {
+                            "hora": "9:00 - 10:00",
+                            "estado": "Disponible",
+                            "paciente": null
+                        },
+                        {
+                            "hora": "11:00 - 12:00",
+                            "estado": "Bloqueado",
+                            "paciente": null
+                        },
+                        {
+                            "hora": "17:00 - 18:00",
+                            "estado": "Disponible",
+                            "paciente": null
+                        }
+                    ],
+                    "3": [
+                        {
+                            "hora": "11:00 - 12:00",
+                            "estado": "Ocupado",
+                            "paciente": "Miguel Rojas"
+                        },
+                        {
+                            "hora": "9:00 - 10:00",
+                            "estado": "Disponible",
+                            "paciente": null
+                        },
+                        {
+                            "hora": "14:00 - 15:00",
+                            "estado": "Bloqueado",
+                            "paciente": null
+                        },
+                        {
+                            "hora": "15:00 - 16:00",
+                            "estado": "Ocupado",
+                            "paciente": "Miguel Rojas"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

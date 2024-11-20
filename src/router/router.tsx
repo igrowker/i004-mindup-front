@@ -4,11 +4,10 @@ import Onboarding from '../pages/Onboarding';
 import { createBrowserRouter } from 'react-router-dom';
 import HomePsychologist from '../pages/HomePsychologist';
 import LoginForm from '../pages/LoginForm';
-import Profile from '../pages/Profile';
 import ForgotPassword from '../pages/ForgotPassword';
 import Modal from '../components/modal/Modal';
 import AppointmentManage from '../pages/AppointmentManage';
-import HomePacient from '../pages/HomePacient';
+import ProfilePacient from '../pages/ProfilePacient';
 
 export const router = createBrowserRouter([
   {
@@ -19,8 +18,8 @@ export const router = createBrowserRouter([
       { path: 'forgotPassword', element: <ForgotPassword /> },
       { path: '', element: <LoginForm /> },
       { path: 'onboard', element: <Onboarding /> },
-      { path: 'profile', element: <Profile /> },
-      { path: 'home', element: <HomePacient /> },
+      { path: 'profile', element: <ProfilePacient /> },
+      { path: 'home', element: <HomePsychologist /> },
       { path: 'manage-appointment', element: <AppointmentManage /> },
       //esta ruta es para probar el mdodal
       { path: 'modal', element: <Modal /> },

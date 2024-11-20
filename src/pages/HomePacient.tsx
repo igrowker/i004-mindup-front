@@ -1,5 +1,4 @@
 import { RxHamburgerMenu } from "react-icons/rx";
-import { useNavigate } from "react-router-dom";
 import CustomButtonHome from "../components/home/CustomButtonHome";
 
 function HomePacient() {
