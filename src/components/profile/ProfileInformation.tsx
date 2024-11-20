@@ -12,7 +12,7 @@ const ProfileInformation = ({ fraseAutor, fraseTexto }: ProfileData) => {
         <>
             {/* Frase personal */}
             <article className="w-[343px] bg-background my-2 pb-2 px-6 gap-2 flex flex-col text-base rounded-2xl leading-tight">
-                <div className="w-[343px] text-start">
+                <div className="text-start">
                     <h2 className="font-medium text-base">Frase que me identifica</h2>
                 </div>
                 <p><strong><q><i>
