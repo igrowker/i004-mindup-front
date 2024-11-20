@@ -3,16 +3,12 @@ import { MdEdit } from "react-icons/md";
 import { BiSolidCheckCircle } from "react-icons/bi";
 import { IoIosArrowForward } from "react-icons/io";
 import { FiPlusCircle } from "react-icons/fi";
+import Header from "../components/header/Header";
 
 function Profile() {
   return (
     <div className="w-full min-w-mobile flex flex-col items-center justify-center bg-background">
-      <header className="bg-secondary w-full pl-2 py-5 text-white flex items-center">
-        <button className="p-1">
-          <GoArrowLeft />
-        </button>
-        <span>Perfil</span>
-      </header>
+      <Header />
       <article className="w-[343px] bg-background pb-2 my-2 py-2 drop-shadow-[0_2px_1px_rgba(0,0,0,0.1)] flex flex-col gap-4 items-center rounded-2xl">
         <div className="relative">
           <div className="rounded-full mt-2 h-[104px] w-[104px] bg-zinc-500"></div>

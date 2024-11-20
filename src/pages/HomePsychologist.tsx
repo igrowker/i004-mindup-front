@@ -4,6 +4,7 @@ import DateCardList from "../components/home/DateCardList";
 import CustomButton from "../components/shared/CustomButton";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Header from "../components/header/Header";
 
 const appointments = [
   //EJEMPLO SIMULANDO BASE DE DATOS MUCHACHADA
@@ -23,6 +24,8 @@ const appointments = [
     timeRange: "14 hs - 15 hs",
   },
 ];
+// const [drawer, setDrawer] = useState(false);
+
 
 function HomePsychologist() {
   const navigate = useNavigate();
@@ -34,12 +37,7 @@ function HomePsychologist() {
 
   return (
     <section className="flex flex-col items-center pb-2">
-      <header className="bg-secondary w-full pl-4 py-2 gap-2 text-white flex items-center">
-        <button className="p-1">
-          <RxHamburgerMenu className="size-6" />
-        </button>
-        <img src="/public/logo1.png" alt="MindUp Logo" className="h-11" />
-      </header>
+      <Header />
       <article className="flex my-4 justify-start items-center gap-2 w-[343px]">
         <div className="size-10 rounded-full bg-zinc-600"></div>
         <h2 className="text-xl font-semibold text-gray-800">Hola, Trinidad</h2>
