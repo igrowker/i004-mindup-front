@@ -1,0 +1,65 @@
+{
+    "id": 1,
+    "rol": "Paciente",
+    "nombre": "Miguel",
+    "apellido": "Rojas",
+    "email": "miguel.rojas@example.com",
+    "password": "M1gu3lR0j4s",
+    "imagen": "https://example.com/images/paciente.jpg",
+    "frase": {
+        "texto": "La paz comienza en el momento en que eliges no permitir que otra persona o evento controle tus emociones.",
+        "autor": "Anónimo"
+    },
+    "sobreTi": "Soy una persona comprometida con mi bienestar emocional. Busco mejorar mi salud mental y encontrar herramientas para manejar mejor las dificultades cotidianas.",
+    "maSobreTi": {
+        "idiomas": "Español, Francés",
+        "animales": "Aves",
+        "alimentacion": "Omnívoro ",
+        "zodiaco": "Géminis",
+        "pronombre": "El"
+    },
+    "cancion": {
+        "titulo": "Someone Like You",
+        "artista": "Adele"
+    },
+    "citas": [
+        {
+            "fecha": "2024-12-02",
+            "hora": "8:00 - 9:00",
+            "tipo": "Presencial",
+            "profesional": "Trinidad García",
+            "estado": true
+        },
+        {
+            "fecha": "2024-12-02",
+            "hora": "9:00 - 10:00",
+            "tipo": "Virtual",
+            "profesional": "Trinidad García",
+            "estado": true
+        }
+    ],
+    "terapia": {
+        "tipo": "Individual",
+        "historial": [
+            {
+                "fechaInicio": "2023-01-15",
+                "motivo": "Ansiedad generalizada",
+                "terapista": "Mujer, menor de 35 años",
+                "profesional": "Trinidad García"
+            },
+            {
+                "fechaInicio": "2024-06-10",
+                "motivo": "Depresión leve",
+                "terapista": "Mujer, mayor de 35 años",
+                "profesional": "Trinidad García"
+            }
+        ]
+    },
+    "preferencias": {
+        "terapista": {
+            "genero": "Mujer",
+            "edad": "Mayor de 35 años"
+        },
+        "horario": "Mañana"
+    }
+}
