@@ -19,8 +19,8 @@ export const router = createBrowserRouter([
       { path: 'forgotPassword', element: <ForgotPassword /> },
       { path: '', element: <LoginForm /> },
       { path: 'onboard', element: <Onboarding /> },
-      { path: 'profile', element: <ProfilePsychologist /> },
-      { path: 'profile2', element: <ProfilePacient /> },
+      { path: 'profileProfessional', element: <ProfilePsychologist /> },
+      { path: 'profilePacient', element: <ProfilePacient /> },
       { path: 'home', element: <HomePsychologist /> },
       { path: 'manage-appointment', element: <AppointmentManage /> },
       //esta ruta es para probar el mdodal
