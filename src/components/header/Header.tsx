@@ -1,7 +1,7 @@
 import { h2 } from "framer-motion/client";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useLocation } from "react-router-dom";
-import paciente from "../../../public/Imágenes/Miguel - Paciente.png";
+import paciente from "../../../public/Imágenes/MiguelPaciente.png";
 import Drawer from "./Drawer";
 import DrawerUser from "./DrawerUser";
 import { useState } from "react";
