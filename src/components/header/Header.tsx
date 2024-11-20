@@ -15,13 +15,15 @@ function Header() {
 
   const handleToggle = () => {
     setDraweOpen(!isDraweOpen);
+    isDraweUserOpen ? setDraweUserOpen(false) : null
   };
   const handleToggleUser = () => {
     setDraweUserOpen(!isDraweUserOpen);
+    isDraweOpen ? setDraweOpen(false) : null
   }
   return (
     <>
-      <header className="bg-secondary w-full px-4 py-2 gap-2 text-white flex justify-between items-center">
+      <header className="bg-secondary w-full px-4 py-2 gap-2 text-white flex justify-between items-center sticky top-0 z-50">
         <button onClick={() => handleToggle()}>
           <RxHamburgerMenu className="size-6" />
         </button>
