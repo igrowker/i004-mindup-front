@@ -4,6 +4,7 @@ import { useState } from "react";
 import WeekCalendar from "../components/home/WeekCalendar";
 import DateCardList from "../components/home/DateCardList";
 import { Link } from "react-router-dom";
+import Header from "../components/header/Header";
 
 const appointments = [
   //EJEMPLO SIMULANDO BASE DE DATOS MUCHACHADA
@@ -29,12 +30,7 @@ function AppointmentManage() {
 
   return (
     <section className="flex flex-col items-center pb-2">
-      <header className="bg-secondary w-full pl-2 py-5 text-white flex items-center">
-        <Link to={'/home'} className="p-1">
-          <GoArrowLeft />
-        </Link>
-        <span>Gestión de turnos</span>
-      </header>
+      <Header />
       <article className="mb-8">
         <div className="flex justify-center gap-2 mt-10 mx-2 mb-8">
           <button
