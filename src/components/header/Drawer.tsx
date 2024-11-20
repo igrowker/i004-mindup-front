@@ -24,7 +24,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -300 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="fixed inset-0 z-50 flex items-start justify-end mt-16"
+        className="fixed inset-0 z-50 flex items-start justify-end mt-[3.75rem] right-0"
         onClick={onClose}
       >
         <nav
