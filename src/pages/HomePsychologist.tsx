@@ -16,7 +16,7 @@ const appointments = [
     day: "Martes",
     timeRange: "10 hs - 11 hs",
     patient: "Carlos Ruiz",
-    consultationType: "Consulta General",
+    aviable: false,
     blocked: true,
   },
   {
@@ -37,18 +37,35 @@ function HomePsychologist() {
 
   return (
     <section className="flex flex-col items-center pb-2">
+
       <Header />
       <article className="flex my-4 justify-start items-center gap-2 w-[343px]">
         <div className="size-10 rounded-full bg-zinc-600"></div>
         <h2 className="text-xl font-semibold text-gray-800">Hola, Trinidad</h2>
+
+        {/* 
+      <header className="bg-secondary w-full pl-4 py-2 gap-2 text-white flex items-center">
+        <button className="p-1">
+          <RxHamburgerMenu className="size-6" />
+        </button>
+        <img src="/public/logo1.png" alt="MindUp Logo" className="h-11" />
+      </header>
+      <article className="flex mt-12 my-4 justify-start items-center gap-4 w-[343px]">
+        <img className="size-[86px] rounded-full" src="public/Imágenes/TrinidadProfesional.png" alt="Imagen de perfil" />
+        <div className="w-60 mt-4">
+         <h2 className="text-xl font-semibold text-gray-800">Hola, Trinidad</h2>
+         <p className="text-[#A1A1A1] text-[15px] leading-tight">Tu empatía y profesionalismo marcan una gran diferencia en la vida de quienes necesitan apoyo</p>
+        </div>
+        */}
+
       </article>
-      <article className="mb-8 text-center">
+      <article className="mb-3 text-center">
         <h1 className="font-medium text-gray-800 text-lg">
           Tus turnos de esta semana
         </h1>
         <WeekCalendar />
       </article>
-      <article className="mb-3">
+      <article className="mb-8">
         <DateCardList appointments={filteredAppointments} />
       </article>
       <CustomButton
@@ -59,7 +76,7 @@ function HomePsychologist() {
       />
 
       {/* Nuevo interruptor */}
-      <article className="mt-4 flex items-center gap-2">
+      <article className="mt-12 flex items-center gap-2">
         <label className="flex items-center gap-2 cursor-pointer">
           <input
             type="checkbox"
