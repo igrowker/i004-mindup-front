@@ -123,7 +123,7 @@ const Questionnaire: React.FC = () => {
 
   return (
     <div
-      className="min-h-screen bg-center bg-no-repeat"
+      className="min-h-screen w-full bg-center bg-no-repeat"
       style={{
         backgroundImage: 'url(/Gifs/bgGif.gif)',
         backgroundSize: 'cover',
