@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import SelectedCardList from "../components/selected/SelectedCardList";
 import CustomButton from "../components/shared/CustomButton";
+import Header from "../components/header/Header";
 
 function SelectedProfessional() {
   const [isLoading, setIsLoading] = useState(true); // Estado para manejar la carga
@@ -44,12 +45,7 @@ function SelectedProfessional() {
       ) : (
         // Contenido principal una vez que la carga haya terminado
         <article className="flex flex-col items-center">
-          <header className="bg-secondary w-full pl-4 py-2 gap-2 text-white flex items-center">
-            <button className="p-1">
-              <RxHamburgerMenu className="size-6" />
-            </button>
-            <img src="/public/logo1.png" alt="MindUp Logo" className="h-11" />
-          </header>
+          <Header />
           <main className="flex flex-col items-center gap-12">
             <h1 className="text-[#4A4A4A] w-[276px] text-center text-wrap text-base leading-tight mt-12">
               Te recomendamos estos especialistas basados en tus necesidades

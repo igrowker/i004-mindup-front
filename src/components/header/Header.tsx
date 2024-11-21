@@ -28,11 +28,11 @@ function Header() {
           <RxHamburgerMenu className="size-6" />
         </button>
         <div className="h-11 flex items-center">
-          {location.pathname == "/Home" ? (
+          {location.pathname == "/Home" || location.pathname == "/home2"? (
             <img src="/public/logo1.png" alt="MindUp Logo" className="h-11" />
           ) : (
             <h2 className="text-xl">
-              {location.pathname == "/profile" ? "Perfil" : "Gestión de turnos"}
+              {location.pathname == "/profile" || location.pathname == "/profilePacient" ? "Perfil" : "Gestión de turnos"}
             </h2>
           )}
         </div>

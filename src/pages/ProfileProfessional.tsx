@@ -6,6 +6,7 @@ import ProfileHonorary from "../components/profile/ProfileHonorary";
 import ProfileInformation from "../components/profile/ProfileInformation";
 import ProfileVideo from "../components/profile/ProfileVideo";
 import ProfileAttention from "../components/profile/ProfileAttention";
+import Header from "../components/header/Header";
 
 function ProfileProfessional() {
 
@@ -21,12 +22,7 @@ function ProfileProfessional() {
 
   return (
     <main className="w-full min-w-mobile flex flex-col items-center justify-center bg-background">
-      <header className="bg-secondary w-full pl-2 py-5 text-white flex items-center">
-        <button className="p-1">
-          <GoArrowLeft />
-        </button>
-        <span>Perfil</span>
-      </header>
+      <Header />
       <ProfileHeader
         imagen={professional.imagen}
         nombre={professional.nombre}
