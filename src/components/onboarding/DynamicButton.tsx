@@ -3,6 +3,9 @@ interface DynamicButtonProps {
   onClick: () => void;
   bgColor: string;
   textColor: string;
+  border?: string;
+  className?: string;
+  disabled?: boolean;
 }
 
 const DynamicButton: React.FC<DynamicButtonProps> = ({
@@ -10,10 +13,14 @@ const DynamicButton: React.FC<DynamicButtonProps> = ({
   onClick,
   bgColor,
   textColor,
+  border,
+  className = '',
+  disabled,
 }) => {
   return (
     <button
-      className={`w-72 py-2 px-6 mt-8 rounded-md text-lg ${bgColor} ${textColor}`}
+      disabled={disabled}
+      className={`py-2 w-full px-6 rounded-md text-lg ${bgColor} ${textColor} ${border} ${className}`}
       onClick={onClick}
     >
       {buttonText}
