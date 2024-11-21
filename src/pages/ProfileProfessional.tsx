@@ -6,7 +6,7 @@ import ProfileHonorary from "../components/profile/ProfileHonorary";
 import ProfileInformation from "../components/profile/ProfileInformation";
 import ProfileVideo from "../components/profile/ProfileVideo";
 
-function Profile() {
+function ProfileProfessional() {
 
   const professional = {
     imagen: "/Imágenes/trinidad.png",
@@ -50,4 +50,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default ProfileProfessional;

@@ -8,6 +8,8 @@ import ForgotPassword from '../pages/ForgotPassword';
 import Modal from '../components/modal/Modal';
 import AppointmentManage from '../pages/AppointmentManage';
 import ProfilePacient from '../pages/ProfilePacient';
+import ProfileProfessional from '../pages/ProfileProfessional';
+import HomePacient from '../pages/HomePacient';
 
 export const router = createBrowserRouter([
   {
@@ -18,8 +20,10 @@ export const router = createBrowserRouter([
       { path: 'forgotPassword', element: <ForgotPassword /> },
       { path: '', element: <LoginForm /> },
       { path: 'onboard', element: <Onboarding /> },
-      { path: 'profile', element: <ProfilePacient /> },
+      { path: 'profilePacient', element: <ProfilePacient /> },
+      { path: 'profileProfessional', element: <ProfileProfessional /> },
       { path: 'home', element: <HomePsychologist /> },
+      { path: 'home2', element: <HomePacient /> },
       { path: 'manage-appointment', element: <AppointmentManage /> },
       //esta ruta es para probar el mdodal
       { path: 'modal', element: <Modal /> },
