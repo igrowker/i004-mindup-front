@@ -1,9 +1,7 @@
-import { GoArrowLeft } from "react-icons/go";
 import MonthCalendar from "../components/home/MonthCalendar";
 import { useState } from "react";
 import WeekCalendar from "../components/home/WeekCalendar";
 import DateCardList from "../components/home/DateCardList";
-import { Link } from "react-router-dom";
 import Header from "../components/header/Header";
 
 const appointments = [
