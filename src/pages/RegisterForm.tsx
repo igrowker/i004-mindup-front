@@ -6,7 +6,12 @@ import InputPassword from "../components/shared/Inputs/InputPassword";
 import CustomButton from "../components/shared/CustomButton";
 import logo2 from "../../public/logo2.png";
 import { Link, useNavigate } from "react-router-dom";
-import { validateEmail, validatePassword, validateName } from "../utils/validationUtils";
+import {
+  validateEmail,
+  validatePassword,
+  validateName,
+} from "../utils/validationUtils";
+import TextError from "../components/shared/Inputs/TextError";
 
 const RegisterForm = () => {
   const [soy, setSoy] = useState("");
@@ -61,7 +66,8 @@ const RegisterForm = () => {
       setRepeatPassword(value);
       setErrors((prev) => ({
         ...prev,
-        repeatPassword: value !== password ? "Las contraseñas no coinciden." : "",
+        repeatPassword:
+          value !== password ? "Las contraseñas no coinciden." : "",
       }));
     }
   };
@@ -91,17 +97,28 @@ const RegisterForm = () => {
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <div className={`flex flex-col items-center ${soy ? "gap-4" : "gap-36"}`}>
+        <div
+          className={`flex flex-col items-center ${soy ? "gap-4" : "gap-36"}`}
+        >
           <AnimatePresence mode="wait">
-            <motion.div key={soy} {...fadeInOut} className="h-11 w-72 text-center">
+            <motion.div
+              key={soy}
+              {...fadeInOut}
+              className="h-11 w-72 text-center"
+            >
               {soy === "" ? (
                 <p className="text-text text-center font-semibold">
-                  En MindUp, puedes buscar ayuda o brindar tus servicios como profesional.
+                  En MindUp, puedes buscar ayuda o brindar tus servicios como
+                  profesional.
                 </p>
               ) : soy === "Paciente" ? (
-                <p className="text-text text-center font-semibold">Encuentra tu psicólogo/a ideal.</p>
+                <p className="text-text text-center font-semibold">
+                  Encuentra tu psicólogo/a ideal.
+                </p>
               ) : (
-                <p className="text-text text-center font-semibold">Tú también puedes ser un psicólogo de Mindup.</p>
+                <p className="text-text text-center font-semibold">
+                  Tú también puedes ser un psicólogo de Mindup.
+                </p>
               )}
             </motion.div>
           </AnimatePresence>
@@ -128,7 +145,7 @@ const RegisterForm = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex flex-col gap-2 mt-4"
+              className="flex flex-col gap-2 mt-4 justify-self-center"
               onSubmit={handleSubmit}
             >
               <InputText
@@ -138,11 +155,7 @@ const RegisterForm = () => {
                 onChange={(e) => handleChange("fullName", e.target.value)}
               />
               <AnimatePresence>
-                {errors.fullName && (
-                  <motion.div {...fadeInOut}>
-                    <p className="text-red-500 text-center w-80">{errors.fullName}</p>
-                  </motion.div>
-                )}
+                {errors.fullName && <TextError text={errors.fullName} />}
               </AnimatePresence>
 
               <InputText
@@ -152,11 +165,7 @@ const RegisterForm = () => {
                 onChange={(e) => handleChange("email", e.target.value)}
               />
               <AnimatePresence>
-                {errors.email && (
-                  <motion.div {...fadeInOut}>
-                    <p className="text-red-500 text-center w-80">{errors.email}</p>
-                  </motion.div>
-                )}
+                {errors.email && <TextError text={errors.email} />}
               </AnimatePresence>
 
               <InputPassword
@@ -166,11 +175,7 @@ const RegisterForm = () => {
                 onChange={(e) => handleChange("password", e.target.value)}
               />
               <AnimatePresence>
-                {errors.password && (
-                  <motion.div {...fadeInOut}>
-                    <p className="text-red-500 text-center w-80">{errors.password}</p>
-                  </motion.div>
-                )}
+                {errors.password && <TextError text={errors.password} />}
               </AnimatePresence>
 
               <InputPassword
@@ -181,22 +186,22 @@ const RegisterForm = () => {
               />
               <AnimatePresence>
                 {errors.repeatPassword && (
-                  <motion.div {...fadeInOut}>
-                    <p className="text-red-500 text-center w-80">{errors.repeatPassword}</p>
-                  </motion.div>
+                  <TextError text={errors.repeatPassword} />
                 )}
               </AnimatePresence>
 
-              <CustomButton
+              <div className="h-36 flex flex-col items-center justify-evenly">              <CustomButton
                 title="Registrarme"
                 appearance={true}
                 type="submit"
               />
-              <Link to="/">
-                <p className="text-text font-medium text-center mt-2">
-                  ¿Ya tienes una cuenta? Inicia sesión aquí
-                </p>
-              </Link>
+                <Link to="/">
+                  <p className="text-text font-medium text-center mt-2">
+                    ¿Ya tienes una cuenta? Inicia sesión aquí
+                  </p>
+                </Link>
+              </div>
+              
             </motion.form>
           )}
         </AnimatePresence>

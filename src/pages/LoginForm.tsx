@@ -6,6 +6,7 @@ import CustomButton from "../components/shared/CustomButton";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { validateEmail, validatePassword } from "../utils/validationUtils";
+import TextError from "../components/shared/Inputs/TextError";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -66,11 +67,7 @@ function LoginForm() {
           onChange={(e) => handleEmailChange(e.target.value)}
         />
         <AnimatePresence>
-          {errors.email && (
-            <motion.div {...fadeInOut}>
-              <p className="text-red-500 text-center">{errors.email}</p>
-            </motion.div>
-          )}
+          {errors.email && <TextError text={errors.email} />}
         </AnimatePresence>
 
         <InputPassword
@@ -80,11 +77,7 @@ function LoginForm() {
           onChange={(e) => handlePasswordChange(e.target.value)}
         />
         <AnimatePresence>
-          {errors.password && (
-            <motion.div {...fadeInOut}>
-              <p className="text-red-500 text-center w-80">{errors.password}</p>
-            </motion.div>
-          )}
+          {errors.password && <TextError text={errors.password} />}
         </AnimatePresence>
 
         <Link to="/forgotPassword">
@@ -94,7 +87,11 @@ function LoginForm() {
         </Link>
 
         <div className="h-36 flex flex-col items-center justify-evenly">
-          <CustomButton title="Iniciar Sesión" appearance={true} type="submit" />
+          <CustomButton
+            title="Iniciar Sesión"
+            appearance={true}
+            type="submit"
+          />
           <Link to="/register">
             <p className="text-text font-medium text-center">
               ¿Eres nuevo? Regístrate aquí

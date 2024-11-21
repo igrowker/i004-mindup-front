@@ -8,6 +8,10 @@ import { useNavigate } from 'react-router-dom';
 
 const Modal = () => {
 
+    //TODO poner en context: question, isOpen, toggleModal, handleAccept
+    // En el componente donde se va a usar el modal se debe armar la funcion handleAccept conteniendo toggleModal y un toast
+    // Es esta funcion handleAccept la que se pasa como props al modal
+
     const navigate = useNavigate();
 
     const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +42,7 @@ const Modal = () => {
                                 </h2>
                             </div>
                             <hr className='my-4  -mx-4' />
-                            <div className='flex gap-5 justify-center'>
+                            <div className='flex gap-5 justify-center my-2'>
                                 <CustomButton title='Cancelar' appearance={false} option onClick={toggleModal} />
                                 <CustomButton title='Aceptar' appearance={true} option onClick={handleAccept} />
                             </div>

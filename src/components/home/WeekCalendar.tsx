@@ -15,10 +15,8 @@ const WeekCalendar: React.FC = () => {
   // Función para obtener los días de la semana actual
   const getDaysInWeek = (date: Date) => {
     const startOfWeek = new Date(date);
-    const dayOfWeek = startOfWeek.getDay(); // Obtener el día actual de la semana (0 para domingo)
-    const diff = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Ajuste para empezar en lunes
-    startOfWeek.setDate(startOfWeek.getDate() - diff); // Mover al lunes de la semana actual
-
+    const dayOfWeek = startOfWeek.getDay(); // Día actual de la semana (0 para domingo)
+    startOfWeek.setDate(startOfWeek.getDate() - dayOfWeek); // Mover al inicio de la semana
     return Array.from({ length: 7 }, (_, i) => {
       const day = new Date(startOfWeek);
       day.setDate(startOfWeek.getDate() + i);
@@ -29,36 +27,34 @@ const WeekCalendar: React.FC = () => {
   // Renderizar el calendario
   const renderCalendar = () => {
     const daysInWeek = getDaysInWeek(currentDate);
+    const today = new Date(); // Fecha actual sin horas
 
     return daysInWeek.map((day, i) => {
-      const formattedDay = day.getDate();
+      const isToday = day.toDateString() === today.toDateString(); // Compara si es el día actual
       return (
         <div
           key={i}
-          className={`flex items-center justify-center size-9 cursor-pointer rounded-lg ${
-            selectedDate?.toDateString() === day.toDateString()
+          className={`flex items-center justify-center size-8 cursor-pointer rounded-full ${
+            isToday
+              ? "bg-[#97D0C3] text-white" // Fondo para el día actual
+              : selectedDate?.toDateString() === day.toDateString()
               ? "bg-zinc-950 text-white"
-              : "text-zinc-950 hover:bg-gray-200"
+              : "text-[#444444] hover:bg-gray-200"
           }`}
-          onClick={() => setSelectedDate(day)}
+         
+         onClick={() => setSelectedDate(day)}
         >
-          {formattedDay}
+          {day.getDate()}
         </div>
       );
     });
   };
 
   return (
-    <div className="w-[276px] mx-auto font-sans border border-zinc-200 rounded-md px-3">
+    <div className="w-[343px] mx-auto border border-[#CCCCCC] bg-[#FBFBFB] rounded-md px-3 py-4">
       {/* Botones para cambiar de semana */}
-      <div className="flex justify-between items-center mb-4 py-4">
-        <button
-          onClick={() => changeWeek(-1)}
-          className="size-7 flex items-center justify-center text-zinc-400 rounded-md border border-zinc-200 hover:text-zinc-950 hover:border-zinc-950"
-        >
-          <IoIosArrowBack />
-        </button>
-        <h2 className="text-zinc-950 font-medium">
+      <div className="flex justify-between items-center mb-2">
+        <h2 className="text-[#737373] font-medium">
           {`${currentDate
             .toLocaleString("es-ES", { month: "long" })
             .charAt(0)
@@ -66,25 +62,33 @@ const WeekCalendar: React.FC = () => {
             .toLocaleString("es-ES", { month: "long" })
             .slice(1)} ${currentDate.getFullYear()}`}
         </h2>
-        <button
-          onClick={() => changeWeek(1)}
-          className="size-7 flex items-center justify-center text-zinc-400 rounded-md border border-zinc-200 hover:text-zinc-950 hover:border-zinc-950"
-        >
-          <IoIosArrowForward />
-        </button>
+        <div className="flex gap-1">
+          <button
+            onClick={() => changeWeek(-1)}
+            className="flex items-center justify-center text-[#CCCCCC] hover:text-secondary"
+          >
+            <IoIosArrowBack className="size-5" />
+          </button>
+          <button
+            onClick={() => changeWeek(1)}
+            className="flex items-center justify-center text-[#CCCCCC] hover:text-secondary"
+          >
+            <IoIosArrowForward className="size-5" />
+          </button>
+        </div>
       </div>
 
       {/* Días de la semana */}
-      <div className="grid grid-cols-7 text-center text-zinc-500 mb-2 text-[12px]">
-        {["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"].map((day) => (
-          <div key={day} className="size-9">
+      <div className="grid grid-cols-7 my-2 place-items-center text-[#737373]">
+        {["D", "L", "M", "M", "J", "V", "S"].map((day) => (
+          <div key={day} className="size-8 flex justify-center items-center">
             {day}
           </div>
         ))}
       </div>
 
       {/* Cuerpo del calendario (semana actual) */}
-      <div className="grid grid-cols-7 gap-2 w-[252px] text-sm">
+      <div className="grid grid-cols-7 gap-y-2 place-items-center">
         {renderCalendar()}
       </div>
     </div>

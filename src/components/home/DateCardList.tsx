@@ -5,7 +5,6 @@ type Appointment = {
   day: string;
   timeRange: string;
   patient?: string;
-  consultationType?: string;
   blocked?: boolean;
 };
 
@@ -22,7 +21,6 @@ const DateCardList: React.FC<DateCardListProps> = ({ appointments }) => {
           day={appointment.day}
           timeRange={appointment.timeRange}
           patient={appointment.patient}
-          consultationType={appointment.consultationType}
           blocked={appointment.blocked}
         />
       ))}
