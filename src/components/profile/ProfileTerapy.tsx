@@ -1,4 +1,3 @@
-import React from 'react'
 import ProfileAppHistory from './ProfileAppHistory'
 
 const ProfileTerapy = () => {

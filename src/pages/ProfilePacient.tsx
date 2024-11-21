@@ -4,8 +4,11 @@ import ProfileInformation from '../components/profile/ProfileInformation'
 import ProfileTerapy from '../components/profile/ProfileTerapy'
 import CustomButton from '../components/shared/CustomButton'
 import { useState } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 const ProfilePacient = () => {
+
+    const navigate = useNavigate()
 
     const [showPersonal, setShowPersonal] = useState(true)
     const [showTerapy, setShowTerapy] = useState(false)
@@ -49,28 +52,27 @@ const ProfilePacient = () => {
                 nombre={pacient.nombre}
                 especialidad={pacient.especialidad}
             />
+            <hr className='w-[290px] my-4 -mx-4' />
 
             {/* Botones */}
             <div className='w-[343px] flex my-2 mb-6 px-2 justify-between '>
                 <button
                     onClick={toggleShowPersonal}
                     disabled={personalDisabled}
-                    className={`inline-block w-full rounded-l-[50pc] text-center border px-3 py-3 font-medium focus:outline-none focus:ring border-[#7a5fe7] ${
-                        personalDisabled
-                            ? 'bg-gray-300 text-gray-500 border-0'
-                            : 'bg-[#7a5fe7] text-white hover:bg-transparent hover:text-[#7a5fe7] active:text-[#7a5fe7]'
-                    }`}
+                    className={`inline-block w-full rounded-l-[50pc] text-center border px-3 py-3 font-medium focus:outline-none focus:ring border-[#7a5fe7] ${personalDisabled
+                        ? 'bg-gray-300 text-gray-500 border-0'
+                        : 'bg-[#7a5fe7] text-white hover:bg-transparent hover:text-[#7a5fe7] active:text-[#7a5fe7]'
+                        }`}
                 >
                     Personal
                 </button>
                 <button
                     onClick={toggleShowTerapy}
                     disabled={terapyDisabled}
-                    className={`inline-block w-full rounded-r-[50pc] text-center border px-3 py-3 font-medium focus:outline-none focus:ring border-[#7a5fe7] ${
-                        terapyDisabled
-                            ? 'bg-gray-300 text-gray-500  border-0'
-                            : 'bg-[#7a5fe7] text-white hover:bg-transparent hover:text-[#7a5fe7] active:text-[#7a5fe7]'
-                    }`}
+                    className={`inline-block w-full rounded-r-[50pc] text-center border px-3 py-3 font-medium focus:outline-none focus:ring border-[#7a5fe7] ${terapyDisabled
+                        ? 'bg-gray-300 text-gray-500  border-0'
+                        : 'bg-[#7a5fe7] text-white hover:bg-transparent hover:text-[#7a5fe7] active:text-[#7a5fe7]'
+                        }`}
                 >
                     Terapia
                 </button>
@@ -86,15 +88,20 @@ const ProfilePacient = () => {
 
             {/* Informacion de la terapia */}
             {showTerapy &&
-                <ProfileTerapy />
+                <>
+                    <ProfileTerapy />
+                    <article className=" mb-6">
+                        <hr className='w-[290px] my-4 -mx-4' />
+                        <CustomButton
+                            title="Rehacer cuestionario"
+                            appearance={true}
+                            type="submit"
+                            onClick={() => { navigate("/questionnaire") }}
+                        />
+                    </article>
+                </>
             }
-
-            <article className="my-4 mb-6">
-                <CustomButton
-                    title="Rehacer cuestionario"
-                    appearance={true}
-                    type="submit" />
-            </article>
+            <br />
 
         </main>
     )

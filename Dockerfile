@@ -11,7 +11,7 @@ RUN npm install
 
 # Copia el resto de los archivos de la aplicación y ejecuta el script de construcción
 COPY . .
-RUN npm run build
+RUN npm run build && ls -al /app/dist 
 
 # Usa una imagen ligera de Nginx para servir los archivos estáticos de producción
 FROM nginx:stable-alpine
@@ -20,7 +20,7 @@ FROM nginx:stable-alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copia los archivos de la aplicación construida desde el paso anterior
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 # Expone el puerto 80 para el servidor web
 EXPOSE 80
