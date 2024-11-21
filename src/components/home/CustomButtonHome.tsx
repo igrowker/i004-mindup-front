@@ -23,7 +23,7 @@ function CustomButtonHome({
       }}
     >
       <img
-        className="absolute left-8"
+        className="absolute left-8 size-5"
         src={`public/Íconos/${icon}`}
         alt="Icono del boton"
       />

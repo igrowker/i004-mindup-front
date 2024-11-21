@@ -1,34 +1,46 @@
-import { GoArrowLeft } from 'react-icons/go'
-import ProfileHeader from '../components/profile/ProfileHeader'
-import ProfileInformation from '../components/profile/ProfileInformation'
-import ProfileTerapy from '../components/profile/ProfileTerapy'
-import CustomButton from '../components/shared/CustomButton'
-import { useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+
+import ProfileHeader from "../components/profile/ProfileHeader";
+import ProfileInformation from "../components/profile/ProfileInformation";
+import ProfileTerapy from "../components/profile/ProfileTerapy";
+import CustomButton from "../components/shared/CustomButton";
+import { useEffect, useState } from "react";
+import { useUserStore } from "../context/userStore";
+
+import { useNavigate } from 'react-router-dom'
 import Header from '../components/header/Header'
 
+
 const ProfilePacient = () => {
+    const { user, getUser } = useUserStore();
+
+
+    useEffect(() => {
+        getUser();
+        console.log
+    }, [getUser]);
 
     const navigate = useNavigate()
 
-    const [showPersonal, setShowPersonal] = useState(true)
-    const [showTerapy, setShowTerapy] = useState(false)
-    const [personalDisabled, setPersonalDisabled] = useState(true)
-    const [terapyDisabled, setTerapyDisabled] = useState(false)
+
+    const [showPersonal, setShowPersonal] = useState(true);
+    const [showTerapy, setShowTerapy] = useState(false);
+    const [personalDisabled, setPersonalDisabled] = useState(true);
+    const [terapyDisabled, setTerapyDisabled] = useState(false);
 
     const toggleShowPersonal = () => {
-        setShowPersonal(true)
-        setShowTerapy(false)
-        setPersonalDisabled(true)
-        setTerapyDisabled(false)
-    }
+        setShowPersonal(true);
+        setShowTerapy(false);
+        setPersonalDisabled(true);
+        setTerapyDisabled(false);
+    };
 
     const toggleShowTerapy = () => {
-        setShowPersonal(false)
-        setShowTerapy(true)
-        setPersonalDisabled(false)
-        setTerapyDisabled(true)
-    }
+        setShowPersonal(false);
+        setShowTerapy(true);
+        setPersonalDisabled(false);
+        setTerapyDisabled(true);
+    };
+
 
     const pacient = {
         imagen: "/Imágenes/miguel.png",
@@ -36,9 +48,12 @@ const ProfilePacient = () => {
         especialidad: "Ha realizado terapia anteriormente",
         frase: {
             autor: "Anónimo",
-            texto: "La paz comienza en el momento en que eliges no permitir que otra persona o evento controle tus emociones."
+            texto:
+                "La paz comienza en el momento en que eliges no permitir que otra persona o evento controle tus emociones.",
         },
-    }
+    };
+
+    console.log(user);
 
     return (
         <main className="w-full min-w-mobile flex flex-col items-center justify-center bg-background">
@@ -75,12 +90,12 @@ const ProfilePacient = () => {
             </div>
 
             {/* Informacion Personal */}
-            {showPersonal &&
+            {showPersonal && (
                 <ProfileInformation
                     fraseAutor={pacient.frase.autor}
                     fraseTexto={pacient.frase.texto}
                 />
-            }
+            )}
 
             {/* Informacion de la terapia */}
             {showTerapy &&
@@ -100,7 +115,7 @@ const ProfilePacient = () => {
             <br />
 
         </main>
-    )
-}
+    );
+};
 
-export default ProfilePacient
+export default ProfilePacient;

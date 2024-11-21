@@ -1,4 +1,3 @@
-import { RxHamburgerMenu } from "react-icons/rx";
 import WeekCalendar from "../components/home/WeekCalendar";
 import DateCardList from "../components/home/DateCardList";
 import CustomButton from "../components/shared/CustomButton";
