@@ -31,7 +31,7 @@ const DrawerUser: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
           className="bg-white w-full shadow-xl flex flex-col gap-2 p-4 border-b-2 border-secondary rounded-3xl"
           onClick={(e) => e.stopPropagation()}
         >
-          <Link to="/profile">
+          <Link to="/profileProfessional">
             <ButtonNav label="Perfil" Icon={FaRegCircleUser} />
           </Link>
           <div className="flex justify-center mt-2">

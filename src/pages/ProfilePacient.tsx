@@ -5,6 +5,7 @@ import ProfileTerapy from '../components/profile/ProfileTerapy'
 import CustomButton from '../components/shared/CustomButton'
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
+import Header from '../components/header/Header'
 
 const ProfilePacient = () => {
 
@@ -41,12 +42,7 @@ const ProfilePacient = () => {
 
     return (
         <main className="w-full min-w-mobile flex flex-col items-center justify-center bg-background">
-            <header className="bg-secondary w-full pl-2 py-5 text-white flex items-center">
-                <button className="p-1">
-                    <GoArrowLeft />
-                </button>
-                <span>Perfil</span>
-            </header>
+            <Header />
             <ProfileHeader
                 imagen={pacient.imagen}
                 nombre={pacient.nombre}
