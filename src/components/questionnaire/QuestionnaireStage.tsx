@@ -4,15 +4,7 @@ import ProgressBar from './ProcessBar';
 import TextSection from './TextSection';
 import DynamicButton from '../onboarding/DynamicButton';
 import OptionButton from './OptionButton';
-import { useState } from 'react';
 import { ViewData } from '../../pages/Questionnaire';
-
-// interface StepData {
-//   type: string;
-//   options?: string[];
-//   allowMultiple?: boolean;
-//   logoSize?: number;
-// }
 
 type QuestionnaireStageProps = {
   currentStepData: ViewData;
@@ -33,14 +25,8 @@ const QuestionnaireStage: React.FC<QuestionnaireStageProps> = ({
   handleNext,
   handlePrevious,
 }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
-  const handleSelect = (option: never) => {
-    if (currentStepData.allowMultiple) {
-      handleOptionSelect(option);
-    } else {
-      setSelectedOption(option);
-      handleOptionSelect(option);
-    }
+  const handleSelect = (option: string) => {
+    handleOptionSelect(option);
   };
   const bgColor =
     currentStep === 0 || currentStep === 1
@@ -56,8 +42,8 @@ const QuestionnaireStage: React.FC<QuestionnaireStageProps> = ({
     : false;
 
   return (
-    <div className="min-h-screen flex flex-col justify-between items-center text-background ">
-      <div className="mt-20 w-96 flex flex-col items-center justify-center">
+    <div className="min-h-screen w-full flex flex-col justify-between items-center text-background ">
+      <div className="mt-20 w-full flex flex-col items-center justify-center">
         <Logo logoSize={currentStepData.logoSize} />
         <ProgressBar currentStep={currentStep} viewsDataSize={viewsDataSize} />
       </div>
@@ -69,27 +55,27 @@ const QuestionnaireStage: React.FC<QuestionnaireStageProps> = ({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.4 }}
-          className="w-96 flex flex-col items-center"
+          className="w-4/5 flex flex-col items-center"
         >
           <TextSection currentStepData={currentStepData} />
 
-          {currentStepData.type === 'question' && (
-            <div>
-              {currentStepData.options?.map((option) => (
-                <OptionButton
-                  key={option}
-                  option={option}
-                  isSelected={selectedOption === option}
-                  onSelect={handleSelect}
-                />
-              ))}
-            </div>
-          )}
+          {currentStepData.options?.map((option) => (
+            <OptionButton
+              key={option}
+              option={option}
+              isSelected={
+                Array.isArray(responses[currentStep])
+                  ? responses[currentStep].includes(option) // Para opciones múltiples
+                  : responses[currentStep] === option
+              } // Para una sola opción
+              onSelect={handleSelect}
+            />
+          ))}
         </motion.div>
       </AnimatePresence>
 
-      <div className="relative w-full flex flex-col items-center mb-32 ">
-        <div className="flex flex-col w-80">
+      <div className="relative w-4/5 flex flex-col items-center mb-32 ">
+        <div className="flex flex-col w-full">
           <DynamicButton
             bgColor={bgColor}
             textColor={textColor}
@@ -99,7 +85,7 @@ const QuestionnaireStage: React.FC<QuestionnaireStageProps> = ({
           />
         </div>
         {currentStep > 2 && (
-          <div className="absolute top-full w-80 mt-4">
+          <div className="absolute top-full w-full mt-4">
             <DynamicButton
               bgColor="transparent"
               textColor="white"

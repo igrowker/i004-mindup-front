@@ -1,8 +1,8 @@
 import DynamicButton from '../onboarding/DynamicButton';
 
 const OptionButton = ({ option, isSelected, onSelect }) => {
-  const bgColor = isSelected ? 'bg-slate-500' : 'bg-background';
-  const textColor = isSelected ? 'text-black' : 'text-secondary';
+  const bgColor = isSelected ? 'bg-[#A3A3A3]' : 'bg-background';
+  const textColor = isSelected ? 'text-[#52359A]' : 'text-secondary';
 
   return (
     <DynamicButton
@@ -10,7 +10,7 @@ const OptionButton = ({ option, isSelected, onSelect }) => {
       textColor={textColor}
       onClick={() => onSelect(option)}
       buttonText={option}
-      className="mt-2 mb-2 w-80"
+      className="mt-2 mb-2"
     />
   );
 };
