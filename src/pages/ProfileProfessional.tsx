@@ -5,6 +5,8 @@ import ProfileStudies from "../components/profile/ProfileStudies";
 import ProfileHonorary from "../components/profile/ProfileHonorary";
 import ProfileInformation from "../components/profile/ProfileInformation";
 import ProfileVideo from "../components/profile/ProfileVideo";
+import ProfileAttention from "../components/profile/ProfileAttention";
+import Header from "../components/header/Header";
 
 function ProfileProfessional() {
 
@@ -20,26 +22,25 @@ function ProfileProfessional() {
 
   return (
     <main className="w-full min-w-mobile flex flex-col items-center justify-center bg-background">
-      <header className="bg-secondary w-full pl-2 py-5 text-white flex items-center">
-        <button className="p-1">
-          <GoArrowLeft />
-        </button>
-        <span>Perfil</span>
-      </header>
-
+      <Header />
       <ProfileHeader
         imagen={professional.imagen}
         nombre={professional.nombre}
         especialidad={professional.especialidad}
       />
+      <hr className='w-[290px] my-4 -mx-4' />
       <ProfileStudies />
+      <hr className='w-[290px] my-4 -mx-4' />
       <ProfileHonorary />
+      <ProfileAttention />
+      <hr className='w-[290px] my-4 -mx-4' />
       <ProfileInformation
         fraseAutor={professional.frase.autor}
         fraseTexto={professional.frase.texto}
       />
+      <hr className='w-[290px] my-4 -mx-4' />
       <ProfileVideo />
-
+      <hr className='w-[290px] my-4 -mx-4' />
       <article className="my-4 mb-6">
         <CustomButton
           title="Guardar"

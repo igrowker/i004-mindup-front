@@ -1,16 +1,12 @@
 import { RxHamburgerMenu } from "react-icons/rx";
 import CustomButtonHome from "../components/home/CustomButtonHome";
+import Header from "../components/header/Header";
 
 function HomePacient() {
 
   return (
     <section className="flex flex-col items-center pb-2">
-      <header className="bg-secondary w-full pl-4 py-2 gap-2 text-white flex items-center">
-        <button className="p-1">
-          <RxHamburgerMenu className="size-6" />
-        </button>
-        <img src="/public/logo1.png" alt="MindUp Logo" className="h-11" />
-      </header>
+      <Header />
       <article className="flex my-12 px-3 justify-start items-center gap-4 w-[343px]">
         <img className="size-[86px] rounded-full" src="public/Imágenes/MiguelPaciente.png" alt="Imagen de perfil" />
         <div className="w-60 mt-4 flex flex-col gap-2">
