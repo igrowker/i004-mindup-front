@@ -1,19 +1,24 @@
-import logo from "../../public/logo2.png";
-import { AnimatePresence, motion } from "framer-motion";
-import InputText from "../components/shared/Inputs/InputText";
-import InputPassword from "../components/shared/Inputs/InputPassword";
-import CustomButton from "../components/shared/CustomButton";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { validateEmail, validatePassword } from "../utils/validationUtils";
-import TextError from "../components/shared/Inputs/TextError";
+import logo from '../../public/logo2.png';
+import { AnimatePresence, motion } from 'framer-motion';
+import InputText from '../components/shared/Inputs/InputText';
+import InputPassword from '../components/shared/Inputs/InputPassword';
+import CustomButton from '../components/shared/CustomButton';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { validateEmail, validatePassword } from '../utils/validationUtils';
+import TextError from '../components/shared/Inputs/TextError';
+import { useUserQuery } from '../hooks/useUserQuery';
+import { useUserStore } from '../context/userStore';
 
 function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { refetch, isLoading, error } = useUserQuery(); // hook que gestiona la solicitud http
+  const { setUser, user } = useUserStore();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ email: string; password: string }>({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const navigate = useNavigate();
@@ -33,10 +38,25 @@ function LoginForm() {
     return !emailError && !passwordError;
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (handleValidation()) {
-      navigate("/onboard");
+      try {
+        // ejecuto la solicitud http
+        const { data } = await refetch();
+        console.log(data[0]);
+
+        if (data && data[0]) {
+          // almaceno el user en el estado global
+          setUser(data[0]);
+          console.log('estado global inmediato:', user);
+
+          // navego al onboarding
+          navigate('/onboard');
+        }
+      } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+      }
     }
   };
 
@@ -51,7 +71,7 @@ function LoginForm() {
     const passwordError = validatePassword(value);
     setErrors((prev) => ({ ...prev, password: passwordError }));
   };
-
+  if (error) return 'ocurrio un error :(';
   return (
     <div className="min-h-screen w-full min-w-mobile flex flex-col items-center bg-background">
       <div className="h-64 flex flex-col items-center justify-evenly">
@@ -91,7 +111,7 @@ function LoginForm() {
 
         <div className="h-36 flex flex-col items-center justify-evenly">
           <CustomButton
-            title="Iniciar Sesión"
+            title={isLoading ? 'Loading..' : 'Iniciar sesion'}
             appearance={true}
             type="submit"
           />
