@@ -15,8 +15,6 @@ function Header() {
 
   const isPaciente = user?.rol === "Paciente";
 
-  console.log(user);
-
   const toggleDrawer = () => {
     setDrawerOpen((prev) => !prev);
     if (isDrawerUserOpen) setDrawerUserOpen(false);
@@ -34,7 +32,9 @@ function Header() {
   );
 
   const renderLogoOrTitle = () =>
-    location.pathname === "/Home" || location.pathname === "/home2"|| location.pathname === "/home" ? (
+    location.pathname === "/Home" ||
+    location.pathname === "/home2" ||
+    location.pathname === "/home" ? (
       <img src="/public/logo1.png" alt="MindUp Logo" className="h-11" />
     ) : (
       <h2 className="text-xl">
