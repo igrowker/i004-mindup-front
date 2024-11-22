@@ -7,7 +7,7 @@ WORKDIR /app
 # Copia el archivo package.json y package-lock.json e instala las dependencias
 COPY package*.json ./
 
-RUN npm install
+RUN npm config set registry https://registry.npmmirror.com && npm install
 
 # Copia el resto de los archivos de la aplicación y ejecuta el script de construcción
 COPY . .
