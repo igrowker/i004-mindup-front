@@ -1,4 +1,11 @@
-const ProgressBar = ({ currentStep, viewsDataSize }) => {
+import React from 'react';
+
+interface ProgressBarProps {
+  currentStep: number;
+  viewsDataSize: number;
+}
+
+const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep, viewsDataSize }) => {
   return (
     currentStep >= 2 && (
       <div className="w-60 mt-4">

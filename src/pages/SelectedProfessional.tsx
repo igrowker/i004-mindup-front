@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { RxHamburgerMenu } from "react-icons/rx";
 import SelectedCardList from "../components/selected/SelectedCardList";
 import CustomButton from "../components/shared/CustomButton";
 import Header from "../components/header/Header";

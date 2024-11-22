@@ -1,4 +1,3 @@
-import { GoArrowLeft } from "react-icons/go";
 import CustomButton from "../components/shared/CustomButton";
 import ProfileHeader from "../components/profile/ProfileHeader";
 import ProfileStudies from "../components/profile/ProfileStudies";

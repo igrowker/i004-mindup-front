@@ -1,4 +1,3 @@
-import { RxHamburgerMenu } from "react-icons/rx";
 import CustomButtonHome from "../components/home/CustomButtonHome";
 import Header from "../components/header/Header";
 

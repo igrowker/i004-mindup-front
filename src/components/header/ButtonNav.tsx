@@ -3,7 +3,7 @@ import { FaAngleRight } from "react-icons/fa";
 
 interface ButtonNavProps {
   label: string;
-  Icon: React.ComponentType;
+  Icon: React.ElementType;
 }
 function ButtonNav({ label, Icon }: ButtonNavProps) {
   return (
