@@ -44,7 +44,7 @@ function LoginForm() {
       try {
         // ejecuto la solicitud http
         const { data } = await refetch();
-        console.log(data[0]);
+        // console.log(data[0]);
 
         if (data && data[0]) {
           // almaceno el user en el estado global
