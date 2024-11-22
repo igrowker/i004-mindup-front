@@ -9,7 +9,7 @@ import TextError from "../components/shared/Inputs/TextError";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [error, setError] = useState({ email: "" });
+  const [error, setError] = useState<{ email: string }>({ email: "" });
 
   const navigate = useNavigate();
 
@@ -27,10 +27,10 @@ const ForgotPassword = () => {
     return !emailError;
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (handleValidation()) {
-      // Cambiar ruta cuando se envio mail para recuperar contraseña
+      // Cambiar ruta cuando se envió mail para recuperar contraseña
       navigate("/onboard");
     }
   };
@@ -40,7 +40,6 @@ const ForgotPassword = () => {
     const emailError = validateEmail(value);
     setError((prev) => ({ ...prev, email: emailError }));
   };
-
 
   return (
     <div className="min-h-screen w-full min-w-mobile flex flex-col items-center bg-background">
@@ -65,7 +64,6 @@ const ForgotPassword = () => {
           {error.email && <TextError text={error.email} />}
         </AnimatePresence>
 
-
         <div className="h-36 flex flex-col items-center justify-evenly">
           <CustomButton
             title="Enviar"
@@ -78,7 +76,6 @@ const ForgotPassword = () => {
             </p>
           </Link>
         </div>
-
       </motion.form>
     </div>
   );

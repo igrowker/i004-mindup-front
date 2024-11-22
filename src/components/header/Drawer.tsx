@@ -34,10 +34,13 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
           <Link to="/Home">
             <ButtonNav label="Ir al inicio" Icon={HiOutlineHome} />
           </Link>
-          <Link to="/profile">
+          <Link to="/profileProfessional">
             <ButtonNav label="Perfil" Icon={FaRegCircleUser} />
           </Link>
-          <ButtonNav label="Profesionales compatibles" Icon={GrTask} />
+          <Link to="/selected">
+            <ButtonNav label="Profesionales compatibles" Icon={GrTask} />
+          </Link>
+
           <ButtonNav label="Asistencia" Icon={MdEmergency} />
           <ButtonNav label="Mis citas" Icon={FaRegCircleQuestion} />
           <div className="flex justify-center mt-2">

@@ -11,6 +11,7 @@ import Questionnaire from '../pages/Questionnaire';
 import ProfilePacient from '../pages/ProfilePacient';
 import ProfileProfessional from '../pages/ProfileProfessional';
 import HomePacient from '../pages/HomePacient';
+import SelectedProfessional from '../pages/SelectedProfessional';
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
       { path: 'home', element: <HomePsychologist /> },
       { path: 'home2', element: <HomePacient /> },
       { path: 'manage-appointment', element: <AppointmentManage /> },
+      { path: 'selected', element: <SelectedProfessional /> },
       //esta ruta es para probar el mdodal
       { path: 'modal', element: <Modal /> },
       { path: 'questionnaire', element: <Questionnaire /> },

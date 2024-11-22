@@ -1,5 +1,5 @@
-import React from 'react';
-import DateCard from './DateCard';
+import React from "react";
+import DateCard from "./DateCard";
 
 type Appointment = {
   day: string;

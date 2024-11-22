@@ -13,7 +13,7 @@ function CustomButtonHome({
 }: ButtonData): JSX.Element {
   return (
     <button
-      className='relative flex items-center justify-center w-80 rounded bg-gray-100 px-3 py-3 font-medium text-sm'
+      className="relative flex items-center justify-center w-80 rounded bg-gray-100 px-3 py-3 font-medium text-sm"
       type={type} // Usa el tipo que recibe como prop
       onClick={(e) => {
         if (type !== "submit") {
@@ -23,7 +23,7 @@ function CustomButtonHome({
       }}
     >
       <img
-        className="absolute left-8"
+        className="absolute left-8 size-5"
         src={`public/Íconos/${icon}`}
         alt="Icono del boton"
       />

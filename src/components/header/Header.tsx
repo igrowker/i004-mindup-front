@@ -1,4 +1,3 @@
-import { h2 } from "framer-motion/client";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useLocation } from "react-router-dom";
 import paciente from "../../../public/Imágenes/MiguelPaciente.png";
@@ -7,20 +6,19 @@ import DrawerUser from "./DrawerUser";
 import { useState } from "react";
 
 function Header() {
-  const [isDraweOpen, setDraweOpen] = useState(false); 
-  const [isDraweUserOpen, setDraweUserOpen] = useState(false); 
-
+  const [isDraweOpen, setDraweOpen] = useState(false);
+  const [isDraweUserOpen, setDraweUserOpen] = useState(false);
 
   const location = useLocation();
 
   const handleToggle = () => {
     setDraweOpen(!isDraweOpen);
-    isDraweUserOpen ? setDraweUserOpen(false) : null
+    isDraweUserOpen ? setDraweUserOpen(false) : null;
   };
   const handleToggleUser = () => {
     setDraweUserOpen(!isDraweUserOpen);
-    isDraweOpen ? setDraweOpen(false) : null
-  }
+    isDraweOpen ? setDraweOpen(false) : null;
+  };
   return (
     <>
       <header className="bg-secondary w-full px-4 py-2 gap-2 text-white flex justify-between items-center sticky top-0 z-50">
@@ -28,11 +26,14 @@ function Header() {
           <RxHamburgerMenu className="size-6" />
         </button>
         <div className="h-11 flex items-center">
-          {location.pathname == "/Home" ? (
+          {location.pathname == "/Home" || location.pathname == "/home2" ? (
             <img src="/public/logo1.png" alt="MindUp Logo" className="h-11" />
           ) : (
             <h2 className="text-xl">
-              {location.pathname == "/profile" ? "Perfil" : "Gestión de turnos"}
+              {location.pathname == "/profile" ||
+              location.pathname == "/profilePacient"
+                ? "Perfil"
+                : "Gestión de turnos"}
             </h2>
           )}
         </div>
@@ -46,7 +47,10 @@ function Header() {
         </button>
       </header>
       <Drawer isOpen={isDraweOpen} onClose={() => setDraweOpen(false)} />
-      <DrawerUser isOpen={isDraweUserOpen} onClose={() => setDraweUserOpen(false)} />
+      <DrawerUser
+        isOpen={isDraweUserOpen}
+        onClose={() => setDraweUserOpen(false)}
+      />
     </>
   );
 }
