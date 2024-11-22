@@ -1,8 +1,5 @@
 import React from "react";
-import { HiOutlineHome } from "react-icons/hi2";
-import { FaRegCircleUser, FaRegCircleQuestion } from "react-icons/fa6";
-import { GrTask } from "react-icons/gr";
-import { MdEmergency } from "react-icons/md";
+import { FaRegCircleUser } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import CustomButton from "../shared/CustomButton";
@@ -31,7 +28,7 @@ const DrawerUser: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
           className="bg-white w-full shadow-xl flex flex-col gap-2 p-4 border-b-2 border-secondary rounded-3xl"
           onClick={(e) => e.stopPropagation()}
         >
-          <Link to="/profile">
+          <Link to="/profileProfessional">
             <ButtonNav label="Perfil" Icon={FaRegCircleUser} />
           </Link>
           <div className="flex justify-center mt-2">

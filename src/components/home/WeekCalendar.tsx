@@ -41,8 +41,7 @@ const WeekCalendar: React.FC = () => {
               ? "bg-zinc-950 text-white"
               : "text-[#444444] hover:bg-gray-200"
           }`}
-         
-         onClick={() => setSelectedDate(day)}
+          onClick={() => setSelectedDate(day)}
         >
           {day.getDate()}
         </div>

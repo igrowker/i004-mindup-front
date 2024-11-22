@@ -1,28 +1,27 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import InputText from "../shared/Inputs/InputText";
-import _ DynamicButton from "./DynamicButton";
-import TextError from "../shared/Inputs/TextError";
-import CustomButton from "../shared/CustomButton";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import InputText from '../shared/Inputs/InputText';
+import TextError from '../shared/Inputs/TextError';
+import CustomButton from '../shared/CustomButton';
 
 const FinalView: React.FC = () => {
   const [formData, setFormData] = useState({
-    specialty: "",
-    matricula: "",
-    zone: "",
+    specialty: '',
+    matricula: '',
+    zone: '',
     attention: {
       virtual: false,
       presencial: false,
     },
-    about: "",
+    about: '',
   });
 
   const [errors, setErrors] = useState({
-    specialty: "",
-    matricula: "",
-    zone: "",
-    about: "",
-    attention: "",
+    specialty: '',
+    matricula: '',
+    zone: '',
+    about: '',
+    attention: '',
   });
 
   const navigate = useNavigate();
@@ -33,35 +32,35 @@ const FinalView: React.FC = () => {
       [field]: value,
     }));
     // Validaciones dinámicas
-    if (field === "about") {
+    if (field === 'about') {
       setErrors((prev) => ({
         ...prev,
         about:
           (value as string).length > 100
-            ? "El texto no puede exceder los 100 caracteres."
+            ? 'El texto no puede exceder los 100 caracteres.'
             : value
-              ? ""
-              : "El campo sobre ti no puede estar vacío.",
+            ? ''
+            : 'El campo sobre ti no puede estar vacío.',
       }));
-    } else if (field === "matricula") {
+    } else if (field === 'matricula') {
       setErrors((prev) => ({
         ...prev,
-        matricula: value ? "" : "La matrícula no puede estar vacía.",
+        matricula: value ? '' : 'La matrícula no puede estar vacía.',
       }));
-    } else if (field === "specialty") {
+    } else if (field === 'specialty') {
       setErrors((prev) => ({
         ...prev,
-        specialty: value ? "" : "La especialidad es obligatoria.",
+        specialty: value ? '' : 'La especialidad es obligatoria.',
       }));
-    } else if (field === "zone") {
+    } else if (field === 'zone') {
       setErrors((prev) => ({
         ...prev,
-        zone: value ? "" : "La zona de atención es obligatoria.",
+        zone: value ? '' : 'La zona de atención es obligatoria.',
       }));
     }
   };
 
-  const handleCheckboxChange = (type: "virtual" | "presencial") => {
+  const handleCheckboxChange = (type: 'virtual' | 'presencial') => {
     setFormData((prev) => ({
       ...prev,
       attention: {
@@ -73,30 +72,30 @@ const FinalView: React.FC = () => {
       ...prev,
       attention:
         !formData.attention.virtual && !formData.attention.presencial
-          ? "Debes seleccionar al menos un tipo de atención."
-          : "",
+          ? 'Debes seleccionar al menos un tipo de atención.'
+          : '',
     }));
   };
 
   const handleValidation = () => {
     const newErrors = {
-      specialty: formData.specialty ? "" : "La especialidad es obligatoria.",
-      matricula: formData.matricula ? "" : "La matrícula no puede estar vacía.",
-      zone: formData.zone ? "" : "La zona de atención es obligatoria.",
+      specialty: formData.specialty ? '' : 'La especialidad es obligatoria.',
+      matricula: formData.matricula ? '' : 'La matrícula no puede estar vacía.',
+      zone: formData.zone ? '' : 'La zona de atención es obligatoria.',
       about: formData.about
         ? formData.about.length > 100
-          ? "El texto no puede exceder los 100 caracteres."
-          : ""
-        : "El campo sobre ti no puede estar vacío.",
+          ? 'El texto no puede exceder los 100 caracteres.'
+          : ''
+        : 'El campo sobre ti no puede estar vacío.',
       attention:
         !formData.attention.virtual && !formData.attention.presencial
-          ? "Debes seleccionar al menos un tipo de atención."
-          : "",
+          ? 'Debes seleccionar al menos un tipo de atención.'
+          : '',
     };
 
     setErrors(newErrors);
 
-    return Object.values(newErrors).every((err) => err === "");
+    return Object.values(newErrors).every((err) => err === '');
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -104,14 +103,14 @@ const FinalView: React.FC = () => {
 
     if (handleValidation()) {
       // Aquí puedes agregar lógica para enviar los datos al backend
-      navigate("/home");
+      navigate('/home');
     }
   };
 
   return (
     <div className="min-h-screen w-full min-w-mobile flex flex-col items-center justify-center bg-background">
       <h2 className="text-center text-xl font-semibold text-gray-800 mb-4">
-        Cuéntanos sobre ti {localStorage.getItem("name") || ""} <br /> para
+        Cuéntanos sobre ti {localStorage.getItem('name') || ''} <br /> para
         empezar a ayudar
       </h2>
 
@@ -121,7 +120,7 @@ const FinalView: React.FC = () => {
             name="Especialidad*"
             placeholder="Clínica"
             value={formData.specialty}
-            onChange={(e) => handleChange("specialty", e.target.value)}
+            onChange={(e) => handleChange('specialty', e.target.value)}
           />
           {errors.specialty && <TextError text={errors.specialty} />}
         </div>
@@ -130,7 +129,7 @@ const FinalView: React.FC = () => {
             name="Matrícula*"
             placeholder="3265"
             value={formData.matricula}
-            onChange={(e) => handleChange("matricula", e.target.value)}
+            onChange={(e) => handleChange('matricula', e.target.value)}
           />
           {errors.matricula && <TextError text={errors.matricula} />}
         </div>
@@ -139,7 +138,7 @@ const FinalView: React.FC = () => {
             name="Zona de atención*"
             placeholder="Coloca tu CP"
             value={formData.zone}
-            onChange={(e) => handleChange("zone", e.target.value)}
+            onChange={(e) => handleChange('zone', e.target.value)}
           />
           {errors.zone && <TextError text={errors.zone} />}
         </div>
@@ -148,24 +147,24 @@ const FinalView: React.FC = () => {
           <div className="flex items-center justify-between space-x-4">
             <label
               className="w-32 flex items-center px-3 py-2 border border-gray-300 rounded-sm cursor-pointer"
-              onClick={() => handleCheckboxChange("virtual")}
+              onClick={() => handleCheckboxChange('virtual')}
             >
               <input
                 type="checkbox"
                 checked={formData.attention.virtual}
-                onChange={() => handleCheckboxChange("virtual")}
+                onChange={() => handleCheckboxChange('virtual')}
                 className="mr-2"
               />
               <span className="text-gray-700">Virtual</span>
             </label>
             <label
               className="w-32 flex items-center px-3 py-2 border border-gray-300 rounded-sm cursor-pointer"
-              onClick={() => handleCheckboxChange("presencial")}
+              onClick={() => handleCheckboxChange('presencial')}
             >
               <input
                 type="checkbox"
                 checked={formData.attention.presencial}
-                onChange={() => handleCheckboxChange("presencial")}
+                onChange={() => handleCheckboxChange('presencial')}
                 className="mr-2"
               />
               <span className="text-gray-700">Presencial</span>
@@ -185,7 +184,7 @@ const FinalView: React.FC = () => {
             placeholder="Cuéntanos tus motivaciones y valores."
             maxLength={100}
             value={formData.about}
-            onChange={(e) => handleChange("about", e.target.value)}
+            onChange={(e) => handleChange('about', e.target.value)}
             className="w-full h-18 p-3 border border-gray-300 rounded-sm resize-none"
           />
           <p className="text-xs text-gray-400 text-right mt-1">
