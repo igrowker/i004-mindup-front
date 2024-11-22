@@ -6,17 +6,20 @@ import CustomButton from "../shared/CustomButton";
 import ButtonNav from "./ButtonNav";
 
 type DrawerProps = {
+  patient: boolean;
   isOpen: boolean;
-  onClose: () => void; // Función para cerrar el modal
+  onClose: () => void;
 };
 
-const DrawerUser: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
+const DrawerUser: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
   if (!isOpen) return null;
+
+  const profileLink = patient ? "/profilePacient" : "/profileProfessional";
 
   return (
     <AnimatePresence mode="popLayout">
       <motion.div
-        key="drawer"
+        key="drawer-user"
         initial={{ opacity: 0, x: 300 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: 300 }}
@@ -28,9 +31,10 @@ const DrawerUser: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
           className="bg-white w-full shadow-xl flex flex-col gap-2 p-4 border-b-2 border-secondary rounded-3xl"
           onClick={(e) => e.stopPropagation()}
         >
-          <Link to="/profileProfessional">
+          <Link to={profileLink}>
             <ButtonNav label="Perfil" Icon={FaRegCircleUser} />
           </Link>
+
           <div className="flex justify-center mt-2">
             <CustomButton title="Cerrar sesión" appearance={true} />
           </div>

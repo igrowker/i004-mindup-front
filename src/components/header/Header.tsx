@@ -1,55 +1,82 @@
 import { RxHamburgerMenu } from "react-icons/rx";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import paciente from "../../../public/Imágenes/MiguelPaciente.png";
 import Drawer from "./Drawer";
 import DrawerUser from "./DrawerUser";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useUserStore } from "../../context/userStore";
+import { FaArrowLeft } from "react-icons/fa";
 
 function Header() {
-  const [isDraweOpen, setDraweOpen] = useState(false);
-  const [isDraweUserOpen, setDraweUserOpen] = useState(false);
-
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const [isDrawerUserOpen, setDrawerUserOpen] = useState(false);
+  const { user, getUser } = useUserStore();
   const location = useLocation();
 
-  const handleToggle = () => {
-    setDraweOpen(!isDraweOpen);
-    isDraweUserOpen ? setDraweUserOpen(false) : null;
+  const isPaciente = user?.[0]?.rol === "Paciente";
+
+  useEffect(() => {
+    getUser();
+  }, [getUser]);
+
+  const toggleDrawer = () => {
+    setDrawerOpen((prev) => !prev);
+    if (isDrawerUserOpen) setDrawerUserOpen(false);
   };
-  const handleToggleUser = () => {
-    setDraweUserOpen(!isDraweUserOpen);
-    isDraweOpen ? setDraweOpen(false) : null;
+
+  const toggleDrawerUser = () => {
+    setDrawerUserOpen((prev) => !prev);
+    if (isDrawerOpen) setDrawerOpen(false);
   };
+
+  const renderBackButton = () => (
+    <Link to={isPaciente ? "/home2" : "/Home"}>
+      <FaArrowLeft className="size-6" />
+    </Link>
+  );
+
+  const renderLogoOrTitle = () =>
+    location.pathname === "/Home" || location.pathname === "/home2" ? (
+      <img src="/public/logo1.png" alt="MindUp Logo" className="h-11" />
+    ) : (
+      <h2 className="text-xl">
+        {location.pathname.includes("/profile")
+          ? "Perfil"
+          : "Gestión de turnos"}
+      </h2>
+    );
+
   return (
     <>
       <header className="bg-secondary w-full px-4 py-2 gap-2 text-white flex justify-between items-center sticky top-0 z-50">
-        <button onClick={() => handleToggle()}>
-          <RxHamburgerMenu className="size-6" />
-        </button>
-        <div className="h-11 flex items-center">
-          {location.pathname == "/Home" || location.pathname == "/home2" ? (
-            <img src="/public/logo1.png" alt="MindUp Logo" className="h-11" />
-          ) : (
-            <h2 className="text-xl">
-              {location.pathname == "/profile" ||
-              location.pathname == "/profilePacient"
-                ? "Perfil"
-                : "Gestión de turnos"}
-            </h2>
-          )}
-        </div>
+        {location.pathname === "/Home" || location.pathname === "/home2" ? (
+          <button onClick={toggleDrawer}>
+            <RxHamburgerMenu className="size-6" />
+          </button>
+        ) : (
+          renderBackButton()
+        )}
 
-        <button onClick={() => handleToggleUser()}>
+        <div className="h-11 flex items-center">{renderLogoOrTitle()}</div>
+
+        <button onClick={toggleDrawerUser}>
           <img
             src={paciente}
-            alt="MindUp Logo"
+            alt="User Avatar"
             className="h-11 rounded-full border-2 border-white"
           />
         </button>
       </header>
-      <Drawer isOpen={isDraweOpen} onClose={() => setDraweOpen(false)} />
+
+      <Drawer
+        isOpen={isDrawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        patient={isPaciente}
+      />
       <DrawerUser
-        isOpen={isDraweUserOpen}
-        onClose={() => setDraweUserOpen(false)}
+        isOpen={isDrawerUserOpen}
+        onClose={() => setDrawerUserOpen(false)}
+        patient={isPaciente}
       />
     </>
   );
