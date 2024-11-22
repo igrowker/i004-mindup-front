@@ -1,4 +1,3 @@
-
 import ProfileHeader from "../components/profile/ProfileHeader";
 import ProfileInformation from "../components/profile/ProfileInformation";
 import ProfileTerapy from "../components/profile/ProfileTerapy";

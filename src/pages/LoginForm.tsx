@@ -11,7 +11,10 @@ import TextError from "../components/shared/Inputs/TextError";
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState<{ email: string; password: string }>({
+    email: "",
+    password: "",
+  });
 
   const navigate = useNavigate();
 
@@ -30,7 +33,7 @@ function LoginForm() {
     return !emailError && !passwordError;
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (handleValidation()) {
       navigate("/onboard");

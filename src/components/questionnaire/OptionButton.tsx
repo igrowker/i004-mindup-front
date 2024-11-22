@@ -1,6 +1,13 @@
+import React from 'react';
 import DynamicButton from '../onboarding/DynamicButton';
 
-const OptionButton = ({ option, isSelected, onSelect }) => {
+interface OptionButtonProps {
+  option: string;
+  isSelected: boolean;
+  onSelect: (option: string) => void;
+}
+
+const OptionButton: React.FC<OptionButtonProps> = ({ option, isSelected, onSelect }) => {
   const bgColor = isSelected ? 'bg-[#A3A3A3]' : 'bg-background';
   const textColor = isSelected ? 'text-[#52359A]' : 'text-secondary';
 

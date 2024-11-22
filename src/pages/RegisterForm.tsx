@@ -45,7 +45,7 @@ const RegisterForm = () => {
     return !nameError && !emailError && !passwordError && !repeatPasswordError;
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (handleValidation()) {
       navigate("/onboard");
@@ -190,18 +190,19 @@ const RegisterForm = () => {
                 )}
               </AnimatePresence>
 
-              <div className="h-36 flex flex-col items-center justify-evenly">              <CustomButton
-                title="Registrarme"
-                appearance={true}
-                type="submit"
-              />
+              <div className="h-36 flex flex-col items-center justify-evenly">
+                {" "}
+                <CustomButton
+                  title="Registrarme"
+                  appearance={true}
+                  type="submit"
+                />
                 <Link to="/">
                   <p className="text-text font-medium text-center mt-2">
                     ¿Ya tienes una cuenta? Inicia sesión aquí
                   </p>
                 </Link>
               </div>
-              
             </motion.form>
           )}
         </AnimatePresence>
