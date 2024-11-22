@@ -14,6 +14,7 @@ export const fetchUser = async () => {
 
     const user = await res.json();
     console.log(user);
+    return user;
   } catch (error) {
     console.error('Error fetching user:', error);
   }

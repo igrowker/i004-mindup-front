@@ -4,7 +4,7 @@ import InputText from '../components/shared/Inputs/InputText';
 import InputPassword from '../components/shared/Inputs/InputPassword';
 import CustomButton from '../components/shared/CustomButton';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { validateEmail, validatePassword } from '../utils/validationUtils';
 import TextError from '../components/shared/Inputs/TextError';
 import { useUserQuery } from '../hooks/useUserQuery';
@@ -59,6 +59,11 @@ function LoginForm() {
       }
     }
   };
+
+  //prueba para verificar que el user se almaceno en el global state
+  useEffect(() => {
+    console.log('Estado global user ha cambiado:', user);
+  }, [user]);
 
   const handleEmailChange = (value: string) => {
     setEmail(value);
