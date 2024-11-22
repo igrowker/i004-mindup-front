@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import CustomButton from "../shared/CustomButton";
 import ButtonNav from "./ButtonNav";
+import Modal from "../modal/Modal";
 
 type DrawerProps = {
   patient: boolean;
@@ -13,6 +13,7 @@ type DrawerProps = {
 
 const DrawerUser: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
   if (!isOpen) return null;
+  const [salir, setSalir] = useState(false);
 
   const profileLink = patient ? "/profilePacient" : "/profileProfessional";
 
@@ -35,8 +36,15 @@ const DrawerUser: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
             <ButtonNav label="Perfil" Icon={FaRegCircleUser} />
           </Link>
 
-          <div className="flex justify-center mt-2">
-            <CustomButton title="Cerrar sesión" appearance={true} />
+          <div
+            className="flex justify-center mt-2"
+            onClick={() => setSalir(true)}
+          >
+            <Modal
+              title="Cerrar sesión"
+              isOpen={salir}
+              onClose={() => setSalir(false)}
+            />
           </div>
         </nav>
       </motion.div>

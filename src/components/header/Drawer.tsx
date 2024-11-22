@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { HiOutlineHome } from "react-icons/hi2";
 import { FaRegCircleUser, FaRegCircleQuestion } from "react-icons/fa6";
 import { GrTask } from "react-icons/gr";
 import { MdEmergency } from "react-icons/md";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import CustomButton from "../shared/CustomButton";
 import ButtonNav from "./ButtonNav";
 import { IoPeopleOutline } from "react-icons/io5";
+import Modal from "../modal/Modal";
 
 type DrawerProps = {
   patient?: boolean;
@@ -17,6 +17,7 @@ type DrawerProps = {
 
 const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
   if (!isOpen) return null;
+  const [salir, setSalir] = useState(false);
 
   const navItems = patient
     ? [
@@ -71,8 +72,8 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
             )
           )}
 
-          <div className="flex justify-center mt-2">
-            <CustomButton title="Cerrar sesión" appearance={true} />
+          <div className="flex justify-center mt-2" onClick={() => setSalir(true)}>
+          <Modal title="Cerrar sesión" isOpen={salir} onClose={() => setSalir(false)} />
           </div>
         </nav>
       </motion.div>
