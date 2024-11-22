@@ -7,14 +7,34 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import CustomButton from "../shared/CustomButton";
 import ButtonNav from "./ButtonNav";
+import { IoPeopleOutline } from "react-icons/io5";
 
 type DrawerProps = {
+  patient?: boolean;
   isOpen: boolean;
-  onClose: () => void; // Función para cerrar el modal
+  onClose: () => void;
 };
 
-const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
+const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
   if (!isOpen) return null;
+
+  const navItems = patient
+    ? [
+        { to: "/profilePacient", label: "Perfil", Icon: FaRegCircleUser },
+        { to: "/selected", label: "Profesionales compatibles", Icon: GrTask },
+        { to: null, label: "Asistencia", Icon: MdEmergency },
+        { to: null, label: "Mis citas", Icon: FaRegCircleQuestion },
+      ]
+    : [
+        { to: "/profileProfessional", label: "Perfil", Icon: FaRegCircleUser },
+        { to: "/selected", label: "Gestión de turnos", Icon: GrTask },
+        { to: null, label: "Mis pacientes", Icon: IoPeopleOutline },
+        {
+          to: null,
+          label: "Ayuda y soporte técnico",
+          Icon: FaRegCircleQuestion,
+        },
+      ];
 
   return (
     <AnimatePresence mode="popLayout">
@@ -31,18 +51,26 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
           className="bg-white w-full shadow-xl flex flex-col gap-2 p-4 border-b-2 border-secondary rounded-3xl"
           onClick={(e) => e.stopPropagation()}
         >
-          <Link to="/Home">
-            <ButtonNav label="Ir al inicio" Icon={HiOutlineHome} />
-          </Link>
-          <Link to="/profileProfessional">
-            <ButtonNav label="Perfil" Icon={FaRegCircleUser} />
-          </Link>
-          <Link to="/selected">
-            <ButtonNav label="Profesionales compatibles" Icon={GrTask} />
-          </Link>
+          {patient ? (
+            <Link to="/home2">
+              <ButtonNav label="Ir al inicio" Icon={HiOutlineHome} />
+            </Link>
+          ) : (
+            <Link to="/Home">
+              <ButtonNav label="Ir al inicio" Icon={HiOutlineHome} />
+            </Link>
+          )}
 
-          <ButtonNav label="Asistencia" Icon={MdEmergency} />
-          <ButtonNav label="Mis citas" Icon={FaRegCircleQuestion} />
+          {navItems.map((item, index) =>
+            item.to ? (
+              <Link to={item.to} key={index}>
+                <ButtonNav label={item.label} Icon={item.Icon} />
+              </Link>
+            ) : (
+              <ButtonNav key={index} label={item.label} Icon={item.Icon} />
+            )
+          )}
+
           <div className="flex justify-center mt-2">
             <CustomButton title="Cerrar sesión" appearance={true} />
           </div>
