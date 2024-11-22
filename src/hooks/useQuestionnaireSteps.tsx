@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { ViewData } from '../pages/Questionnaire';
+import { useNavigate } from 'react-router-dom';
 
 // este hook gestiona el estado de las options seleccioadas por el user y las actualiza segun si la pregunta permite seleccionar múltiples opciones o no.
 const useQuestionnaireSteps = (viewsData: ViewData[]) => {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const [responses, setResponses] = useState<Record<number, string | string[]>>(
     {}
@@ -27,6 +29,9 @@ const useQuestionnaireSteps = (viewsData: ViewData[]) => {
   };
 
   const handleNext = () => {
+    if (currentStep === 7) {
+      navigate('/selected');
+    }
     setCurrentStep((prev) => prev + 1);
   };
 
