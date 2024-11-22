@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InputText from "../shared/Inputs/InputText";
-import DynamicButton from "./DynamicButton";
+import _ DynamicButton from "./DynamicButton";
 import TextError from "../shared/Inputs/TextError";
 import CustomButton from "../shared/CustomButton";
 
