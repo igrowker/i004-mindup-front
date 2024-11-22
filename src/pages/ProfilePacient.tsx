@@ -10,13 +10,7 @@ import Header from '../components/header/Header'
 
 
 const ProfilePacient = () => {
-    const { user, getUser } = useUserStore();
-
-
-    useEffect(() => {
-        getUser();
-        console.log
-    }, [getUser]);
+    const { user } = useUserStore();
 
     const navigate = useNavigate()
 

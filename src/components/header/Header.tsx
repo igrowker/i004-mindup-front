@@ -3,21 +3,19 @@ import { Link, useLocation } from "react-router-dom";
 import paciente from "../../../public/Imágenes/MiguelPaciente.png";
 import Drawer from "./Drawer";
 import DrawerUser from "./DrawerUser";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useUserStore } from "../../context/userStore";
 import { FaArrowLeft } from "react-icons/fa";
 
 function Header() {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [isDrawerUserOpen, setDrawerUserOpen] = useState(false);
-  const { user, getUser } = useUserStore();
+  const { user } = useUserStore();
   const location = useLocation();
 
-  const isPaciente = user?.[0]?.rol === "Paciente";
+  const isPaciente = user?.rol === "Paciente";
 
-  useEffect(() => {
-    getUser();
-  }, [getUser]);
+  console.log(user);
 
   const toggleDrawer = () => {
     setDrawerOpen((prev) => !prev);
@@ -36,7 +34,7 @@ function Header() {
   );
 
   const renderLogoOrTitle = () =>
-    location.pathname === "/Home" || location.pathname === "/home2" ? (
+    location.pathname === "/Home" || location.pathname === "/home2"|| location.pathname === "/home" ? (
       <img src="/public/logo1.png" alt="MindUp Logo" className="h-11" />
     ) : (
       <h2 className="text-xl">
