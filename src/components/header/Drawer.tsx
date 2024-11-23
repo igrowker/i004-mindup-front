@@ -28,8 +28,8 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
       ]
     : [
         { to: "/profileProfessional", label: "Perfil", Icon: FaRegCircleUser },
-        { to: "/selected", label: "Gestión de turnos", Icon: GrTask },
-        { to: null, label: "Mis pacientes", Icon: IoPeopleOutline },
+        { to: "/manage-appointment", label: "Gestión de turnos", Icon: GrTask },
+        { to: "/mypatients", label: "Mis pacientes", Icon: IoPeopleOutline },
         {
           to: null,
           label: "Ayuda y soporte técnico",

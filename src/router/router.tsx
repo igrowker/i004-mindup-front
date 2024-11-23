@@ -32,7 +32,7 @@ export const router = createBrowserRouter([
       //esta ruta es para probar el mdodal
       { path: "modal", element: <Modal /> },
       { path: "questionnaire", element: <Questionnaire /> },
-      { path: "pacientes", element: <MyPatients /> },
+      { path: "mypatients", element: <MyPatients /> },
     ],
   },
 ]);
