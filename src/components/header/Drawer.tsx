@@ -60,7 +60,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
         onClick={onClose}
       >
         <nav
-          className="bg-white w-[304px] shadow-xl min-h-[348px] flex flex-col p-4 text-gray-800"
+          className="bg-white w-full shadow-xl min-h-[348px] flex flex-col p-4 px-10 text-gray-800"
           onClick={(e) => e.stopPropagation()}
         >
           <Link to="/home" className="flex justify-between items-center">
