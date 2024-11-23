@@ -1,5 +1,5 @@
 import Header from '../components/header/Header'
-import PatientCard from '../components/mypatients/patientCard'
+import PatientCard from '../components/mypatients/PatientCard';
 
 const MyPatients = () => {
 
