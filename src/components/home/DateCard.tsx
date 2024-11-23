@@ -37,7 +37,6 @@ const DateCard: React.FC<CardProps> = ({
         </h3>
         {patient && <p className="text-sm text-[#444444]">{patient}</p>}
       </div>
-      <main></main>
     </div>
   );
 };

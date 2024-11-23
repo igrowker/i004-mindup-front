@@ -31,7 +31,9 @@ function Header() {
       <h2 className="text-xl">
         {location.pathname.includes("/profile")
           ? "Perfil"
-          : "Gestión de turnos"}
+          : location.pathname.includes("/mypatients")
+            ? "Mis Pacientes"
+            : "Gestión de turnos"}
       </h2>
     );
 

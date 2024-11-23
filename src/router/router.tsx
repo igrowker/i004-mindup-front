@@ -11,6 +11,7 @@ import DynamicProfile from "./DynamicProfile";
 import DynamicHome from "./DynamicHome";
 import SelectedRoute from "./DynamicSelected";
 import PublicRoute from "./PublicRoute";
+import MyPatients from "../pages/MyPatients";
 
 export const router = createBrowserRouter([
   {
@@ -72,6 +73,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <SelectedRoute />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "mypatients",
+        element: (
+          <ProtectedRoute>
+            <MyPatients />
           </ProtectedRoute>
         ),
       }

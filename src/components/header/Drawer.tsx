@@ -21,21 +21,21 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
 
   const navItems = patient
     ? [
-        { to: "/profile", label: "Perfil", Icon: FaRegCircleUser },
-        { to: "/selected", label: "Profesionales compatibles", Icon: GrTask },
-        { to: null, label: "Asistencia", Icon: MdEmergency },
-        { to: null, label: "Mis citas", Icon: FaRegCircleQuestion },
-      ]
+      { to: "/profile", label: "Perfil", Icon: FaRegCircleUser },
+      { to: "/selected", label: "Profesionales compatibles", Icon: GrTask },
+      { to: null, label: "Asistencia", Icon: MdEmergency },
+      { to: null, label: "Mis citas", Icon: FaRegCircleQuestion },
+    ]
     : [
-        { to: "/profile", label: "Perfil", Icon: FaRegCircleUser },
-        { to: "/manage-appointment", label: "Gestión de turnos", Icon: GrTask },
-        { to: null, label: "Mis pacientes", Icon: IoPeopleOutline },
-        {
-          to: null,
-          label: "Ayuda y soporte técnico",
-          Icon: FaRegCircleQuestion,
-        },
-      ];
+      { to: "/profile", label: "Perfil", Icon: FaRegCircleUser },
+      { to: "/manage-appointment", label: "Gestión de turnos", Icon: GrTask },
+      { to: "/mypatients", label: "Mis pacientes", Icon: IoPeopleOutline },
+      {
+        to: null,
+        label: "Ayuda y soporte técnico",
+        Icon: FaRegCircleQuestion,
+      },
+    ];
 
   return (
     <AnimatePresence mode="popLayout">

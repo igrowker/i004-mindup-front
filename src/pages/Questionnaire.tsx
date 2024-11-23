@@ -29,7 +29,7 @@ const viewsData: ViewData[] = [
     type: 'intro',
     logoSize: 'w-60',
     question: '¿Que puedes hacer en Mindup?',
-    answer: 'Elige entr nuestros perfiles y agenda una consulta.',
+    answer: 'Elige entre nuestros perfiles y agenda una consulta.',
     buttonText: 'Continuar',
   },
   {

@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "sonner";
 
 type CardProps = {
   day: string;
@@ -14,10 +15,14 @@ const ConfirmDateCard: React.FC<CardProps> = ({
 
   const handleAccept = () => {
     console.log("Se acepto la cita de " + patient);
+    toast.success(`Se acepto la cita de ${patient}`);
+    //TODO aplicar logica para que la tarjeta se elimine de la lista
   };
 
   const handleDenied = () => {
     console.log("Se rechazo la cita de " + patient);
+    toast.info(`Se rechazo la cita de ${patient}`);
+    //TODO aplicar logica para que la tarjeta se elimine de la lista
   };
 
   return (
