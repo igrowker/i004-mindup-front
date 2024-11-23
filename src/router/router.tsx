@@ -12,6 +12,7 @@ import ProfilePacient from "../pages/ProfilePacient";
 import ProfileProfessional from "../pages/ProfileProfessional";
 import HomePacient from "../pages/HomePacient";
 import SelectedProfessional from "../pages/SelectedProfessional";
+import MyPatients from "../pages/MyPatients";
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ export const router = createBrowserRouter([
       //esta ruta es para probar el mdodal
       { path: "modal", element: <Modal /> },
       { path: "questionnaire", element: <Questionnaire /> },
+      { path: "pacientes", element: <MyPatients /> },
     ],
   },
 ]);
