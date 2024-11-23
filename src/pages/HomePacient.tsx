@@ -22,7 +22,7 @@ function HomePacient() {
         </div>
       </article>
       <article className="mb-3 text-center flex flex-col justify-center items-center gap-4">
-        <CustomButtonHome icon="MisCitas.png" title="Mis citas" type="button" />
+        <CustomButtonHome icon="MisCitas.png" title="Mis citas" type="button" onClick={() => navigate("/mydates")} />
         <div className="text-lg bg-secondary shadow-[0_4px_4px_rgba(0,0,0,0.25)] rounded text-[#FFFFFF] w-72 p-2 px-4 text-wrap text-start">
           Hoy tienes una nueva cita 9 am {/* "9am" va a ser una variable */}
         </div>
