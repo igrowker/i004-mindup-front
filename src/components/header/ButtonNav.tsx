@@ -1,18 +1,23 @@
 import React from "react";
-import { FaAngleRight } from "react-icons/fa";
+import { MdKeyboardArrowRight } from "react-icons/md";
 
 interface ButtonNavProps {
   label: string;
-  Icon: React.ElementType;
+  Icon: React.ElementType | string;
 }
+
 function ButtonNav({ label, Icon }: ButtonNavProps) {
   return (
-    <button className="flex items-center justify-between w-full px-5">
-      <div className="flex gap-2 justify-center items-center">
-        <Icon className="size-4"/>
+    <button className="flex ml-2 items-center justify-between w-full text-gray-800">
+      <div className="flex gap-2 justify-center items-center text-base font-medium">
+        {typeof Icon === "string" ? (
+          <img src={Icon} alt={`${label} icon`} className="w-5" />
+        ) : (
+          <Icon className="size-5" />
+        )}
         <p>{label}</p>
       </div>
-      <FaAngleRight />
+      <MdKeyboardArrowRight size={24} />
     </button>
   );
 }
