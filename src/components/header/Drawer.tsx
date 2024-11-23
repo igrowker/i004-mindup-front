@@ -21,14 +21,14 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
 
   const navItems = patient
     ? [
-        { to: "/profilePacient", label: "Perfil", Icon: FaRegCircleUser },
+        { to: "/profile", label: "Perfil", Icon: FaRegCircleUser },
         { to: "/selected", label: "Profesionales compatibles", Icon: GrTask },
         { to: null, label: "Asistencia", Icon: MdEmergency },
         { to: null, label: "Mis citas", Icon: FaRegCircleQuestion },
       ]
     : [
-        { to: "/profileProfessional", label: "Perfil", Icon: FaRegCircleUser },
-        { to: "/selected", label: "Gestión de turnos", Icon: GrTask },
+        { to: "/profile", label: "Perfil", Icon: FaRegCircleUser },
+        { to: "/manage-appointment", label: "Gestión de turnos", Icon: GrTask },
         { to: null, label: "Mis pacientes", Icon: IoPeopleOutline },
         {
           to: null,
@@ -53,11 +53,11 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
           onClick={(e) => e.stopPropagation()}
         >
           {patient ? (
-            <Link to="/home2">
+            <Link to="/home">
               <ButtonNav label="Ir al inicio" Icon={HiOutlineHome} />
             </Link>
           ) : (
-            <Link to="/Home">
+            <Link to="/home">
               <ButtonNav label="Ir al inicio" Icon={HiOutlineHome} />
             </Link>
           )}
@@ -72,8 +72,15 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
             )
           )}
 
-          <div className="flex justify-center mt-2" onClick={() => setSalir(true)}>
-          <Modal title="Cerrar sesión" isOpen={salir} onClose={() => setSalir(false)} />
+          <div
+            className="flex justify-center mt-2"
+            onClick={() => setSalir(true)}
+          >
+            <Modal
+              title="Cerrar sesión"
+              isOpen={salir}
+              onClose={() => setSalir(false)}
+            />
           </div>
         </nav>
       </motion.div>

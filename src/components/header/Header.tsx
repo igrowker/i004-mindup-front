@@ -11,7 +11,7 @@ function Header() {
   const { user } = useUserStore();
   const location = useLocation();
 
-  const isPaciente = user?.rol === "Paciente";
+  const isPaciente = user?.rol == "Paciente";
 
   const toggleDrawer = () => {
     setDrawerOpen((prev) => !prev);
@@ -19,14 +19,12 @@ function Header() {
   };
 
   const renderBackButton = () => (
-    <Link to={isPaciente ? "/home2" : "/Home"}>
+    <Link to={"/home"}>
       <FaArrowLeft className="size-6" />
     </Link>
   );
 
   const renderLogoOrTitle = () =>
-    location.pathname === "/Home" ||
-    location.pathname === "/home2" ||
     location.pathname === "/home" ? (
       <img src="/public/logo1.png" alt="MindUp Logo" className="h-11" />
     ) : (
@@ -40,7 +38,7 @@ function Header() {
   return (
     <>
       <header className="bg-secondary w-full px-4 py-2 gap-4 text-white flex justify-start items-center sticky top-0 z-50">
-        {location.pathname === "/Home" || location.pathname === "/home2" ? (
+        {location.pathname == "/home" ? (
           <button onClick={toggleDrawer}>
             <RxHamburgerMenu className="size-6" />
           </button>

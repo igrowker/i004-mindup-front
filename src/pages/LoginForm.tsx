@@ -46,13 +46,21 @@ function LoginForm() {
         const { data } = await refetch();
         // console.log(data[0]);
 
+        //Modifique este cacho de codigo para que verifique que mail es que, asi filtro ambos usuarios del array y pongo uno solo
         if (data && data[0]) {
-          // almaceno el user en el estado global
+          if (data[0]?.email == email){
           setUser(data[0]);
+          }
+          else if (data[1]?.email == email) {
+            setUser(data[1])
+          }
+          else {
+            console.log("Usuario no existente")
+          }
           console.log('estado global inmediato:', user);
 
           // navego al onboarding
-          navigate('/onboard');
+          navigate('/home');
         }
       } catch (error) {
         console.error('Error al iniciar sesión:', error);
