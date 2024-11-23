@@ -48,7 +48,11 @@ const RegisterForm = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (handleValidation()) {
-      navigate("/onboard");
+      if (soy == "Paciente") {
+        navigate("/questionnaire");
+      } else {
+        navigate("/onboard");
+      }
     }
   };
 
