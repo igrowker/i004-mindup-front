@@ -42,6 +42,7 @@ export const router = createBrowserRouter([
         ),
       },
       { path: "onboard", element: <Onboarding /> },
+      { path: "questionnaire", element: <Questionnaire /> },
       {
         path: "profile",
         element: (
@@ -73,15 +74,7 @@ export const router = createBrowserRouter([
             <SelectedRoute />
           </ProtectedRoute>
         ),
-      },
-      {
-        path: "questionnaire",
-        element: (
-          <ProtectedRoute>
-            <Questionnaire />
-          </ProtectedRoute>
-        ),
-      },
+      }
     ],
   },
 ]);
