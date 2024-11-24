@@ -33,6 +33,8 @@ function Header() {
           ? "Perfil"
           : location.pathname.includes("/mypatients")
             ? "Mis Pacientes"
+            : location.pathname.includes("/assistance") || location.pathname.includes("/emergency")
+            ? "Asistencia"
             : "Gestión de turnos"}
       </h2>
     );

@@ -15,6 +15,13 @@ const Loading = ({ text }: Loadingdata) => {
         "Estamos buscando apoyo inmediato."
     ];
 
+    const fadeInOut = {
+        initial: { opacity: 0, y: 20 },
+        animate: { opacity: 1, y: 0 },
+        exit: { opacity: 0, y: -20 },
+        transition: { duration: 0.3 },
+    }
+
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentTitleIndex((prevIndex) => (prevIndex + 1) % titles.length);
@@ -29,19 +36,13 @@ const Loading = ({ text }: Loadingdata) => {
                 {text ?
                     <motion.div
                         key={currentTitleIndex}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
+                        {...fadeInOut}
                     >
                         {titles[currentTitleIndex]}
                     </motion.div>
                     :
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
+                        {...fadeInOut}
                     >
                         Buscando los mejores perfiles profesionales que se adecuen a ti...
                     </motion.div>

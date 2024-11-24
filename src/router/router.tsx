@@ -14,6 +14,7 @@ import PublicRoute from "./PublicRoute";
 import MyPatients from "../pages/MyPatients";
 import MyDates from "../pages/MyDates";
 import Assistance from "../pages/Assistance";
+import Emergency from "../pages/Emergency";
 
 export const router = createBrowserRouter([
   {
@@ -44,11 +45,21 @@ export const router = createBrowserRouter([
           </PublicRoute>
         ),
       },
+
       { path: "onboard", element: <Onboarding /> },
       { path: "questionnaire", element: <Questionnaire /> },
 
-      { path: "assistance", element: <Assistance /> },
+      // Ruta de prueba para la pantalla final de asistencia
+      { path: "emergency", element: <Emergency /> },
 
+      {
+        path: "assistance",
+        element: (
+          <ProtectedRoute>
+            <Assistance />
+          </ProtectedRoute>
+        ),
+      },
       {
         path: "profile",
         element: (

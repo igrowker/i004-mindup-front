@@ -1,4 +1,8 @@
 import { useEffect } from "react";
+import { motion } from "framer-motion";
+import { toast } from "sonner";
+import { Navigate, useNavigate } from "react-router-dom";
+
 function ConfirmTurn({
   selectedDate,
   selectedTime,
@@ -15,12 +19,17 @@ function ConfirmTurn({
     }
   }, [selectedDate, selectedTime, setFase]);
 
+  const navigate = useNavigate()
+
   const handleDenied = () => {
     setFase()
+    toast.info("Seleccione un nuevo turno")
   }
 
   const handleAccept = () => {
     console.log(`Turno aceptado en dia ${selectedDate} y hora ${selectedTime}`)
+    toast.success(`Turno aceptado en dia ${selectedDate} y hora ${selectedTime}`)
+    navigate("/home")
   }
 
   const options: Intl.DateTimeFormatOptions = {
@@ -55,6 +64,14 @@ function ConfirmTurn({
     )
     : "Fecha no seleccionada";
 
+
+  const fadeInOut = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -20 },
+    transition: { duration: 0.3 },
+  }
+
   return (
     <article className="flex flex-col items-center w-full p-4 gap-8 mt-4">
       <h1 className="text-[#A1A1A1]">Confirmá el turno para guardar</h1>
@@ -73,26 +90,30 @@ function ConfirmTurn({
           <h3 className="text-[#4A4A4A]">Terapia Cognitiva</h3>
         </div>
       </div>
-      <div className="shadow-[0px_0px_16px_rgba(0,0,0,0.2)] rounded-sm py-4 w-[288px] flex flex-col text-center items-center justify-center gap-2">
-        <h5 className="font-medium text-black">
-          ¿Seguro deseas agendar tu nuevo horario?
-        </h5>
-        <div className="w-full h-[1px] bg-gray-200"></div>
-        <main className="flex px-4 pt-2 gap-4 justify-center items-center w-full">
-          <button
-            onClick={handleDenied}
-            className="rounded border p-2 text-center font-medium w-32"
-          >
-            Rechazar
-          </button>
-          <button
-            onClick={handleAccept}
-            className="rounded border p-2 text-center text-white bg-secondary w-32"
-          >
-            Aceptar
-          </button>
-        </main>
-      </div>
+      <motion.div
+        {...fadeInOut}
+      >
+        <div className="shadow-[0px_0px_16px_rgba(0,0,0,0.2)] rounded-sm py-4 w-[288px] flex flex-col text-center items-center justify-center gap-2">
+          <h5 className="font-medium text-black">
+            ¿Seguro deseas agendar tu nuevo horario?
+          </h5>
+          <div className="w-full h-[1px] bg-gray-200"></div>
+          <main className="flex px-4 pt-2 gap-4 justify-center items-center w-full">
+            <button
+              onClick={handleDenied}
+              className="rounded border p-2 text-center font-medium w-32"
+            >
+              Rechazar
+            </button>
+            <button
+              onClick={handleAccept}
+              className="rounded border p-2 text-center text-white bg-secondary w-32"
+            >
+              Aceptar
+            </button>
+          </main>
+        </div>
+      </motion.div>
     </article>
   );
 }
