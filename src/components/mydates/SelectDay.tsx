@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Chip from "./Chip";
 import MonthCalendar from "../home/MonthCalendar";
 
@@ -24,6 +24,14 @@ function SelectDay({
     setFirstTurn(!firstTurn);
     setSelectTurn(false);
   };
+  useEffect(() => {
+    if (firstTurn) {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      setDateSelected(tomorrow);
+      onDateSelect(tomorrow); // Notifica automáticamente el día de mañana
+    }
+  }, [firstTurn, onDateSelect]);
 
   return (
     <article className="flex flex-col justify-center w-full p-4 gap-8">
@@ -74,7 +82,13 @@ function SelectDay({
         {firstTurn ? (
           <div className="rounded w-[340px] h-28 bg-gray-50 border border-[#CCCCCC] flex flex-col items-center p-4 gap-4">
             <h2 className="text-[#737373] font-semibold">
-              Lunes 2 de diciembre
+              {dateSelected
+                ? dateSelected.toLocaleDateString("es-ES", {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                  })
+                : ""}
             </h2>
             <div className="flex justify-evenly w-full">
               <Chip time="8:00" onClick={onChipClick} />
