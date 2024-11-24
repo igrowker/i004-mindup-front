@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { FaRegCircleQuestion } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ButtonNav from "./ButtonNav";
 import { IoPeopleOutline } from "react-icons/io5";
 import Modal from "../modal/Modal";
 import { IoMdClose } from "react-icons/io";
+import CustomButton from "../shared/CustomButton";
+import { useModalStore } from "../../context/userStore";
+import { toast } from "sonner";
 
 
 type DrawerProps = {
@@ -18,35 +21,45 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
   if (!isOpen) return null;
   const [salir, setSalir] = useState(false);
 
+  const navigate = useNavigate();
+
+  const { openModal, toggleModal } = useModalStore();
+
+  const handleAccept = () => {
+    toggleModal();
+    toast.success('Cierre de sesión exitoso!')
+    navigate("/")
+};
+
   const navItems = patient
     ? [
-        { to: "/profile", label: "Perfil", Icon: "public/Íconos/Perfil.svg" },
-        {
-          to: "/selected",
-          label: "Profesionales compatibles",
-          Icon: "public/Íconos/ProfesionalesCompatibles.png",
-        },
-        { to: null, label: "Asistencia", Icon: "public/Íconos/Asistencia.svg" },
-        {
-          to: "/mydates",
-          label: "Mis citas",
-          Icon: "public/Íconos/MisCitas.png",
-        },
-      ]
+      { to: "/profile", label: "Perfil", Icon: "public/Íconos/Perfil.svg" },
+      {
+        to: "/selected",
+        label: "Profesionales compatibles",
+        Icon: "public/Íconos/ProfesionalesCompatibles.png",
+      },
+      { to: null, label: "Asistencia", Icon: "public/Íconos/Asistencia.svg" },
+      {
+        to: "/mydates",
+        label: "Mis citas",
+        Icon: "public/Íconos/MisCitas.png",
+      },
+    ]
     : [
-        { to: "/profile", label: "Perfil", Icon: "public/Íconos/Perfil.svg" },
-        {
-          to: "/manage-appointment",
-          label: "Gestión de turnos",
-          Icon: "public/Íconos/ProfesionalesCompatibles.png",
-        },
-        { to: "/mypatients", label: "Mis pacientes", Icon: IoPeopleOutline },
-        {
-          to: null,
-          label: "Ayuda y soporte técnico",
-          Icon: FaRegCircleQuestion,
-        },
-      ];
+      { to: "/profile", label: "Perfil", Icon: "public/Íconos/Perfil.svg" },
+      {
+        to: "/manage-appointment",
+        label: "Gestión de turnos",
+        Icon: "public/Íconos/ProfesionalesCompatibles.png",
+      },
+      { to: "/mypatients", label: "Mis pacientes", Icon: IoPeopleOutline },
+      {
+        to: null,
+        label: "Ayuda y soporte técnico",
+        Icon: FaRegCircleQuestion,
+      },
+    ];
 
   return (
     <AnimatePresence mode="popLayout">
@@ -73,7 +86,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
               <p>Ir a Inicio</p>
             </button>
             <button onClick={onClose}>
-              <IoMdClose size={24}/>
+              <IoMdClose size={24} />
             </button>
           </Link>
 
@@ -98,11 +111,13 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
             className="flex justify-center mt-4"
             onClick={() => setSalir(true)}
           >
-            <Modal
-              title="Cerrar sesión"
-              isOpen={salir}
-              onClose={() => setSalir(false)}
-            />
+            <CustomButton title="Cerrar Sesión" appearance={true} onClick={()=>{toggleModal()}}/>
+            {openModal &&
+              <Modal
+                title="¿Seguro desea cerrar la sesión?"
+                onClick={handleAccept}
+              />
+            }
           </div>
         </nav>
       </motion.div>

@@ -1,38 +1,24 @@
-import { useState } from 'react';
 import CustomButton from '../shared/CustomButton';
 import { motion } from "framer-motion";
-import { toast } from 'sonner'
-import { useNavigate } from 'react-router-dom';
+import { useModalStore } from '../../context/userStore';
 
 interface ModalProps {
     title: string;
-    isOpen: boolean;
-    onClose: () => void; 
+    hideCancelBtn?: boolean;
+    openModal?: boolean;
+    onClose?: () => void;
+    onClick: () => void;
 
 }
 
-const Modal = ({title}: ModalProps) => {
+const Modal = ({ title, hideCancelBtn, onClick }: ModalProps) => {
 
-    //TODO poner en context: question, isOpen, toggleModal, handleAccept
-    // En el componente donde se va a usar el modal se debe armar la funcion handleAccept conteniendo toggleModal y un toast
-    // Es esta funcion handleAccept la que se pasa como props al modal
-
-    const navigate = useNavigate();
-
-    const [isOpen, setIsOpen] = useState(false);
-    const toggleModal = () => setIsOpen(!isOpen);
-
-    // Funcion luego de aceptar
-    const handleAccept = () => {
-        toggleModal();
-        toast.success('Cierre de sesión exitoso!')
-        navigate("/")
-    };
+    // Trae a los estados desde el context
+    const { openModal, toggleModal } = useModalStore();
 
     return (
         <>
-            <CustomButton title={title} appearance onClick={toggleModal} />
-            {isOpen && (
+            {openModal && (
                 <motion.div
                     initial={{ opacity: 0, y: 0 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -43,13 +29,19 @@ const Modal = ({title}: ModalProps) => {
                         <div className="relative p-4 w-full max-w-md bg-white shadow rounded-2xl">
                             <div className="text-center flex justify-between items-center px-6 py-4 w-full font-medium bg-white text-black text-opacity-80 ">
                                 <h2 className="overflow-hidden flex-1 shrink gap-1 self-stretch my-auto ">
-                                    ¿Seguro que desea cerrar sesión?
+                                    {title}
                                 </h2>
                             </div>
                             <hr className='my-4  -mx-4' />
                             <div className='flex gap-5 justify-center my-2'>
-                                <CustomButton title='Cancelar' appearance={false} option onClick={toggleModal} />
-                                <CustomButton title='Aceptar' appearance={true} option onClick={handleAccept} />
+                                {hideCancelBtn ?
+                                    <CustomButton title='Aceptar' appearance={true} option onClick={onClick} />
+                                    :
+                                    <>
+                                        <CustomButton title='Cancelar' appearance={false} option onClick={toggleModal} />
+                                        <CustomButton title='Aceptar' appearance={true} option onClick={onClick}/>
+                                    </>
+                                }
                             </div>
                         </div>
                     </div>
