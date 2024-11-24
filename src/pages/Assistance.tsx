@@ -1,9 +1,11 @@
-import LoadingProfessional from '../components/shared/LoadingProfessional'
+import Loading from '../components/shared/Loading'
 
 const Assistance = () => {
     return (
-        <LoadingProfessional asis={true}/>
+        <Loading text/>
     )
 }
 
 export default Assistance
+
+

@@ -50,10 +50,9 @@ function ConfirmTurn({
 
   const formattedDate = selectedDate
     ? capitalize(
-        `${selectedDate.toLocaleDateString("es-ES", options)} ${
-          monthNames[selectedDate.getMonth()]
-        } ${selectedDate.getFullYear()}`
-      )
+      `${selectedDate.toLocaleDateString("es-ES", options)} ${monthNames[selectedDate.getMonth()]
+      } ${selectedDate.getFullYear()}`
+    )
     : "Fecha no seleccionada";
 
   return (
@@ -75,9 +74,9 @@ function ConfirmTurn({
         </div>
       </div>
       <div className="shadow-[0px_0px_16px_rgba(0,0,0,0.2)] rounded-sm py-4 w-[288px] flex flex-col text-center items-center justify-center gap-2">
-       <h5 className="font-medium text-black">
-       ¿Seguro deseas agendar tu nuevo horario?
-       </h5>
+        <h5 className="font-medium text-black">
+          ¿Seguro deseas agendar tu nuevo horario?
+        </h5>
         <div className="w-full h-[1px] bg-gray-200"></div>
         <main className="flex px-4 pt-2 gap-4 justify-center items-center w-full">
           <button

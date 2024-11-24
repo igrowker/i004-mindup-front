@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import SelectedCardList from "../components/selected/SelectedCardList";
 import CustomButton from "../components/shared/CustomButton";
 import Header from "../components/header/Header";
-import LoadingProfessional from "../components/shared/LoadingProfessional";
+import LoadingProfessional from "../components/shared/Loading";
 
 function SelectedProfessional() {
   const [isLoading, setIsLoading] = useState(true); // Estado para manejar la carga
