@@ -46,6 +46,10 @@ const confirmAppointments = [
 ];
 function AppointmentManage() {
   const [typeCalendar, setTypeCalendar] = useState("month");
+  const handleDateSelect = (date: Date | null) => {
+    console.log("Día seleccionado:", date);
+    // Aquí puedes manejar el día seleccionado para agendar horarios
+  };
 
   return (
     <section className="flex flex-col items-center pb-2 gap-4">
@@ -73,7 +77,7 @@ function AppointmentManage() {
             Vista Mensual
           </button>
         </div>
-        {typeCalendar == "month" ? <MonthCalendar /> : <WeekCalendar />}
+        {typeCalendar == "month" ? <MonthCalendar onDateSelect={handleDateSelect}  /> : <WeekCalendar onDateSelect={handleDateSelect} />}
       </article>
       <article className="w-full p-4 flex flex-col items-center gap-4">
         <h1 className="font-medium text-gray-800 text-lg">
