@@ -50,7 +50,7 @@ function HomePsychologist() {
         <img className="size-[86px] rounded-full" src="public/Imágenes/TrinidadProfesional.png" alt="Imagen de perfil" />
         <div className="w-60 mt-4">
           <h2 className="text-xl font-semibold text-gray-800">Hola, Trinidad</h2>
-          <p className="text-[#A1A1A1] text-[15px] leading-tight">Tu empatía y profesionalismo marcan una gran diferencia en la vida de quienes necesitan apoyo</p>
+          <p className="text-[#A1A1A1] text-[15px] leading-tight">Tu empatía y profesionalismo marcan una gran diferencia en la vida de quienes necesitan apoyo.</p>
         </div>
       </article>
       <motion.div
