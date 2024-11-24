@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
-const WeekCalendar: React.FC = () => {
+interface WeekCalendarProps {
+  onDateSelect: (date: Date | null) => void; // Callback para manejar la fecha seleccionada
+}
+
+const WeekCalendar: React.FC<WeekCalendarProps> = ({ onDateSelect }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
-  // Función para cambiar la semana
   const changeWeek = (increment: number) => {
     const newDate = new Date(currentDate);
     newDate.setDate(currentDate.getDate() + increment * 7); // Incrementar o decrementar en semanas
     setCurrentDate(newDate);
   };
 
-  // Función para obtener los días de la semana actual
   const getDaysInWeek = (date: Date) => {
     const startOfWeek = new Date(date);
     const dayOfWeek = startOfWeek.getDay(); // Día actual de la semana (0 para domingo)
@@ -24,7 +26,11 @@ const WeekCalendar: React.FC = () => {
     });
   };
 
-  // Renderizar el calendario
+  const handleDateSelect = (date: Date) => {
+    setSelectedDate(date); // Actualizar localmente la fecha seleccionada
+    onDateSelect(date); // Notificar al componente padre
+  };
+
   const renderCalendar = () => {
     const daysInWeek = getDaysInWeek(currentDate);
     const today = new Date(); // Fecha actual sin horas
@@ -41,7 +47,7 @@ const WeekCalendar: React.FC = () => {
               ? "bg-zinc-950 text-white"
               : "text-[#444444] hover:bg-gray-200"
           }`}
-          onClick={() => setSelectedDate(day)}
+          onClick={() => handleDateSelect(day)}
         >
           {day.getDate()}
         </div>

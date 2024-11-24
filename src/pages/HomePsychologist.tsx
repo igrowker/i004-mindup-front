@@ -85,7 +85,7 @@ function HomePsychologist() {
           />
           <span
             className={`w-12 h-6 flex items-center flex-shrink-0 p-1 bg-gray-400 rounded-full duration-300 ease-in-out ${
-              availableForUrgencies ? "bg-green-500" : "bg-gray-400"
+              availableForUrgencies ? "bg-lime-600" : "bg-gray-400"
             }`}
           >
             <span
