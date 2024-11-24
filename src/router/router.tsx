@@ -13,6 +13,7 @@ import SelectedRoute from "./DynamicSelected";
 import PublicRoute from "./PublicRoute";
 import MyPatients from "../pages/MyPatients";
 import MyDates from "../pages/MyDates";
+import LoadingProfessional from "../components/shared/LoadingProfessional";
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,9 @@ export const router = createBrowserRouter([
       },
       { path: "onboard", element: <Onboarding /> },
       { path: "questionnaire", element: <Questionnaire /> },
+
+      { path: "loading", element: <LoadingProfessional /> },
+
       {
         path: "profile",
         element: (
