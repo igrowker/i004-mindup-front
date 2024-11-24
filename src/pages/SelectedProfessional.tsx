@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import SelectedCardList from "../components/selected/SelectedCardList";
 import CustomButton from "../components/shared/CustomButton";
 import Header from "../components/header/Header";
+import Loading from "../components/shared/Loading";
 
 function SelectedProfessional() {
   const [isLoading, setIsLoading] = useState(true); // Estado para manejar la carga
@@ -35,12 +36,7 @@ function SelectedProfessional() {
     <>
       {isLoading ? (
         // Pantalla de carga mientras isLoading es true
-        <article className="h-screen flex justify-center items-center flex-col w-full gap-8">
-          <img src="public/Gifs/Loading.gif" alt="Gif de carga" />
-          <p className="text-wrap font-medium w-52 text-center">
-            Buscando los mejores perfiles profesionales que se adecuen a ti...
-          </p>
-        </article>
+        <Loading />
       ) : (
         // Contenido principal una vez que la carga haya terminado
         <article className="flex flex-col items-center">
