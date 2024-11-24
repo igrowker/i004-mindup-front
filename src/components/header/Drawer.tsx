@@ -7,7 +7,7 @@ import { IoPeopleOutline } from "react-icons/io5";
 import Modal from "../modal/Modal";
 import { IoMdClose } from "react-icons/io";
 import CustomButton from "../shared/CustomButton";
-import { useModalStore } from "../../context/userStore";
+import { useModalStore, useUserStore } from "../../context/userStore";
 import { toast } from "sonner";
 
 
@@ -19,17 +19,18 @@ type DrawerProps = {
 
 const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
   if (!isOpen) return null;
-  const [salir, setSalir] = useState(false);
+
+  const { openModal, toggleModal } = useModalStore();
+  const { setUser, user } = useUserStore();
 
   const navigate = useNavigate();
 
-  const { openModal, toggleModal } = useModalStore();
-
   const handleAccept = () => {
+    setUser("")
     toggleModal();
     toast.success('Cierre de sesión exitoso!')
     navigate("/")
-};
+  };
 
   const navItems = patient
     ? [
@@ -39,7 +40,9 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
         label: "Profesionales compatibles",
         Icon: "public/Íconos/ProfesionalesCompatibles.png",
       },
-      { to: null, label: "Asistencia", Icon: "public/Íconos/Asistencia.svg" },
+      { to: "/assistance", 
+        label: "Asistencia", 
+        Icon: "public/Íconos/Asistencia.svg" },
       {
         to: "/mydates",
         label: "Mis citas",
@@ -109,9 +112,8 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
 
           <div
             className="flex justify-center mt-4"
-            onClick={() => setSalir(true)}
           >
-            <CustomButton title="Cerrar Sesión" appearance={true} onClick={()=>{toggleModal()}}/>
+            <CustomButton title="Cerrar Sesión" appearance={true} onClick={() => { toggleModal() }} />
             {openModal &&
               <Modal
                 title="¿Seguro desea cerrar la sesión?"
