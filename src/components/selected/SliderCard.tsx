@@ -6,36 +6,118 @@ const cards = [
   { id: 2, title: 'Card 3', description: 'This is the third card.' },
   { id: 3, title: 'Card 4', description: 'This is the fourth card.' },
   { id: 4, title: 'Card 5', description: 'This is the fifth card.' },
-  { id: 5, title: 'Card 6', description: 'This is the first card.' },
 ];
 
-const Card = () => {
+const Card = ({ title, description }) => {
   return (
     <div
-      className="bg-[#ffffff] shadow-md rounded-lg p-6 text-center w-full max-w-[90%] sm:max-w-[80%] lg:max-w-[60%]"
+      className="bg-white shadow-md rounded-lg p-4 text-center w-full max-w-[21rem] sm:max-w-sm"
       style={{ minHeight: '74vh' }}
-    ></div>
-  );
-};
-
-const CardsContainer = () => {
-  return (
-    <div className="flex justify-center items-end w-full min-h-screen pb-12">
-      <Card />
+    >
+      <h2 className="text-xl font-semibold mb-4">{title}</h2>
+      <p className="text-gray-600 mb-6">{description}</p>
     </div>
   );
 };
 
 const Slider = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [cardList, setCardList] = useState(cards);
+  const touchStartX = useRef(null);
+  const touchEndX = useRef(null);
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return;
+
+    const diff = touchStartX.current - touchEndX.current;
+
+    if (diff > 50 && currentIndex < cardList.length - 1) {
+      setCurrentIndex((prev) => prev + 1);
+    } else if (diff < -50 && currentIndex > 0) {
+      setCurrentIndex((prev) => prev - 1);
+    }
+
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const goToNextCard = () => {
+    if (currentIndex < cardList.length - 1) {
+      setCurrentIndex((prev) => prev + 1);
+    }
+  };
+
+  const goToPrevCard = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex((prev) => prev - 1);
+    }
+  };
+
   return (
     <div
-      className="min-h-screen w-full bg-center bg-no-repeat flex"
+      className="relative overflow-hidden w-full h-screen  flex flex-col items-center justify-center px-2 sm:px-4"
       style={{
         backgroundImage: 'url(/Gifs/bgGif.gif)',
         backgroundSize: 'cover',
       }}
     >
-      <CardsContainer />
+      <div
+        className="flex transition-transform duration-300"
+        style={{
+          transform: `translateX(-${currentIndex * 100}%)`,
+          width: `${cardList.length * 100}%`,
+        }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        {cardList.map((card) => (
+          <div
+            key={card.id}
+            className="w-full flex-shrink-0 flex justify-center items-center mt-12"
+            style={{ width: '100%' }}
+          >
+            <Card {...card} />
+          </div>
+        ))}
+      </div>
+
+      {currentIndex > 0 && (
+        <button
+          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-secondary border border-gray-200 text-gray-200 p-2 rounded-full"
+          onClick={goToPrevCard}
+        >
+          &lt;
+        </button>
+      )}
+
+      {currentIndex < cardList.length - 1 && (
+        <button
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-secondary border border-gray-200 text-gray-200 p-2 rounded-full"
+          onClick={goToNextCard}
+        >
+          &gt;
+        </button>
+      )}
+
+      <div className="absolute bottom-4 flex space-x-2">
+        {cardList.map((_, index) => (
+          <div
+            key={index}
+            className={`h-4 w-4 rounded-full ${
+              index === currentIndex ? 'bg-secondaryBtn' : 'bg-white'
+            }`}
+          ></div>
+        ))}
+      </div>
     </div>
   );
 };
