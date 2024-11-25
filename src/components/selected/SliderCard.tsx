@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import Card from './Card';
 
 const cards = [
   { id: 0, title: 'Card 1', description: 'This is the first card.' },
@@ -7,18 +8,6 @@ const cards = [
   { id: 3, title: 'Card 4', description: 'This is the fourth card.' },
   { id: 4, title: 'Card 5', description: 'This is the fifth card.' },
 ];
-
-const Card = ({ title, description }) => {
-  return (
-    <div
-      className="bg-white shadow-md rounded-lg p-4 text-center w-full max-w-[21rem] sm:max-w-sm"
-      style={{ minHeight: '74vh' }}
-    >
-      <h2 className="text-xl font-semibold mb-4">{title}</h2>
-      <p className="text-gray-600 mb-6">{description}</p>
-    </div>
-  );
-};
 
 const Slider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
