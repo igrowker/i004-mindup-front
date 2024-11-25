@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaRegCircleQuestion } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,12 +18,13 @@ type DrawerProps = {
 };
 
 const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
-  if (!isOpen) return null;
-
+  
   const { openModal, toggleModal } = useModalStore();
-  const { setUser, user } = useUserStore();
-
+  const { setUser } = useUserStore();
+  
   const navigate = useNavigate();
+
+  if (!isOpen) return null;
 
   const handleAccept = () => {
     setUser("")
