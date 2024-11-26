@@ -11,7 +11,7 @@ RUN npm config set registry https://registry.npmmirror.com && npm install
 
 # Copia el resto de los archivos de la aplicación y ejecuta el script de construcción
 COPY . .
-RUN npm run build && ls -al /app/dist 
+RUN npm run build  && ls -al /app/dist 
 
 # Usa una imagen ligera de Nginx para servir los archivos estáticos de producción
 FROM nginx:stable-alpine
