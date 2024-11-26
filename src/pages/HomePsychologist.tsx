@@ -31,6 +31,11 @@ function HomePsychologist() {
   const navigate = useNavigate();
   const [availableForUrgencies, setAvailableForUrgencies] = useState(false);
 
+  const handleDateSelect = (date: Date | null) => {
+    console.log("Día seleccionado:", date);
+    // Aquí puedes manejar el día seleccionado para agendar horarios
+  };
+
   const filteredAppointments = appointments.filter(
     (appointment) => appointment.blocked
   );
@@ -60,7 +65,7 @@ function HomePsychologist() {
           <h1 className="font-medium text-gray-800 text-lg">
             Tus turnos de esta semana
           </h1>
-          <WeekCalendar />
+          <WeekCalendar onDateSelect={handleDateSelect} />
         </article>
         <article className="mb-8">
           <DateCardList appointments={filteredAppointments} />
