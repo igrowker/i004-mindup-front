@@ -7,7 +7,7 @@ interface MonthCalendarProps {
 
 const MonthCalendar: React.FC<MonthCalendarProps> = ({ onDateSelect }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date()); // Día actual por defecto
 
   const changeMonth = (increment: number) => {
     const newDate = new Date(currentDate);
@@ -19,7 +19,10 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ onDateSelect }) => {
     const year = date.getFullYear();
     const month = date.getMonth();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-    return Array.from({ length: daysInMonth }, (_, i) => new Date(year, month, i + 1));
+    return Array.from(
+      { length: daysInMonth },
+      (_, i) => new Date(year, month, i + 1)
+    );
   };
 
   const getFirstDayOfMonth = (date: Date) => {
@@ -39,15 +42,21 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ onDateSelect }) => {
   };
 
   const handleDateSelect = (date: Date) => {
-    setSelectedDate(date); // Actualizar la fecha seleccionada localmente
-    onDateSelect(date); // Notificar al componente padre
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Ignorar horas en la comparación
+
+    if (date >= today) {
+      setSelectedDate(date); // Actualizar la fecha seleccionada
+      onDateSelect(date); // Notificar al componente padre
+    }
   };
 
   const renderCalendar = () => {
     const daysInMonth = getDaysInMonth(currentDate);
     const firstDayIndex = getFirstDayOfMonth(currentDate);
     const previousMonthDays = getPreviousMonthDays(currentDate, firstDayIndex);
-    const today = new Date(); // Fecha actual sin horas
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Ignorar horas para comparación
     const days = [];
 
     previousMonthDays.forEach((day, i) => {
@@ -62,18 +71,20 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ onDateSelect }) => {
     });
 
     daysInMonth.forEach((day, i) => {
-      const isToday = day.toDateString() === today.toDateString();
+      const isSelected = selectedDate?.toDateString() === day.toDateString();
+      const isPast = day < today;
+
       days.push(
         <div
           key={i}
-          className={`flex items-center text-center justify-center size-8 cursor-pointer rounded-full ${
-            isToday
+          className={`flex items-center text-center justify-center size-8 rounded-full cursor-pointer ${
+            isSelected
               ? "bg-[#97D0C3] text-white"
-              : selectedDate?.toDateString() === day.toDateString()
-              ? "bg-zinc-950 text-white"
+              : isPast
+              ? "text-[#DDDDDD] cursor-not-allowed"
               : "text-[#444444] hover:bg-gray-200"
           }`}
-          onClick={() => handleDateSelect(day)}
+          onClick={() => !isPast && handleDateSelect(day)} // Solo permite seleccionar si no es pasado
         >
           {day.getDate()}
         </div>
