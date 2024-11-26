@@ -1,7 +1,24 @@
 import { useState, useRef } from 'react';
 import Card from './Card';
+import Header from '../header/Header';
 
-const cards = [
+export interface CardData {
+  id: number;
+  first?: boolean;
+  name?: string;
+  lastname?: string;
+  image: string;
+  text?: string;
+  paragraph?: string[];
+  terapy_type?: string;
+  attention_type?: string;
+  honorarys?: string;
+  phrase?: string;
+  author?: string;
+  song?: string;
+}
+
+const cards: CardData[] = [
   {
     id: 0,
     first: true,
@@ -17,7 +34,7 @@ const cards = [
     name: 'Trinidad',
     lastname: 'Garcia',
     image: '/Imágenes/trinidadProfesiona.png',
-    terapy_type: 'Trapia Cognitivo - Conductual',
+    terapy_type: 'Terapia Cognitivo - Conductual',
     attention_type: 'Virtual y presencial',
     honorarys: '$13.000 a $15.000',
     phrase:
@@ -54,13 +71,18 @@ const cards = [
 ];
 
 const Slider = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [cardList, setCardList] = useState(cards);
-  const touchStartX = useRef(null);
-  const touchEndX = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [cardList, setCardList] = useState<CardData[]>(cards);
 
-  const handleTouchStart = (e) => {
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchEndX.current = e.touches[0].clientX;
   };
 
   const handleTouchEnd = () => {
@@ -78,10 +100,6 @@ const Slider = () => {
     touchEndX.current = null;
   };
 
-  const handleTouchMove = (e) => {
-    touchEndX.current = e.touches[0].clientX;
-  };
-
   const goToNextCard = () => {
     if (currentIndex < cardList.length - 1) {
       setCurrentIndex((prev) => prev + 1);
@@ -96,12 +114,15 @@ const Slider = () => {
 
   return (
     <div
-      className="relative overflow-hidden w-full h-screen  flex flex-col items-center justify-center px-2 sm:px-4"
+      className="relative overflow-hidden w-full h-screen flex flex-col items-center justify-center px-2 sm:px-4"
       style={{
         backgroundImage: 'url(/Gifs/bgGif.gif)',
         backgroundSize: 'cover',
       }}
     >
+      <div className="fixed top-0 w-full">
+        <Header />
+      </div>
       <div
         className="flex transition-transform duration-300"
         style={{
@@ -115,7 +136,7 @@ const Slider = () => {
         {cardList.map((card) => (
           <div
             key={card.id}
-            className="w-full flex-shrink-0 flex justify-center items-center mt-12"
+            className="w-full flex-shrink-0 flex justify-center items-center mt-14"
             style={{ width: '100%' }}
           >
             <Card {...card} />

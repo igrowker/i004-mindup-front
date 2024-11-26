@@ -48,10 +48,6 @@ export const router = createBrowserRouter([
       },
       { path: 'onboard', element: <Onboarding /> },
       { path: 'questionnaire', element: <Questionnaire /> },
-
-      { path: 'onboard', element: <Onboarding /> },
-      { path: 'questionnaire', element: <Questionnaire /> },
-
       // Ruta de prueba para la pantalla final de asistencia
       { path: 'emergency', element: <Emergency /> },
 

@@ -2,24 +2,25 @@ import { LuMusic } from 'react-icons/lu';
 import { RiGroupLine } from 'react-icons/ri';
 import { LuBookOpen } from 'react-icons/lu';
 import { CiMoneyBill } from 'react-icons/ci';
+import { CardData } from './SliderCard';
 
-type CardProps = {
-  first: boolean;
-  text: string;
-  paragraph: string[];
-  id: number;
-  name: string;
-  lastname: string;
-  image: string;
-  terapy_type: string;
-  attention_type: string;
-  honorarys: string;
-  phrase: string;
-  author: string;
-  song: string;
-};
+// type CardProps = {
+//   first: boolean;
+//   text: string;
+//   paragraph: string[];
+//   id: number;
+//   name: string;
+//   lastname: string;
+//   image: string;
+//   terapy_type: string;
+//   attention_type: string;
+//   honorarys: string;
+//   phrase: string;
+//   author: string;
+//   song: string;
+// };
 
-const Card: React.FC<CardProps> = ({
+const Card: React.FC<CardData> = ({
   first,
   text,
   paragraph,
@@ -35,10 +36,10 @@ const Card: React.FC<CardProps> = ({
 }) => {
   if (first) {
     return (
-      <div className="bg-background shadow-md rounded-lg p-4 w-full max-w-[21rem] sm:max-w-sm flex flex-col justify-between h-auto mb-4">
-        <div className="flex flex-col w-full justify-center items-center gap-12">
+      <div className="bg-background shadow-md rounded-lg p-4 w-full max-w-[21rem] sm:max-w-sm flex flex-col justify-between h-auto mb-6">
+        <div className="flex flex-col w-full justify-center items-center gap-10">
           <div className="pb-6 border-b-2 border-secondary w-[80%]">
-            <div className="pb-6 flex justify-center mt-6">
+            <div className="pb-6 flex justify-center mt-4">
               <img src={image} alt="first card image" />
             </div>
             <div className="text-center w-full">
@@ -49,9 +50,9 @@ const Card: React.FC<CardProps> = ({
             <h4>{text}</h4>
           </div>
           <div className="text-center flex flex-col items-center pb-4 w-full">
-            <p>{paragraph[0]}</p>
+            <p>{paragraph && paragraph[0]}</p>
             <br />
-            <p className="w-[80%] pb-4">{paragraph[1]}</p>
+            <p className="w-[80%] pb-4">{paragraph && paragraph[1]}</p>
           </div>
         </div>
       </div>
