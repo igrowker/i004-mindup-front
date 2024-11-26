@@ -3,22 +3,8 @@ import { RiGroupLine } from 'react-icons/ri';
 import { LuBookOpen } from 'react-icons/lu';
 import { CiMoneyBill } from 'react-icons/ci';
 import { CardData } from './SliderCard';
-
-// type CardProps = {
-//   first: boolean;
-//   text: string;
-//   paragraph: string[];
-//   id: number;
-//   name: string;
-//   lastname: string;
-//   image: string;
-//   terapy_type: string;
-//   attention_type: string;
-//   honorarys: string;
-//   phrase: string;
-//   author: string;
-//   song: string;
-// };
+import CustomButton from '../shared/CustomButton';
+import { useNavigate } from 'react-router-dom';
 
 const Card: React.FC<CardData> = ({
   first,
@@ -34,6 +20,9 @@ const Card: React.FC<CardData> = ({
   author,
   song,
 }) => {
+
+const navigate = useNavigate();
+
   if (first) {
     return (
       <div className="bg-background shadow-md rounded-lg p-4 w-full max-w-[21rem] sm:max-w-sm flex flex-col justify-between h-auto mb-6">
@@ -135,9 +124,9 @@ const Card: React.FC<CardData> = ({
           <p className="text-xs font-medium">{song}</p>
         </div>
       </main>
-      <button className="mt-4 bg-secondary text-background py-3 px-6 rounded-lg font-semibold  ">
-        Agendar turno
-      </button>
+      <div className='flex justify-center mt-4 gap-4'>
+        <CustomButton title="Agendar turno" appearance={true} onClick={()=>{navigate("/mydates")}}/>
+      </div>
     </div>
   );
 };
