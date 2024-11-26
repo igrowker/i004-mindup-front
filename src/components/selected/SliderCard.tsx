@@ -2,11 +2,55 @@ import { useState, useRef } from 'react';
 import Card from './Card';
 
 const cards = [
-  { id: 0, title: 'Card 1', description: 'This is the first card.' },
-  { id: 1, title: 'Card 2', description: 'This is the second card.' },
-  { id: 2, title: 'Card 3', description: 'This is the third card.' },
-  { id: 3, title: 'Card 4', description: 'This is the fourth card.' },
-  { id: 4, title: 'Card 5', description: 'This is the fifth card.' },
+  {
+    id: 0,
+    first: true,
+    image: '/Imágenes/hojas.png',
+    text: 'Ya tenemos a tu posible psicólogo seleccionado',
+    paragraph: [
+      'Basados en tus necesidades, encontramos a estos 3 perfiles de profesionales perfectos para ti',
+      'Agenda un turno con el que sientas mayor afinidad.',
+    ],
+  },
+  {
+    id: 1,
+    name: 'Trinidad',
+    lastname: 'Garcia',
+    image: '/Imágenes/trinidadProfesiona.png',
+    terapy_type: 'Trapia Cognitivo - Conductual',
+    attention_type: 'Virtual y presencial',
+    honorarys: '$13.000 a $15.000',
+    phrase:
+      'Somos seres con la capacidad de desear pero siempre incompletos, de ahí surge nuestro caminar',
+    author: 'Jacques Lacan',
+    song: 'The Beatles - All my loving',
+  },
+  {
+    id: 2,
+    name: 'Trinidad',
+    lastname: 'Garcia',
+    image: '/Imágenes/trinidadProfesiona.png',
+    terapy_type: 'Trapia Cognitivo - Conductual',
+    attention_type: 'Virtual y presencial',
+    honorarys: '$13.000 a $15.000',
+    phrase:
+      'Somos seres con la capacidad de desear pero siempre incompletos, de ahí surge nuestro caminar',
+    author: 'Jacques Lacan',
+    song: 'The Beatles - All my loving',
+  },
+  {
+    id: 3,
+    name: 'Trinidad',
+    lastname: 'Garcia',
+    image: '/Imágenes/trinidadProfesiona.png',
+    terapy_type: 'Trapia Cognitivo - Conductual',
+    attention_type: 'Virtual y presencial',
+    honorarys: '$13.000 a $15.000',
+    phrase:
+      'Somos seres con la capacidad de desear pero siempre incompletos, de ahí surge nuestro caminar',
+    author: 'Jacques Lacan',
+    song: 'The Beatles - All my loving',
+  },
 ];
 
 const Slider = () => {
@@ -101,7 +145,7 @@ const Slider = () => {
         {cardList.map((_, index) => (
           <div
             key={index}
-            className={`h-4 w-4 rounded-full ${
+            className={`h-2 w-2 rounded-full ${
               index === currentIndex ? 'bg-secondaryBtn' : 'bg-white'
             }`}
           ></div>
