@@ -33,7 +33,7 @@ jobs:
 
       - name: Build and Push Docker Image
       run: |
-        docker build -t igrowker/frontend-mindup:${{ github.sha }} .
-        docker tag igrowker/frontend-mindup:${{ github.sha }} igrowker/frontend-mindup:latest
-        docker push igrowker/frontend-mindup:${{ github.sha }}
-        docker push igrowker/frontend-mindup:latest
+        docker build -t igrowker/i004-mindup-front:${{ github.sha }} .
+        docker tag igrowker/i004-mindup-front:${{ github.sha }} igrowker/i004-mindup-front:latest
+        docker push igrowker/i004-mindup-front:${{ github.sha }}
+        docker push igrowker/i004-mindup-front:latest
