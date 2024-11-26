@@ -10,7 +10,6 @@ import CustomButton from "../shared/CustomButton";
 import { useModalStore, useUserStore } from "../../context/userStore";
 import { toast } from "sonner";
 
-
 type DrawerProps = {
   patient?: boolean;
   isOpen: boolean;
@@ -35,7 +34,9 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
 
   const navItems = patient
     ? [
-      { to: "/profile", label: "Perfil", Icon: "public/Íconos/Perfil.svg" },
+      { to: "/profile", 
+        label: "Perfil", 
+        Icon: "public/Íconos/Perfil.svg" },
       {
         to: "/selected",
         label: "Profesionales compatibles",
@@ -51,13 +52,17 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
       },
     ]
     : [
-      { to: "/profile", label: "Perfil", Icon: "public/Íconos/Perfil.svg" },
+      { to: "/profile", 
+        label: "Perfil", 
+        Icon: "public/Íconos/Perfil.svg" },
       {
         to: "/manage-appointment",
         label: "Gestión de turnos",
         Icon: "public/Íconos/ProfesionalesCompatibles.png",
       },
-      { to: "/mypatients", label: "Mis pacientes", Icon: IoPeopleOutline },
+      { to: "/mypatients", 
+        label: "Mis pacientes", 
+        Icon: IoPeopleOutline },
       {
         to: null,
         label: "Ayuda y soporte técnico",

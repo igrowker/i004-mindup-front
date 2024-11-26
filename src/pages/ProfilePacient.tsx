@@ -3,12 +3,14 @@ import ProfileInformation from "../components/profile/ProfileInformation";
 import ProfileTerapy from "../components/profile/ProfileTerapy";
 import CustomButton from "../components/shared/CustomButton";
 import { useState } from "react";
-import { useUserStore } from "../context/userStore";
+import { useModalStore, useUserStore } from "../context/userStore";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/header/Header";
+import Modal from "../components/modal/Modal";
 
 const ProfilePacient = () => {
   const { user } = useUserStore();
+  const {openModal, toggleModal} = useModalStore();
 
   const navigate = useNavigate();
 
@@ -43,6 +45,10 @@ const ProfilePacient = () => {
   };
 
   console.log(user);
+
+  const handleAccept = () =>{
+    navigate("/questionnaire")
+  }
 
   return (
     <main className="w-full min-w-mobile flex flex-col items-center justify-center bg-background">
@@ -98,13 +104,12 @@ const ProfilePacient = () => {
               title="Rehacer cuestionario"
               appearance={true}
               type="submit"
-              onClick={() => {
-                navigate("/questionnaire");
-              }}
+              onClick={() => { toggleModal() }}
             />
           </article>
         </>
       )}
+    {openModal && <Modal title="Seguro que desea rehacer el formulario? Esto no se puede deshacer." onClick={handleAccept} />}
       <br />
     </main>
   );

@@ -99,10 +99,13 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      //Ruta de prueba para desarrollar slider, hay que conectarlo con el flujo del cuestionario
       {
-        path: 'pruebas-lucio',
-        element: <Slider />,
+        path: 'slider',
+        element: (
+          <ProtectedRoute>
+            <Slider />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'mydates',
