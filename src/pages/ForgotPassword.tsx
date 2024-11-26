@@ -1,16 +1,19 @@
 import { useState } from "react";
 import logo2 from "../../public/logo2.png";
 import CustomButton from "../components/shared/CustomButton";
-import { Link, useNavigate } from "react-router-dom";
 import InputText from "../components/shared/Inputs/InputText";
 import { validateEmail } from "../utils/validationUtils";
 import { AnimatePresence, motion } from "framer-motion";
 import TextError from "../components/shared/Inputs/TextError";
+import { useModalStore } from "../context/userStore";
+import Modal from "../components/modal/Modal";
+import { Link, useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState<{ email: string }>({ email: "" });
 
+  const { openModal, toggleModal } = useModalStore();
   const navigate = useNavigate();
 
   const fadeInOut = {
@@ -30,8 +33,7 @@ const ForgotPassword = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (handleValidation()) {
-      // Cambiar ruta cuando se envió mail para recuperar contraseña
-      navigate("/onboard");
+      toggleModal()
     }
   };
 
@@ -39,6 +41,11 @@ const ForgotPassword = () => {
     setEmail(value);
     const emailError = validateEmail(value);
     setError((prev) => ({ ...prev, email: emailError }));
+  };
+
+  const handleAcceptRecovery = () => {
+    toggleModal();
+    navigate("/")
   };
 
   return (
@@ -77,6 +84,9 @@ const ForgotPassword = () => {
           </Link>
         </div>
       </motion.form>
+
+      {openModal && <Modal title="Correo enviado. Revise su casilla por favor" hideCancelBtn={true} onClick={handleAcceptRecovery}/>}
+
     </div>
   );
 };

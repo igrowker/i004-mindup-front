@@ -1,3 +1,4 @@
+import Slider from '../components/selected/SliderCard';
 import App from '../App';
 import RegisterForm from '../pages/RegisterForm';
 import Onboarding from '../pages/Onboarding';
@@ -12,7 +13,9 @@ import DynamicHome from './DynamicHome';
 import SelectedRoute from './DynamicSelected';
 import PublicRoute from './PublicRoute';
 import MyPatients from '../pages/MyPatients';
-import Slider from '../components/selected/SliderCard';
+import MyDates from '../pages/MyDates';
+import Assistance from '../pages/Assistance';
+import Emergency from '../pages/Emergency';
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +48,21 @@ export const router = createBrowserRouter([
       },
       { path: 'onboard', element: <Onboarding /> },
       { path: 'questionnaire', element: <Questionnaire /> },
+
+      { path: 'onboard', element: <Onboarding /> },
+      { path: 'questionnaire', element: <Questionnaire /> },
+
+      // Ruta de prueba para la pantalla final de asistencia
+      { path: 'emergency', element: <Emergency /> },
+
+      {
+        path: 'assistance',
+        element: (
+          <ProtectedRoute>
+            <Assistance />
+          </ProtectedRoute>
+        ),
+      },
       {
         path: 'profile',
         element: (
@@ -85,9 +103,18 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      //Ruta de prueba para desarrollar slider, hay que conectarlo con el flujo del cuestionario
       {
         path: 'pruebas-lucio',
         element: <Slider />,
+      },
+      {
+        path: 'mydates',
+        element: (
+          <ProtectedRoute>
+            <MyDates />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

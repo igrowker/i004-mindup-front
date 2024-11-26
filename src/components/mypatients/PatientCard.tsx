@@ -1,7 +1,4 @@
 import { toast } from "sonner";
-import CustomButton from "../shared/CustomButton";
-import CustomButtonSmall from "../shared/CustomButtonSmall";
-import { useNavigate } from "react-router-dom";
 
 type PatientCardProps = {
     img: string;
@@ -13,9 +10,6 @@ type PatientCardProps = {
 };
 
 const PatientCard: React.FC<PatientCardProps> = ({ img, time, patient = "", options, btnPendiente }) => {
-
-    const navigate = useNavigate()
-
 
     const handleAccept = () => {
         console.log("Se acepto la cita de " + patient);

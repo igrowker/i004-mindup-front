@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
-const WeekCalendar: React.FC = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+interface WeekCalendarProps {
+  onDateSelect: (date: Date | null) => void; // Callback para manejar la fecha seleccionada
+}
 
-  // Función para cambiar la semana
+const WeekCalendar: React.FC<WeekCalendarProps> = ({ onDateSelect }) => {
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date()); // Día actual por defecto
+
   const changeWeek = (increment: number) => {
     const newDate = new Date(currentDate);
     newDate.setDate(currentDate.getDate() + increment * 7); // Incrementar o decrementar en semanas
     setCurrentDate(newDate);
   };
 
-  // Función para obtener los días de la semana actual
   const getDaysInWeek = (date: Date) => {
     const startOfWeek = new Date(date);
     const dayOfWeek = startOfWeek.getDay(); // Día actual de la semana (0 para domingo)
@@ -24,24 +26,36 @@ const WeekCalendar: React.FC = () => {
     });
   };
 
-  // Renderizar el calendario
+  const handleDateSelect = (date: Date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Ignorar las horas para la comparación
+
+    if (date >= today) {
+      setSelectedDate(date); // Actualizar localmente la fecha seleccionada
+      onDateSelect(date); // Notificar al componente padre
+    }
+  };
+
   const renderCalendar = () => {
     const daysInWeek = getDaysInWeek(currentDate);
-    const today = new Date(); // Fecha actual sin horas
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Ignorar las horas para comparación
 
     return daysInWeek.map((day, i) => {
-      const isToday = day.toDateString() === today.toDateString(); // Compara si es el día actual
+      const isSelected = selectedDate?.toDateString() === day.toDateString();
+      const isPast = day < today;
+
       return (
         <div
           key={i}
-          className={`flex items-center justify-center size-8 cursor-pointer rounded-full ${
-            isToday
-              ? "bg-[#97D0C3] text-white" // Fondo para el día actual
-              : selectedDate?.toDateString() === day.toDateString()
-              ? "bg-zinc-950 text-white"
-              : "text-[#444444] hover:bg-gray-200"
+          className={`flex items-center justify-center size-8 rounded-full cursor-pointer ${
+             isSelected
+              ? "bg-[#97D0C3] text-white" // Día seleccionado por el usuario
+              : isPast
+              ? "text-[#DDDDDD] cursor-not-allowed" // Días pasados deshabilitados
+              : "text-[#444444] hover:bg-gray-200" // Días disponibles
           }`}
-          onClick={() => setSelectedDate(day)}
+          onClick={() => !isPast && handleDateSelect(day)} // Solo permite seleccionar días futuros o actuales
         >
           {day.getDate()}
         </div>
