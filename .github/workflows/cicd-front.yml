@@ -3,7 +3,7 @@ name: CI/CD Frontend
 on:
   push:
     branches:
-      -develop
+      - develop
       - main
 
 jobs:
@@ -32,8 +32,9 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and Push Docker Image
-      run: |
-        docker build -t igrowker/i004-mindup-front:${{ github.sha }} .
-        docker tag igrowker/i004-mindup-front:${{ github.sha }} igrowker/i004-mindup-front:latest
-        docker push igrowker/i004-mindup-front:${{ github.sha }}
-        docker push igrowker/i004-mindup-front:latest
+        run: |
+          docker build -t igrowker/i004-mindup-front:${{ github.sha }} .
+          docker tag igrowker/i004-mindup-front:${{ github.sha }} igrowker/i004-mindup-front:latest
+          docker push igrowker/i004-mindup-front:${{ github.sha }}
+          docker push igrowker/i004-mindup-front:latest
+
