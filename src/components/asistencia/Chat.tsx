@@ -1,5 +1,4 @@
-// Chat.tsx
-import { useState, FormEvent } from "react";
+import { useState } from "react";
 import InputChat from "./InputChat";
 import Messages from "./Messages";
 
@@ -12,16 +11,12 @@ function Chat() {
     },
   ]);
 
-
   const handleNewMessage = (text: string) => {
-    setMessages((prev) => [
-      ...prev,
-      { id: Date.now(), text, sender: "user" },
-    ]);
+    setMessages((prev) => [...prev, { id: Date.now(), text, sender: "user" }]);
   };
 
   return (
-    <div className="flex flex-col h-screen max-w-md mx-auto">
+    <div className="flex flex-col h-[80vh] max-w-md mx-auto">
       {/* Mostrar mensajes */}
       <Messages messages={messages} />
 
