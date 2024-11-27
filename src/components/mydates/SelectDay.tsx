@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Chip from "./Chip";
 import MonthCalendar from "../home/MonthCalendar";
 import { motion } from "framer-motion";
+import DateCardList from "./DateCardList";
 
 function SelectDay({
   onChipClick,
@@ -42,6 +43,17 @@ function SelectDay({
     }
   }, [firstTurn, onDateSelect]);
 
+  const appointments = [
+    //EJEMPLO SIMULANDO BASE DE DATOS MUCHACHADA
+
+    {
+      day: "Martes",
+      timeRange: "10 hs - 11 hs",
+      psyco: "Carlos Ruiz",
+      accepted: true,
+    },
+  ];
+
   return (
     <article className="min-h-screen w-full min-w-mobile flex flex-col items-center bg-background gap-5">
       <div>
@@ -58,7 +70,9 @@ function SelectDay({
           </div>
         </div>
       </div>
-
+      <article>
+        <DateCardList appointments={appointments} />
+      </article>
       <label className="flex items-center gap-2 cursor-pointer w-full justify-center">
         <span
           className={`text-gray-800 font-medium w-60 text-start ${firstTurn && "text-emerald-500"

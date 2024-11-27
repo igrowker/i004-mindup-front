@@ -1,10 +1,10 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import Logo from './Logo';
-import ProgressBar from './ProcessBar';
-import TextSection from './TextSection';
-import DynamicButton from '../onboarding/DynamicButton';
-import OptionButton from './OptionButton';
-import { ViewData } from '../../pages/Questionnaire';
+import { AnimatePresence, motion } from "framer-motion";
+import Logo from "./Logo";
+import ProgressBar from "./ProcessBar";
+import TextSection from "./TextSection";
+import DynamicButton from "../onboarding/DynamicButton";
+import OptionButton from "./OptionButton";
+import { ViewData } from "../../pages/Questionnaire";
 
 type QuestionnaireStageProps = {
   currentStepData: ViewData;
@@ -30,12 +30,12 @@ const QuestionnaireStage: React.FC<QuestionnaireStageProps> = ({
   };
   const bgColor =
     currentStep === 0 || currentStep === 1
-      ? 'bg-background'
-      : 'bg-secondaryBtn';
+      ? "bg-background"
+      : "bg-secondaryBtn";
   const textColor =
     currentStep === 0 || currentStep === 1
-      ? 'text-secondary'
-      : 'text-background';
+      ? "text-secondary"
+      : "text-background";
 
   const isNextDisabled = currentStepData.options
     ? !(responses[currentStep]?.length > 0)
@@ -59,18 +59,30 @@ const QuestionnaireStage: React.FC<QuestionnaireStageProps> = ({
         >
           <TextSection currentStepData={currentStepData} />
 
-          {currentStepData.options?.map((option) => (
-            <OptionButton
-              key={option}
-              option={option}
-              isSelected={
-                Array.isArray(responses[currentStep])
-                  ? responses[currentStep].includes(option) // Para opciones múltiples
-                  : responses[currentStep] === option
-              } // Para una sola opción
-              onSelect={handleSelect}
-            />
-          ))}
+          {currentStepData.options?.map((option) => {
+            // Determina el ícono según la opción
+            const icon = option.includes("Mañana")
+              ? "dia.gif"
+              : option.includes("Mediodía")
+              ? "tarde.gif"
+              : option.includes("Tarde")
+              ? "noche.gif"
+              : undefined;
+
+            return (
+              <OptionButton
+                key={option}
+                option={option}
+                isSelected={
+                  Array.isArray(responses[currentStep])
+                    ? responses[currentStep].includes(option) // Para opciones múltiples
+                    : responses[currentStep] === option
+                } // Para una sola opción
+                onSelect={handleSelect}
+                icon={icon}
+              />
+            );
+          })}
         </motion.div>
       </AnimatePresence>
 
