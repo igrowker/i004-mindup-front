@@ -1,6 +1,5 @@
-// Messages.tsx
+import Message from "./Message";
 
-import Message from "./message";
 
 interface MessagesProps {
   messages: Array<{ id: number; text: string; sender: string }>;
