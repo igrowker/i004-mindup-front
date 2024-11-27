@@ -48,6 +48,7 @@ const ProfilePacient = () => {
 
   const handleAccept = () =>{
     navigate("/questionnaire")
+    toggleModal()
   }
 
   return (
