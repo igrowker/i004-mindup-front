@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Card from './Card';
 import Header from '../header/Header';
 
@@ -72,7 +72,12 @@ const cards: CardData[] = [
 
 const Slider = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [cardList, setCardList] = useState<CardData[]>(cards);
+  const [cardList, setCardList] = useState<CardData[]>([]);
+
+  // useEffect para cargar los datos
+  useEffect(() => {
+    setCardList(cards); // Establecemos los datos iniciales de las tarjetas
+  }, []);
 
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
