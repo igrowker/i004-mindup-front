@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import ButtonNav from "./ButtonNav";
 import { IoPeopleOutline } from "react-icons/io5";
 import Modal from "../modal/Modal";
-import { IoMdClose } from "react-icons/io";
 import CustomButton from "../shared/CustomButton";
 import { useModalStore, useUserStore } from "../../context/userStore";
 import { toast } from "sonner";
@@ -82,25 +81,9 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
         onClick={onClose}
       >
         <nav
-          className="bg-white w-full shadow-xl min-h-[348px] flex flex-col p-4 px-10 text-gray-800"
+          className="bg-white w-full shadow-xl min-h-80 flex flex-col p-4 px-10 text-gray-800"
           onClick={(e) => e.stopPropagation()}
         >
-          <Link to="/home" className="flex justify-between items-center">
-            <button className="flex items-center text-xl ml-2 font-medium gap-2">
-              <img
-                src="public/Íconos/Inicio.png"
-                alt="Icono de incio"
-                className="h-6 w-7"
-              />{" "}
-              <p>Ir a Inicio</p>
-            </button>
-            <button onClick={onClose}>
-              <IoMdClose size={24} />
-            </button>
-          </Link>
-
-          <div className="w-full my-4 h-[1px] bg-secondary"></div>
-
           {navItems.map((item, index) => (
             <div key={index}>
               {item.to ? (
@@ -117,7 +100,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
           ))}
 
           <div
-            className="flex justify-center mt-4"
+            className="flex justify-center mt-6"
           >
             <CustomButton title="Cerrar Sesión" appearance={true} onClick={() => { toggleModal() }} />
             {openModal &&
