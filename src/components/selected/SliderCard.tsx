@@ -74,9 +74,9 @@ const Slider = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [cardList, setCardList] = useState<CardData[]>([]);
 
-  // useEffect para cargar los datos
+  // Cambio de carga de datos para devops
   useEffect(() => {
-    setCardList(cards); // Establecemos los datos iniciales de las tarjetas
+    setCardList(cards);
   }, []);
 
   const touchStartX = useRef<number | null>(null);
