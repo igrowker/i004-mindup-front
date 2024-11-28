@@ -1,20 +1,19 @@
 import React, { useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
 
-
 type CardProps = {
   day: string;
   timeRange: string;
-  patient?: string;
+  psycho?: string;
   consultationType?: string;
-  blocked?: boolean;
+  accepted?: boolean;
 };
 
 const DateCard: React.FC<CardProps> = ({
   day,
   timeRange,
-  patient = "",
-  blocked = false,
+  psycho = "",
+  accepted = false,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -25,32 +24,28 @@ const DateCard: React.FC<CardProps> = ({
   return (
     <div className="relative border border-zinc-200 rounded-md h-[68px] py-2 px-4 w-[343px] flex items-center gap-2">
       <header className="h-full flex justify-center items-center">
-        {blocked ? (
+        {accepted ? (
           <img
             className="w-6 h-6"
             src="public/Íconos/DobleConfirmación.svg"
             alt="Icono de confirmacion"
           />
         ) : (
-          <img
-            className="w-6 h-6"
-            src="public/Íconos/HorarioBloqueado.svg"
-            alt="Icono de horario bloqueado"
-          />
+          <div />
         )}
       </header>
       <div className="h-full flex flex-col justify-center flex-grow">
         <h3 className="text-secondary font-bold">
           {day}, {timeRange}
         </h3>
-        {patient && <p className="text-sm text-[#444444]">{patient}</p>}
+        {psycho && <p className="text-sm text-[#444444]">{psycho}</p>}
       </div>
       <button
         className="ml-auto"
         onClick={toggleMenu}
         aria-expanded={isMenuOpen}
       >
-        <IoChevronDownSharp className="size-4 text-[#85868B]"/>
+        <IoChevronDownSharp className="size-4 text-[#85868B]" />
       </button>
       {isMenuOpen && (
         <ul className="absolute right-0 top-[72px] bg-white border border-zinc-200 rounded-md shadow-lg w-[343px] z-10">
