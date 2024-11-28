@@ -47,6 +47,7 @@ jobs:
             docker run -d \
               --name mindup-front \
               -p 80:80 \
+              -e EC2_PUBLIC_IP=${{ secrets.EC2_PUBLIC_IP }} \
               igrowker/i004-mindup-front:${{ github.sha }} &&
             cd /home/admin &&
             ./run.sh"
