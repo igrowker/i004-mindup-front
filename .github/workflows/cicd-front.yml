@@ -39,7 +39,7 @@ jobs:
 
       - name: Deploy Frontend to EC2
         run: |
-          ssh -i mindup.pem -o StrictHostKeyChecking=no admin@${{ secrets.EC2_PUBLIC_IP }} "
+          ssh -i mindup.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_PUBLIC_IP }} "
             cd /home/admin/frontend &&
             docker pull igrowker/i004-mindup-front:${{ github.sha }} &&
             docker stop mindup-front || true &&
@@ -47,7 +47,6 @@ jobs:
             docker run -d \
               --name mindup-front \
               -p 80:80 \
-              -e EC2_PUBLIC_IP=${{ secrets.EC2_PUBLIC_IP }} \
               igrowker/i004-mindup-front:${{ github.sha }} &&
             cd /home/admin &&
             ./run.sh"
