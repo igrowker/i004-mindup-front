@@ -16,14 +16,8 @@ RUN npm run build && ls -al /app/dist
 # Usa una imagen ligera de Nginx para servir los archivos estáticos de producción
 FROM nginx:stable-alpine
 
-# Copia el archivo de configuración personalizado de Nginx (con la variable de entorno)
-COPY nginx.conf /etc/nginx/nginx.conf.template
-
-# Copia el script de inicio
-COPY start.sh /start.sh
-
-# Da permisos de ejecución al script
-RUN chmod +x /start.sh
+# Copia el archivo de configuración personalizado de Nginx
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copia los archivos de la aplicación construida desde el paso anterior
 COPY --from=build /app/dist /usr/share/nginx/html
@@ -31,5 +25,5 @@ COPY --from=build /app/dist /usr/share/nginx/html
 # Expone el puerto 80 para el servidor web
 EXPOSE 80
 
-# Configura el contenedor para ejecutar el script de inicio
-ENTRYPOINT ["/start.sh"]
+# Comando para iniciar Nginx en primer plano, evitando que el contenedor se detenga
+CMD ["/bin/sh", "-c", "envsubst '${NGINX_SERVER_NAME}' < /etc/nginx/nginx.conf > /etc/nginx/nginx_resolved.conf && nginx -g 'daemon off;'"]
