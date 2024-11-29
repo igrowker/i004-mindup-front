@@ -20,6 +20,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Generate .env file from GitHub secrets
+        run: |
+          echo "NGINX_SERVER_NAME=${{ secrets.NGINX_SERVER_NAME }}" >> .env
+
       - name: Build and Push Docker Image
         run: |
           docker build -t igrowker/i004-mindup-front:${{ github.sha }} .
@@ -39,14 +43,15 @@ jobs:
 
       - name: Deploy Frontend to EC2
         run: |
-          ssh -i mindup.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_PUBLIC_IP }} "
+          ssh -i mindup.pem -o StrictHostKeyChecking=no admin@${{ secrets.EC2_PUBLIC_IP }} "
             cd /home/admin/frontend &&
-            docker pull igrowker/i004-mindup-front:${{ github.sha }} &&
-            docker stop mindup-front || true &&
-            docker rm mindup-front || true &&
-            docker run -d \
+            sudo docker pull igrowker/i004-mindup-front:${{ github.sha }} &&
+            sudo docker stop mindup-front || true &&
+            sudo docker rm mindup-front || true &&
+            sudo docker run -d \
               --name mindup-front \
               -p 80:80 \
+              -e NGINX_SERVER_NAME=${{ secrets.NGINX_SERVER_NAME }} \
               igrowker/i004-mindup-front:${{ github.sha }} &&
             cd /home/admin &&
             ./run.sh"
