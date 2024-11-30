@@ -26,7 +26,7 @@ const InputBirthDate: React.FC<InputBirthDateProps> = ({
                 value={value}
                 onChange={onChange}
                 className="mt-1 w-full rounded-md border-[#cfd0d2] border-[1px] py-2 px-2"
-                pattern="\d{4}-\d{2}-\d{2}" // Asegura que el formato sea yyyy-MM-dd
+                pattern="\d{4}-\d{2}-\d{2}"
             />
         </div>
     );
