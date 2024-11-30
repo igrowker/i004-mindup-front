@@ -10,7 +10,6 @@ const ProfileTerapy = () => {
                     Terapia individual
                 </p>
 
-                <p className="self-end">-</p>
             </article>
 
             {/* Email */}
@@ -20,7 +19,6 @@ const ProfileTerapy = () => {
                     miguelrojas@gmail.com
                 </p>
 
-                <p className="self-end">-</p>
             </article>
 
             {/* Historial de turnos */}
@@ -28,7 +26,6 @@ const ProfileTerapy = () => {
                 <h2 className="font-medium">Historial de turnos</h2>
                 <ProfileAppHistory />
                 <ProfileAppHistory />
-                <p className="self-end">-</p>
             </article>
         </>
     )

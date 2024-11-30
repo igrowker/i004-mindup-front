@@ -1,22 +1,35 @@
 import { IoIosArrowForward } from "react-icons/io"
 
 interface ProfileData {
+    fechaNac: string;
     fraseAutor: string;
     fraseTexto: string;
 }
 
-const ProfileInformation = ({ fraseAutor, fraseTexto }: ProfileData) => {
+const ProfileInformation = ({ fechaNac, fraseAutor, fraseTexto }: ProfileData) => {
+
+    const formattedDate = fechaNac.split("-").reverse().join("-");
 
     
     return (
         <>
+            {/* Fecha de nacimiento */}
+            <article className="w-[343px] bg-background my-2 pb-2 px-6 gap-2 flex flex-col text-base rounded-2xl leading-tight">
+                <div className="text-start">
+                    <h2 className="font-medium text-base">Fecha de nacimiento</h2>
+                </div>
+                <h3>
+                    {formattedDate}
+                </h3>
+            </article>
+
             {/* Frase personal */}
             <article className="w-[343px] bg-background my-2 pb-2 px-6 gap-2 flex flex-col text-base rounded-2xl leading-tight">
                 <div className="text-start">
                     <h2 className="font-medium text-base">Frase que me identifica</h2>
                 </div>
                 <p><strong><q><i>
-                {fraseTexto}
+                    {fraseTexto}
                 </i></q></strong></p>
                 <p className="self-end">-{fraseAutor}</p>
             </article>

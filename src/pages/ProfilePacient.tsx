@@ -10,7 +10,7 @@ import Modal from "../components/modal/Modal";
 
 const ProfilePacient = () => {
   const { user } = useUserStore();
-  const {openModal, toggleModal} = useModalStore();
+  const { openModal, toggleModal } = useModalStore();
 
   const navigate = useNavigate();
 
@@ -36,7 +36,8 @@ const ProfilePacient = () => {
   const pacient = {
     imagen: "/Imágenes/miguel.png",
     nombre: "Miguel Rojas",
-    especialidad: "Ha realizado terapia anteriormente",
+    especialidad: "Ha reali // del back lo tomo como YYYY-MM-DD en formato Datezado terapia anteriormente",
+    fechaNac: "1980-03-20", // del back lo tomo como YYYY-MM-DD en formato Date
     frase: {
       autor: "Anónimo",
       texto:
@@ -46,7 +47,7 @@ const ProfilePacient = () => {
 
   console.log(user);
 
-  const handleAccept = () =>{
+  const handleAccept = () => {
     navigate("/questionnaire")
     toggleModal()
   }
@@ -66,22 +67,20 @@ const ProfilePacient = () => {
         <button
           onClick={toggleShowPersonal}
           disabled={personalDisabled}
-          className={`inline-block w-full rounded-l-[50pc] text-center border px-3 py-3 font-medium focus:outline-none focus:ring border-[#7a5fe7] ${
-            personalDisabled
-              ? "bg-gray-300 text-gray-500 border-0"
-              : "bg-[#7a5fe7] text-white hover:bg-transparent hover:text-[#7a5fe7] active:text-[#7a5fe7]"
-          }`}
+          className={`inline-block w-full rounded-l-[50pc] text-center border px-3 py-3 font-medium focus:outline-none focus:ring border-[#7a5fe7] ${personalDisabled
+            ? "bg-gray-300 text-gray-500 border-0"
+            : "bg-[#7a5fe7] text-white hover:bg-transparent hover:text-[#7a5fe7] active:text-[#7a5fe7]"
+            }`}
         >
           Personal
         </button>
         <button
           onClick={toggleShowTerapy}
           disabled={terapyDisabled}
-          className={`inline-block w-full rounded-r-[50pc] text-center border px-3 py-3 font-medium focus:outline-none focus:ring border-[#7a5fe7] ${
-            terapyDisabled
-              ? "bg-gray-300 text-gray-500  border-0"
-              : "bg-[#7a5fe7] text-white hover:bg-transparent hover:text-[#7a5fe7] active:text-[#7a5fe7]"
-          }`}
+          className={`inline-block w-full rounded-r-[50pc] text-center border px-3 py-3 font-medium focus:outline-none focus:ring border-[#7a5fe7] ${terapyDisabled
+            ? "bg-gray-300 text-gray-500  border-0"
+            : "bg-[#7a5fe7] text-white hover:bg-transparent hover:text-[#7a5fe7] active:text-[#7a5fe7]"
+            }`}
         >
           Terapia
         </button>
@@ -90,6 +89,7 @@ const ProfilePacient = () => {
       {/* Informacion Personal */}
       {showPersonal && (
         <ProfileInformation
+          fechaNac={pacient.fechaNac}
           fraseAutor={pacient.frase.autor}
           fraseTexto={pacient.frase.texto}
         />
@@ -110,7 +110,7 @@ const ProfilePacient = () => {
           </article>
         </>
       )}
-    {openModal && <Modal title="Seguro que desea rehacer el formulario? Esto no se puede deshacer." onClick={handleAccept} />}
+      {openModal && <Modal title="Seguro que desea rehacer el formulario? Esto no se puede deshacer." onClick={handleAccept} />}
       <br />
     </main>
   );

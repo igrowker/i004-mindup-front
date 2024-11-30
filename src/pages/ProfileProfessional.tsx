@@ -13,6 +13,7 @@ function ProfileProfessional() {
     imagen: "/Imágenes/trinidad.png",
     nombre: "Lic.Trinidad García",
     especialidad: "Clínica",
+    fechaNac: "1989-03-16",  // del back lo tomo como YYYY-MM-DD en formato Date
     frase: {
       autor: "Jacques Lacan",
       texto: "Somos seres con la capacidad de desear pero siempre incompletos, de ahí surge nuestro caminar"
@@ -34,6 +35,7 @@ function ProfileProfessional() {
       <ProfileAttention />
       <hr className='w-[290px] my-4 -mx-4' />
       <ProfileInformation
+        fechaNac={professional.fechaNac}
         fraseAutor={professional.frase.autor}
         fraseTexto={professional.frase.texto}
       />
