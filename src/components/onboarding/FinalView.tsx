@@ -4,6 +4,7 @@ import InputText from "../shared/Inputs/InputText";
 import TextError from "../shared/Inputs/TextError";
 import CustomButton from "../shared/CustomButton";
 import InputGender from "./InputGender";
+import InputBirthDate from "../shared/Inputs/InputBirthDate";
 
 const FinalView: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ const FinalView: React.FC = () => {
     specialty: "",
     matricula: "",
     zone: "",
+    birthDate: "",
     attention: {
       virtual: false,
       presencial: false,
@@ -23,6 +25,7 @@ const FinalView: React.FC = () => {
     specialty: "",
     matricula: "",
     zone: "",
+    birthDate: "",
     about: "",
     attention: "",
   });
@@ -42,8 +45,8 @@ const FinalView: React.FC = () => {
           (value as string).length > 100
             ? "El texto no puede exceder los 100 caracteres."
             : value
-            ? ""
-            : "El campo sobre ti no puede estar vacío.",
+              ? ""
+              : "El campo sobre ti no puede estar vacío.",
       }));
     } else if (field === "matricula") {
       setErrors((prev) => ({
@@ -59,6 +62,16 @@ const FinalView: React.FC = () => {
       setErrors((prev) => ({
         ...prev,
         zone: value ? "" : "La zona de atención es obligatoria.",
+      }));
+    } else if (field === "birthDate") {
+      setErrors((prev) => ({
+        ...prev,
+        birthDate: value ? "" : "La fecha de nacimiento es obligatoria.",
+      }));
+    } else if (field === "gender") {
+      setErrors((prev) => ({
+        ...prev,
+        gender: value ? "" : "El género es obligatorio.",
       }));
     }
   };
@@ -86,6 +99,9 @@ const FinalView: React.FC = () => {
       specialty: formData.specialty ? "" : "La especialidad es obligatoria.",
       matricula: formData.matricula ? "" : "La matrícula no puede estar vacía.",
       zone: formData.zone ? "" : "La zona de atención es obligatoria.",
+      birthDate: formData.birthDate
+        ? ""
+        : "La fecha de nacimiento es obligatoria.",
       about: formData.about
         ? formData.about.length > 100
           ? "El texto no puede exceder los 100 caracteres."
@@ -104,7 +120,8 @@ const FinalView: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    console.log(formData);
+    
     if (handleValidation()) {
       // Aquí puedes agregar lógica para enviar los datos al backend
       navigate("/home");
@@ -140,7 +157,20 @@ const FinalView: React.FC = () => {
           />
           {errors.gender && <TextError text={errors.gender} />}
         </div>
+
         <div className="w-full max-w-md mb-4">
+          <InputBirthDate
+            name="Fecha de Nacimiento*"
+            placeholder="yyyy-MM-dd"
+            value={formData.birthDate}
+            onChange={(e) => handleChange("birthDate", e.target.value)}
+          />
+          {errors.birthDate && <TextError text={errors.birthDate} />}
+        </div>
+
+
+        <div className="w-full max-w-md mb-4">
+
           <InputText
             name="Matrícula*"
             placeholder="3265"
