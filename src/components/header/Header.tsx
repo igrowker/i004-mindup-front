@@ -11,7 +11,7 @@ function Header() {
   const { user } = useUserStore();
   const location = useLocation();
 
-  const isPaciente = user?.rol == "Paciente";
+  const isPaciente = user?.role == "PATIENT";
 
   const toggleDrawer = () => {
     setDrawerOpen((prev) => !prev);

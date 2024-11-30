@@ -12,6 +12,7 @@ import {
   validateName,
 } from "../utils/validationUtils";
 import TextError from "../components/shared/Inputs/TextError";
+import { UserData, userRegister } from "../api/userRegister";
 
 const RegisterForm = () => {
   const [soy, setSoy] = useState("");
@@ -45,13 +46,34 @@ const RegisterForm = () => {
     return !nameError && !emailError && !passwordError && !repeatPasswordError;
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (handleValidation()) {
-      if (soy == "Paciente") {
-        navigate("/questionnaire");
-      } else {
-        navigate("/onboard");
+      const userData: UserData = {
+        name: fullName,
+        password,
+        email,
+        role: soy === "Paciente" ? "PATIENT" : "PSYCHOLOGIST",
+      };
+  
+      try {
+        const data = await userRegister (userData); // Llamada al archivo externo
+        console.log("Registro exitoso:", data);
+        navigate("/")
+  
+        // LOGICA REAL
+       /* if (soy === "Paciente") { 
+          navigate("/questionnaire");
+        } else {
+          navigate("/onboard");
+        }*/
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : "Ocurrió un error desconocido";
+        console.error("Error en el registro:", errorMessage);
+        alert(errorMessage);
       }
     }
   };

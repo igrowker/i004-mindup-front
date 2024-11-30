@@ -16,58 +16,54 @@ type DrawerProps = {
 };
 
 const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
-  
   const { openModal, toggleModal } = useModalStore();
   const { setUser } = useUserStore();
-  
+
   const navigate = useNavigate();
 
   if (!isOpen) return null;
 
   const handleAccept = () => {
-    setUser("")
+    localStorage.removeItem("token");
+    setUser(null);
     toggleModal();
-    toast.success('Cierre de sesión exitoso!')
-    navigate("/")
+    toast.success("Cierre de sesión exitoso!");
+    navigate("/");
   };
 
   const navItems = patient
     ? [
-      { to: "/profile", 
-        label: "Perfil", 
-        Icon: "public/Íconos/Perfil.svg" },
-      {
-        to: "/selected",
-        label: "Profesionales compatibles",
-        Icon: "public/Íconos/ProfesionalesCompatibles.png",
-      },
-      { to: "/assistance", 
-        label: "Asistencia", 
-        Icon: "public/Íconos/Asistencia.svg" },
-      {
-        to: "/mydates",
-        label: "Mis citas",
-        Icon: "public/Íconos/MisCitas.png",
-      },
-    ]
+        { to: "/profile", label: "Perfil", Icon: "public/Íconos/Perfil.svg" },
+        {
+          to: "/selected",
+          label: "Profesionales compatibles",
+          Icon: "public/Íconos/ProfesionalesCompatibles.png",
+        },
+        {
+          to: "/assistance",
+          label: "Asistencia",
+          Icon: "public/Íconos/Asistencia.svg",
+        },
+        {
+          to: "/mydates",
+          label: "Mis citas",
+          Icon: "public/Íconos/MisCitas.png",
+        },
+      ]
     : [
-      { to: "/profile", 
-        label: "Perfil", 
-        Icon: "public/Íconos/Perfil.svg" },
-      {
-        to: "/manage-appointment",
-        label: "Gestión de turnos",
-        Icon: "public/Íconos/ProfesionalesCompatibles.png",
-      },
-      { to: "/mypatients", 
-        label: "Mis pacientes", 
-        Icon: IoPeopleOutline },
-      {
-        to: null,
-        label: "Ayuda y soporte técnico",
-        Icon: FaRegCircleQuestion,
-      },
-    ];
+        { to: "/profile", label: "Perfil", Icon: "public/Íconos/Perfil.svg" },
+        {
+          to: "/manage-appointment",
+          label: "Gestión de turnos",
+          Icon: "public/Íconos/ProfesionalesCompatibles.png",
+        },
+        { to: "/mypatients", label: "Mis pacientes", Icon: IoPeopleOutline },
+        {
+          to: null,
+          label: "Ayuda y soporte técnico",
+          Icon: FaRegCircleQuestion,
+        },
+      ];
 
   return (
     <AnimatePresence mode="popLayout">
@@ -99,16 +95,20 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
             </div>
           ))}
 
-          <div
-            className="flex justify-center mt-6"
-          >
-            <CustomButton title="Cerrar Sesión" appearance={true} onClick={() => { toggleModal() }} />
-            {openModal &&
+          <div className="flex justify-center mt-6">
+            <CustomButton
+              title="Cerrar Sesión"
+              appearance={true}
+              onClick={() => {
+                toggleModal();
+              }}
+            />
+            {openModal && (
               <Modal
                 title="¿Seguro desea cerrar la sesión?"
                 onClick={handleAccept}
               />
-            }
+            )}
           </div>
         </nav>
       </motion.div>
