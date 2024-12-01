@@ -46,4 +46,4 @@ jobs:
               --name mindup-front \
               -p 80:80 \
               -e NGINX_SERVER_NAME=${{ secrets.NGINX_SERVER_NAME }} \
-              igrowker/i004-mindup-front:${{ github.sha }}"
+              igrowker/i004-mindup-front:${{ github.sha }}
