@@ -1,30 +1,26 @@
-import logo from "../../public/logo2.png";
-import { AnimatePresence, motion } from "framer-motion";
-import InputText from "../components/shared/Inputs/InputText";
-import InputPassword from "../components/shared/Inputs/InputPassword";
-import CustomButton from "../components/shared/CustomButton";
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { validateEmail, validatePassword } from "../utils/validationUtils";
-import TextError from "../components/shared/Inputs/TextError";
-import { useUserStore } from "../context/userStore";
-import { userLogin } from "../api/userLogin";
-import { decodeToken, isTokenExpired } from "../utils/tokenUtils";
+import logo from '../../public/logo2.png';
+import { AnimatePresence, motion } from 'framer-motion';
+import InputText from '../components/shared/Inputs/InputText';
+import InputPassword from '../components/shared/Inputs/InputPassword';
+import CustomButton from '../components/shared/CustomButton';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { validateEmail, validatePassword } from '../utils/validationUtils';
+import TextError from '../components/shared/Inputs/TextError';
 
+import useLoginMutation from '../hooks/useLogin';
 
 function LoginForm() {
-  const { setUser, user } = useUserStore(); // Estado global
   const navigate = useNavigate();
+  const loginMutation = useLoginMutation();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // estos dos estados podrian ser 1 solo estado: {email: '', password:''}
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ email: string; password: string }>({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [apiError, setApiError] = useState<string | null>(null);
 
   const fadeInOut = {
     initial: { opacity: 0, y: 20 },
@@ -43,42 +39,21 @@ function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
-    if (!handleValidation()) {
-      return;
-    }
-  
-    setIsLoading(true);
-    setApiError(null);
-  
-    try {
-      const { token } = await userLogin({ email, password }); // Llamada a la API
-      localStorage.setItem("token", token); // Guarda el token para solicitudes posteriores
-  
-      // Verificar si el token es válido antes de decodificarlo
-      if (isTokenExpired(token)) {
-        throw new Error("El token ha expirado");
+
+    if (!handleValidation()) return;
+
+    loginMutation.mutate(
+      { email, password },
+      {
+        onSuccess: () => {
+          navigate('/home');
+        },
       }
-  
-      // Decodificar el token
-      const decodedToken = decodeToken(token);
-  
-      // Guardar datos del usuario en el estado global
-      setUser({ id: decodedToken.userId, email, role: decodedToken.role });
-  
-      navigate("/home"); // Navega a la página principal
-    } catch (error: any) {
-      setApiError(error.message || "Error al iniciar sesión");
-    } finally {
-      setIsLoading(false);
-    }
+    );
   };
-  
 
-  useEffect(() => {
-    console.log("Estado global user ha cambiado:", user);
-  }, [user]);
-
+  // Si unificamos el estado {email: '', password:''}
+  // estas dos funciones deben refactorizarse a una sola
   const handleEmailChange = (value: string) => {
     setEmail(value);
     const emailError = validateEmail(value);
@@ -122,7 +97,11 @@ function LoginForm() {
           {errors.password && <TextError text={errors.password} />}
         </AnimatePresence>
 
-        {apiError && <p className="text-red-500 text-sm">{apiError}</p>}
+        {loginMutation.isError && (
+          <p className="text-red-500 text-sm">
+            {(loginMutation.error as Error).message}
+          </p>
+        )}
 
         <Link to="/forgotPassword">
           <p className="text-[#0a135d] text-sm font-medium text-end mt-2 underline">
@@ -132,9 +111,9 @@ function LoginForm() {
 
         <div className="h-36 flex flex-col items-center justify-evenly">
           <CustomButton
-            title={isLoading ? "Loading..." : "Iniciar sesión"}
+            title={loginMutation.isPending ? 'Loading...' : 'Iniciar sesión'}
             appearance={true}
-            loading={isLoading}
+            loading={loginMutation.isPending}
             type="submit"
           />
           <Link to="/register">
