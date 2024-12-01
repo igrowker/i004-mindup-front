@@ -34,7 +34,8 @@ jobs:
   deploy-to-ec2:
     needs: build-and-push
     runs-on: [self-hosted, frontend-deploy]
-
+    
+    steps:
       - name: Deploy Frontend to EC2
         run: |
             cd /home/admin/frontend &&
