@@ -34,16 +34,10 @@ jobs:
   deploy-to-ec2:
     needs: build-and-push
     runs-on: [self-hosted, frontend-deploy]
-
+    
     steps:
-      - name: Set up SSH key
-        run: |
-          echo "${{ secrets.EC2_PRIVATE_KEY }}" > mindup.pem
-          chmod 600 mindup.pem
-
       - name: Deploy Frontend to EC2
         run: |
-          ssh -i mindup.pem -o StrictHostKeyChecking=no admin@${{ secrets.EC2_PUBLIC_IP }} "
             cd /home/admin/frontend &&
             sudo docker pull igrowker/i004-mindup-front:${{ github.sha }} &&
             sudo docker stop mindup-front || true &&
@@ -52,6 +46,4 @@ jobs:
               --name mindup-front \
               -p 80:80 \
               -e NGINX_SERVER_NAME=${{ secrets.NGINX_SERVER_NAME }} \
-              igrowker/i004-mindup-front:${{ github.sha }} &&
-            cd /home/admin &&
-            ./run.sh"
+              igrowker/i004-mindup-front:${{ github.sha }}"
