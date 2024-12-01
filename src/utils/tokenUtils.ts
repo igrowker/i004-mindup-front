@@ -1,23 +1,23 @@
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from 'jwt-decode';
 
-interface DecodedToken {
+export interface DecodedToken {
   userId: string;
   role: string;
   exp: number;
   [key: string]: any; // Si el token tiene más propiedades dinámicas
 }
 
- // Decodifica un token JWT y retorna el payload.
+// Decodifica un token JWT y retorna el payload.
 
 export const decodeToken = (token: string): DecodedToken => {
   try {
     return jwtDecode<DecodedToken>(token);
   } catch (error) {
-    throw new Error("Error al decodificar el token");
+    throw new Error('Error al decodificar el token');
   }
 };
 
- // Verifica si un token ha expirado.
+// Verifica si un token ha expirado.
 
 export const isTokenExpired = (token: string): boolean => {
   try {
