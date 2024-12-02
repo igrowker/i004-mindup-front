@@ -6,7 +6,7 @@ export interface LoginData {
 export const userLogin = async (loginData: LoginData) => {
   const apiUrl = import.meta.env.VITE_COREURL;
   try {
-    const response = await fetch(`${apiUrl}login`, {
+    const response = await fetch(`${apiUrl}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

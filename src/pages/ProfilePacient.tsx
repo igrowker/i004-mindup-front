@@ -3,13 +3,12 @@ import ProfileInformation from "../components/profile/ProfileInformation";
 import ProfileTerapy from "../components/profile/ProfileTerapy";
 import CustomButton from "../components/shared/CustomButton";
 import { useState } from "react";
-import { useModalStore, useUserStore } from "../context/userStore";
+import { useModalStore} from "../context/userStore";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/header/Header";
 import Modal from "../components/modal/Modal";
 
 const ProfilePacient = () => {
-  const { user } = useUserStore();
   const {openModal, toggleModal} = useModalStore();
 
   const navigate = useNavigate();
@@ -43,8 +42,6 @@ const ProfilePacient = () => {
         "La paz comienza en el momento en que eliges no permitir que otra persona o evento controle tus emociones.",
     },
   };
-
-  console.log(user);
 
   const handleAccept = () =>{
     navigate("/questionnaire")

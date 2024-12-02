@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
-import Card from './Card';
-import Header from '../header/Header';
+import { useState, useRef, useEffect } from "react";
+import Card from "./Card";
+import Header from "../header/Header";
 
 export interface CardData {
   id: number;
@@ -22,51 +22,51 @@ const cards: CardData[] = [
   {
     id: 0,
     first: true,
-    image: '/Imágenes/hojas.png',
-    text: 'Ya tenemos a tu posible psicólogo seleccionado',
+    image: "/Imágenes/hojas.png",
+    text: "Ya tenemos a tu posible psicólogo seleccionado",
     paragraph: [
-      'Basados en tus necesidades, encontramos a estos 3 perfiles de profesionales perfectos para ti',
-      'Agenda un turno con el que sientas mayor afinidad.',
+      "Basados en tus necesidades, encontramos a estos 3 perfiles de profesionales perfectos para ti",
+      "Agenda un turno con el que sientas mayor afinidad.",
     ],
   },
   {
     id: 1,
-    name: 'Trinidad',
-    lastname: 'Garcia',
-    image: '/Imágenes/trinidadProfesiona.png',
-    terapy_type: 'Terapia Cognitivo - Conductual',
-    attention_type: 'Virtual y presencial',
-    honorarys: '$13.000 a $15.000',
+    name: "Trinidad",
+    lastname: "Garcia",
+    image: "/Imágenes/trinidadProfesiona.png",
+    terapy_type: "Terapia Cognitivo - Conductual",
+    attention_type: "Virtual y presencial",
+    honorarys: "$13.000 a $15.000",
     phrase:
-      'Somos seres con la capacidad de desear pero siempre incompletos, de ahí surge nuestro caminar',
-    author: 'Jacques Lacan',
-    song: 'The Beatles - All my loving',
+      "Somos seres con la capacidad de desear pero siempre incompletos, de ahí surge nuestro caminar",
+    author: "Jacques Lacan",
+    song: "The Beatles - All my loving",
   },
   {
     id: 2,
-    name: 'Trinidad',
-    lastname: 'Garcia',
-    image: '/Imágenes/trinidadProfesiona.png',
-    terapy_type: 'Trapia Cognitivo - Conductual',
-    attention_type: 'Virtual y presencial',
-    honorarys: '$13.000 a $15.000',
+    name: "Trinidad",
+    lastname: "Garcia",
+    image: "/Imágenes/trinidadProfesiona.png",
+    terapy_type: "Trapia Cognitivo - Conductual",
+    attention_type: "Virtual y presencial",
+    honorarys: "$13.000 a $15.000",
     phrase:
-      'Somos seres con la capacidad de desear pero siempre incompletos, de ahí surge nuestro caminar',
-    author: 'Jacques Lacan',
-    song: 'The Beatles - All my loving',
+      "Somos seres con la capacidad de desear pero siempre incompletos, de ahí surge nuestro caminar",
+    author: "Jacques Lacan",
+    song: "The Beatles - All my loving",
   },
   {
     id: 3,
-    name: 'Trinidad',
-    lastname: 'Garcia',
-    image: '/Imágenes/trinidadProfesiona.png',
-    terapy_type: 'Trapia Cognitivo - Conductual',
-    attention_type: 'Virtual y presencial',
-    honorarys: '$13.000 a $15.000',
+    name: "Trinidad",
+    lastname: "Garcia",
+    image: "/Imágenes/trinidadProfesiona.png",
+    terapy_type: "Trapia Cognitivo - Conductual",
+    attention_type: "Virtual y presencial",
+    honorarys: "$13.000 a $15.000",
     phrase:
-      'Somos seres con la capacidad de desear pero siempre incompletos, de ahí surge nuestro caminar',
-    author: 'Jacques Lacan',
-    song: 'The Beatles - All my loving',
+      "Somos seres con la capacidad de desear pero siempre incompletos, de ahí surge nuestro caminar",
+    author: "Jacques Lacan",
+    song: "The Beatles - All my loving",
   },
 ];
 
@@ -121,8 +121,8 @@ const Slider = () => {
     <div
       className="relative overflow-hidden w-full h-screen flex flex-col items-center justify-center px-2 sm:px-4"
       style={{
-        backgroundImage: 'url(/Gifs/bgGif.gif)',
-        backgroundSize: 'cover',
+        backgroundImage: "url(/Gifs/bgGif.gif)",
+        backgroundSize: "cover",
       }}
     >
       <div className="fixed top-0 w-full">
@@ -142,7 +142,7 @@ const Slider = () => {
           <div
             key={card.id}
             className="w-full flex-shrink-0 flex justify-center items-center mt-14"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
           >
             <Card {...card} />
           </div>
@@ -172,7 +172,7 @@ const Slider = () => {
           <div
             key={index}
             className={`h-2 w-2 rounded-full ${
-              index === currentIndex ? 'bg-secondaryBtn' : 'bg-white'
+              index === currentIndex ? "bg-secondaryBtn" : "bg-white"
             }`}
           ></div>
         ))}

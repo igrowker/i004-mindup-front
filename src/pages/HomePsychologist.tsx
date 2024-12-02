@@ -2,10 +2,9 @@ import WeekCalendar from "../components/home/WeekCalendar";
 import DateCardList from "../components/home/DateCardList";
 import CustomButton from "../components/shared/CustomButton";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Header from "../components/header/Header";
 import { motion } from "framer-motion";
-import { useUserStore } from "../context/userStore";
 
 const appointments = [
   //EJEMPLO SIMULANDO BASE DE DATOS MUCHACHADA
@@ -29,7 +28,6 @@ const appointments = [
 
 
 function HomePsychologist() {
-  const {user} = useUserStore();
   const navigate = useNavigate();
   const [availableForUrgencies, setAvailableForUrgencies] = useState(false);
 
@@ -41,11 +39,6 @@ function HomePsychologist() {
   const filteredAppointments = appointments.filter(
     (appointment) => appointment.blocked
   );
-
-  useEffect(()=>{
-    console.log(user)
-    console.log("Localstorage", localStorage.getItem("token"))
-  },[user])
 
   const fadeInOut = {
     initial: { opacity: 0, y: 20 },
