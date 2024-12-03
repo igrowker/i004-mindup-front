@@ -23,6 +23,25 @@ export const useUserStore = create<UserState>((set) => ({
   setRegistering: (registering) => set({ registering }),
 }));
 
+// Select Store
+interface DecodedSelect {
+  isBelow35?: boolean;
+  gender?: string;
+}
+
+interface SelectState {
+  select: DecodedSelect;
+  setSelect: (select: Partial<DecodedSelect>) => void; // Cambiamos a Partial
+}
+
+export const selectStore = create<SelectState>((set) => ({
+  select: {},
+  setSelect: (partialSelect) =>
+    set((state) => ({
+      select: { ...state.select, ...partialSelect }, // Combina el estado actual con los nuevos valores
+    })),
+}));
+
 // Modal Store
 interface ModalState {
   openModal: boolean;

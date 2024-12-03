@@ -1,61 +1,43 @@
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../context/userStore";
 import { useEffect } from "react";
-import { decodeToken, isTokenExpired } from "../utils/tokenUtils";
+import { decodeToken, isTokenExpired } from "../utils/tokenUtils"; // Asegúrate de que estas funciones existan y funcionen correctamente.
 
 const useAuthorization = () => {
-  const { setUser, user } = useUserStore();
+  const { setUser } = useUserStore();
   const navigate = useNavigate();
-  const apiUrl = import.meta.env.VITE_COREURL;
 
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    const fetchUserData = async (userId: string) => {
+    if (token && !isTokenExpired(token)) {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) throw new Error("Token no encontrado");
+        // Decodifica el token y extrae los datos del usuario
+        const decoded = decodeToken(token);
 
-        const response = await fetch(
-          `${apiUrl}/user/profile/${userId}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`, // Token en el encabezado
-            },
-          }
-        );
-
-        if (response.ok) {
-          const userData = await response.json();
+        console.log(decoded)
+        // Verifica que los datos mínimos necesarios estén presentes
+        if (decoded && decoded.userId && decoded.sub) {
           setUser({
-            id: userData.id,
-            email: userData.email,
-            role: userData.role,
-            professional: userData.professional,
-            name: userData.name,
-            image: userData.image,
+            id: decoded.userId,
+            email: decoded.sub,
+            role: decoded.role,
+          //  professional: decoded.professional,
+          // name: decoded.name,
+          //  image: decoded.image,
           });
         } else {
-          console.error(
-            "Error al obtener los datos del usuario:",
-            response.statusText
-          );
+          console.error("Token inválido: faltan datos del usuario.");
           setUser(null);
           navigate("/");
         }
       } catch (error) {
-        console.error("Error al realizar la solicitud:", error);
+        console.error("Error decodificando el token:", error);
         setUser(null);
         navigate("/");
       }
-    };
-
-    if (token && !isTokenExpired(token)) {
-      const decoded = decodeToken(token);
-      fetchUserData(decoded.userId);
     } else {
+      // Si el token no es válido o ha expirado
       setUser(null);
       if (window.location.pathname !== "/") {
         navigate("/");

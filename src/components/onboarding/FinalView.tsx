@@ -1,21 +1,27 @@
 import { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import InputText from "../shared/Inputs/InputText";
 import TextError from "../shared/Inputs/TextError";
 import CustomButton from "../shared/CustomButton";
 import InputGender from "./InputGender";
+import InputBirthDate from "../shared/Inputs/InputBirthDate";
+import { useUserStore } from "../../context/userStore";
+import { OnBoardData, userOnBoard } from "../../api/userOnboard";
 
 const FinalView: React.FC = () => {
+  const { user } = useUserStore();
   const [formData, setFormData] = useState({
+    information: "",
     gender: "",
     specialty: "",
     matricula: "",
     zone: "",
+    birth: "",
     attention: {
       virtual: false,
       presencial: false,
     },
-    about: "",
   });
 
   const [errors, setErrors] = useState({
@@ -23,22 +29,22 @@ const FinalView: React.FC = () => {
     specialty: "",
     matricula: "",
     zone: "",
-    about: "",
+    birth: "",
+    information: "",
     attention: "",
   });
 
   const navigate = useNavigate();
-
   const handleChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
     }));
     // Validaciones dinámicas
-    if (field === "about") {
+    if (field === "information") {
       setErrors((prev) => ({
         ...prev,
-        about:
+        information:
           (value as string).length > 100
             ? "El texto no puede exceder los 100 caracteres."
             : value
@@ -60,34 +66,49 @@ const FinalView: React.FC = () => {
         ...prev,
         zone: value ? "" : "La zona de atención es obligatoria.",
       }));
+    } else if (field === "birth") {
+      setErrors((prev) => ({
+        ...prev,
+        birth: value ? "" : "La fecha de nacimiento es obligatoria.",
+      }));
+    } else if (field === "gender") {
+      setErrors((prev) => ({
+        ...prev,
+        gender: value ? "" : "El género es obligatorio.",
+      }));
     }
   };
 
   const handleCheckboxChange = (type: "virtual" | "presencial") => {
-    setFormData((prev) => ({
-      ...prev,
-      attention: {
+    setFormData((prev) => {
+      const updatedAttention = {
         ...prev.attention,
         [type]: !prev.attention[type],
-      },
-    }));
-    setErrors((prev) => ({
-      ...prev,
-      attention:
-        !formData.attention.virtual && !formData.attention.presencial
-          ? "Debes seleccionar al menos un tipo de atención."
-          : "",
-    }));
-  };
+      };
 
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        attention:
+          !updatedAttention.virtual && !updatedAttention.presencial
+            ? "Debes seleccionar al menos un tipo de atención."
+            : "",
+      }));
+
+      return {
+        ...prev,
+        attention: updatedAttention,
+      };
+    });
+  };
   const handleValidation = () => {
     const newErrors = {
       gender: formData.gender ? "" : "El género es obligatorio.",
       specialty: formData.specialty ? "" : "La especialidad es obligatoria.",
       matricula: formData.matricula ? "" : "La matrícula no puede estar vacía.",
       zone: formData.zone ? "" : "La zona de atención es obligatoria.",
-      about: formData.about
-        ? formData.about.length > 100
+      birth: formData.birth ? "" : "La fecha de nacimiento es obligatoria.",
+      information: formData.information
+        ? formData.information.length > 100
           ? "El texto no puede exceder los 100 caracteres."
           : ""
         : "El campo sobre ti no puede estar vacío.",
@@ -102,20 +123,38 @@ const FinalView: React.FC = () => {
     return Object.values(newErrors).every((err) => err === "");
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
     if (handleValidation()) {
-      // Aquí puedes agregar lógica para enviar los datos al backend
-      navigate("/home");
+      if (!user) {
+        console.error("No se ha iniciado sesión.");
+        return;
+      }
+
+      // Transformar formData a OnBoardData
+      const onBoardData: OnBoardData = {
+        gender: formData.gender,
+        specialty: formData.specialty,
+        tuition: formData.matricula, // Cambiar nombre
+        zone: formData.zone,
+        birth: formData.birth,
+        information: formData.information,
+      };
+
+      try {
+        await userOnBoard(onBoardData, user.id);
+        navigate("/home");
+      } catch (error) {
+        console.error("Error al enviar los datos:", error);
+      }
     }
   };
 
   return (
     <div className="min-h-screen w-full min-w-mobile flex flex-col items-center justify-center bg-background">
       <h2 className="text-center text-xl font-semibold text-gray-800 mb-4">
-        Cuéntanos sobre ti {localStorage.getItem("name") || ""} <br /> para
-        empezar a ayudar
+        Cuéntanos sobre ti {""} <br /> para empezar a ayudar
       </h2>
 
       <form onSubmit={handleSubmit}>
@@ -132,14 +171,25 @@ const FinalView: React.FC = () => {
           <InputGender
             title="Selecciona tu género*"
             options={[
-              { label: "Hombre", value: "Male" },
-              { label: "Mujer", value: "Female" },
-              { label: "Otro", value: "Other" },
+              { label: "Hombre", value: "MALE" },
+              { label: "Mujer", value: "FEMALE" },
+              { label: "Otro", value: "OTHER" },
             ]}
             onChange={(e) => handleChange("gender", e.target.value)}
           />
           {errors.gender && <TextError text={errors.gender} />}
         </div>
+
+        <div className="w-full max-w-md mb-4">
+          <InputBirthDate
+            name="Fecha de Nacimiento*"
+            placeholder="yyyy-MM-dd"
+            value={formData.birth}
+            onChange={(e) => handleChange("birth", e.target.value)}
+          />
+          {errors.birth && <TextError text={errors.birth} />}
+        </div>
+
         <div className="w-full max-w-md mb-4">
           <InputText
             name="Matrícula*"
@@ -199,14 +249,14 @@ const FinalView: React.FC = () => {
             id="descripcion"
             placeholder="Cuéntanos tus motivaciones y valores."
             maxLength={100}
-            value={formData.about}
-            onChange={(e) => handleChange("about", e.target.value)}
+            value={formData.information}
+            onChange={(e) => handleChange("information", e.target.value)}
             className="w-full h-18 p-3 border border-gray-300 rounded-sm resize-none"
           />
           <p className="text-xs text-gray-400 text-right mt-1">
-            {formData.about.length}/100 caracteres
+            {formData.information.length}/100 caracteres
           </p>
-          {errors.about && <TextError text={errors.about} />}
+          {errors.information && <TextError text={errors.information} />}
         </div>
         <div className="w-full flex justify-center">
           <CustomButton title="Guardar" appearance type="submit" />

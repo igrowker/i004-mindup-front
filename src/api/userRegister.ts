@@ -9,7 +9,7 @@ export interface UserData {
     const apiUrl = import.meta.env.VITE_COREURL;
   
     try {
-      const response = await fetch(`${apiUrl}register`, {
+      const response = await fetch(`${apiUrl}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
