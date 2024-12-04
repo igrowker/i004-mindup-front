@@ -32,6 +32,10 @@ function HomePsychologist() {
   const navigate = useNavigate();
   const [availableForUrgencies, setAvailableForUrgencies] = useState(false);
   const { socketData } = useSocketStore();
+
+  const apiUrl = import.meta.env.VITE_COREURL;
+  const token = localStorage.getItem("token");
+
   console.log(socketData);
 
   const handleDateSelect = (date: Date | null) => {
@@ -43,11 +47,6 @@ function HomePsychologist() {
     (appointment) => appointment.blocked
   );
 
-  useEffect(() => {
-    console.log(user);
-    console.log("Localstorage", localStorage.getItem("token"));
-  }, [user]);
-
   const fadeInOut = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
@@ -55,11 +54,11 @@ function HomePsychologist() {
     transition: { duration: 0.3 },
   };
   const toggleAvailableForUrgencies = () => {
-    fetch(`http://localhost:8090/api/core/user/availability/${user?.id}`, {
+    fetch(`${apiUrl}/user/availability/${user?.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((r) => r.json())

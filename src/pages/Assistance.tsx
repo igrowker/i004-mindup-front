@@ -14,12 +14,14 @@ const Assistance = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [psychologistsNotAvailable, setPsychologistsNotAvailable] =
     useState(false);
+  const apiUrl = import.meta.env.VITE_MONGOURL;
+  const token = localStorage.getItem("token");
 
   const notification = useCallback(() => {
-    fetch(`http://localhost:8090/api/message/request-chat/${user?.id}`, {
+    fetch(`${apiUrl}/request-chat/${user?.id}`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((r) => r.json())

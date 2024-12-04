@@ -135,7 +135,7 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ onDateSelect }) => {
       </div>
       <div className="grid grid-cols-7 my-2 place-items-center text-[#737373]">
         {["D", "L", "M", "M", "J", "V", "S"].map((day) => (
-          <div key={day} className="size-8 flex justify-center items-center">
+          <div key={day + Math.random()} className="size-8 flex justify-center items-center">
             {day}
           </div>
         ))}

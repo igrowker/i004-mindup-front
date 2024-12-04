@@ -10,8 +10,6 @@ export interface OnBoardData {
 export const userOnBoard = async (onBoardData: OnBoardData, userId: string) => {
   const token = localStorage.getItem("token");
   const apiUrl = import.meta.env.VITE_COREURL;
-  console.log(JSON.stringify(onBoardData));
-  console.log(token);
   try {
     const response = await fetch(`${apiUrl}/user/${userId}/profile`, {
       method: "PUT",
