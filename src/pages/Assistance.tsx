@@ -1,44 +1,88 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Loading from "../components/shared/Loading";
 import Header from "../components/header/Header";
 import Chat from "../components/asistencia/Chat";
+import { useSocketStore, useUserStore } from "../context/userStore";
+import { useStompClient, useSubscription } from "react-stomp-hooks";
+import EmergencyNumber from "../components/asistencia/EmergencyNumber";
 
 const Assistance = () => {
-  const [isLoading, setIsLoading] = useState(true); // Estado para manejar la carga
+  const { user } = useUserStore();
+  const { socketData, setSocketData } = useSocketStore();
+  const profesionalId = socketData?.professionalId;
+  const stompClient = useStompClient();
+  const [isLoading, setIsLoading] = useState(true);
+  const [psychologistsNotAvailable, setPsychologistsNotAvailable] =
+    useState(false);
+
+  const notification = useCallback(() => {
+    fetch(`http://localhost:8090/api/message/request-chat/${user?.id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        console.log(data);
+        if (data.statusCode === 404) {
+          setPsychologistsNotAvailable(true);
+        } else {
+          stompClient?.publish({
+            destination: `/queue/notifications/${data.professionalId}`,
+            body: JSON.stringify({
+              professionalId: data.professionalId,
+              temporalChatId: data.temporalChatId,
+            }),
+          });
+          setSocketData(data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, [stompClient, user, setSocketData]);
 
   useEffect(() => {
-    // Simula una petición con un retraso de 3 segundos
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 7000);
+    if (isLoading) notification();
+  }, [isLoading, notification]);
 
-    // Limpia el temporizador al desmontar el componente
-    return () => clearTimeout(timer);
-  }, []);
+  useSubscription(`/queue/reply-${profesionalId}`, (message) => {
+    console.log(message.body);
+    if (message.body === "ok") {
+      setIsLoading(false);
+    } else if (message.body === "cancel") {
+      notification();
+    }
+  });
 
   return (
     <>
-      {isLoading ? (
-        <Loading text />
+      {psychologistsNotAvailable ? (
+        <EmergencyNumber />
       ) : (
-        <div className="min-h-screen w-full min-w-mobile flex flex-col items-center bg-background ">
-          <Header />
-
-          <section className="w-full shadow justify-center border flex p-4 items-center border-[#E5E7EB] gap-4">
-            <img
-              src="public/Imágenes/miguel.png"
-              alt="Foto del profesional"
-              className="size-10 bg-[#989898] rounded-full"
-            />
-            <div className="flex flex-col justify-center">
-              <h2 className="text-lg ">Estas hablando con Ludwing</h2>
+        <>
+          {isLoading ? (
+            <Loading text />
+          ) : (
+            <div className="min-h-screen w-full min-w-mobile flex flex-col items-center bg-background">
+              <Header />
+              <section className="w-full shadow justify-center border flex p-4 items-center border-[#E5E7EB] gap-4">
+                <img
+                  src="public/Imágenes/miguel.png"
+                  alt="Foto del profesional"
+                  className="size-10 bg-[#989898] rounded-full"
+                />
+                <div className="flex flex-col justify-center">
+                  <h2 className="text-lg">Estás hablando con Ludwing</h2>
+                </div>
+              </section>
+              <section className="w-full shadow justify-center border flex p-4 items-center border-[#E5E7EB] gap-4">
+                <Chat />
+              </section>
             </div>
-          </section>
-
-          <section className="w-full shadow justify-center border flex p-4 items-center border-[#E5E7EB] gap-4 ">
-            <Chat />
-          </section>
-        </div>
+          )}
+        </>
       )}
     </>
   );

@@ -44,13 +44,13 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ onDateSelect }) => {
   const handleDateSelect = (date: Date) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Ignorar horas en la comparación
-
-    if (date >= today) {
+  
+    if (date > today) {
       setSelectedDate(date); // Actualizar la fecha seleccionada
       onDateSelect(date); // Notificar al componente padre
     }
   };
-
+  
   const renderCalendar = () => {
     const daysInMonth = getDaysInMonth(currentDate);
     const firstDayIndex = getFirstDayOfMonth(currentDate);
@@ -58,7 +58,7 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ onDateSelect }) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Ignorar horas para comparación
     const days = [];
-
+  
     previousMonthDays.forEach((day, i) => {
       days.push(
         <div
@@ -69,28 +69,28 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ onDateSelect }) => {
         </div>
       );
     });
-
+  
     daysInMonth.forEach((day, i) => {
       const isSelected = selectedDate?.toDateString() === day.toDateString();
-      const isPast = day < today;
-
+      const isPastOrToday = day <= today; // Incluye el día de hoy como no seleccionable
+  
       days.push(
         <div
           key={i}
           className={`flex items-center text-center justify-center size-8 rounded-full cursor-pointer ${
             isSelected
               ? "bg-[#97D0C3] text-white"
-              : isPast
+              : isPastOrToday
               ? "text-[#DDDDDD] cursor-not-allowed"
               : "text-[#444444] hover:bg-gray-200"
           }`}
-          onClick={() => !isPast && handleDateSelect(day)} // Solo permite seleccionar si no es pasado
+          onClick={() => !isPastOrToday && handleDateSelect(day)} // Evita seleccionar días pasados o hoy
         >
           {day.getDate()}
         </div>
       );
     });
-
+  
     const totalDays = previousMonthDays.length + daysInMonth.length;
     const nextMonthDaysCount = totalDays % 7 === 0 ? 0 : 7 - (totalDays % 7);
     for (let i = 1; i <= nextMonthDaysCount; i++) {
@@ -103,7 +103,7 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ onDateSelect }) => {
         </div>
       );
     }
-
+  
     return days;
   };
 

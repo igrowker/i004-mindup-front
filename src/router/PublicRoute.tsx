@@ -2,14 +2,22 @@ import { Navigate } from "react-router-dom";
 import { useUserStore } from "../context/userStore";
 
 const PublicRoute = ({ children }: { children: JSX.Element }) => {
-  const { user } = useUserStore(); // Obtenemos el usuario del contexto.
+  const { user, registering } = useUserStore();
 
-  // Si el usuario está autenticado, redirige a "/home".
   if (user) {
+    if (registering) {
+      // Redirección condicional basada en el flujo de registro
+      return (
+        <Navigate
+          to={user.role === "PATIENT" ? "/questionnaire" : "/onboard"}
+          replace
+        />
+      );
+    }
+    // Redirección a home si no está en proceso de registro
     return <Navigate to="/home" replace />;
   }
 
-  // Si no está autenticado, permite acceder al contenido público.
   return children;
 };
 

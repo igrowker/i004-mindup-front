@@ -5,6 +5,7 @@ import TextSection from "./TextSection";
 import DynamicButton from "../onboarding/DynamicButton";
 import OptionButton from "./OptionButton";
 import { ViewData } from "../../pages/Questionnaire";
+import { selectStore } from "../../context/userStore";
 
 type QuestionnaireStageProps = {
   currentStepData: ViewData;
@@ -25,9 +26,22 @@ const QuestionnaireStage: React.FC<QuestionnaireStageProps> = ({
   handleNext,
   handlePrevious,
 }) => {
+  const { setSelect } = selectStore();
+
   const handleSelect = (option: string) => {
     handleOptionSelect(option);
+
+    if (currentStep === 5) {
+      // Vista para género
+      const gender = option === "Sea un varón" ? "MALE" : "FEMALE";
+      setSelect({ gender });
+    } else if (currentStep === 6) {
+      // Vista para edad
+      const isBelow35 = option === "Tenga menos de 35 años" ? true : false;
+      setSelect({ isBelow35 });
+    }
   };
+
   const bgColor =
     currentStep === 0 || currentStep === 1
       ? "bg-background"

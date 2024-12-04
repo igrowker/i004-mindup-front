@@ -1,17 +1,19 @@
-export interface LoginData {
-  email: string;
-  password: string;
+export interface SelectData {
+  isBelow35: boolean;
+  gender: string;
 }
 
-export const userLogin = async (loginData: LoginData) => {
+export const userSelect = async (selectData: SelectData) => {
+  const token = localStorage.getItem("token");
   const apiUrl = import.meta.env.VITE_COREURL;
   try {
-    const response = await fetch(`${apiUrl}/login`, {
+    const response = await fetch(`${apiUrl}/search-preference-psychologists`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(loginData),
+      body: JSON.stringify(selectData),
     });
 
     if (!response.ok) {

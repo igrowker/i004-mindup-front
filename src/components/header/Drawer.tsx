@@ -6,7 +6,7 @@ import ButtonNav from "./ButtonNav";
 import { IoPeopleOutline } from "react-icons/io5";
 import Modal from "../modal/Modal";
 import CustomButton from "../shared/CustomButton";
-import { useModalStore, useUserStore } from "../../context/userStore";
+import { useLogoutModalStore, useUserStore } from "../../context/userStore";
 import { toast } from "sonner";
 
 type DrawerProps = {
@@ -16,19 +16,29 @@ type DrawerProps = {
 };
 
 const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
-  const { openModal, toggleModal } = useModalStore();
+  const { openLogoutModal, toggleLogoutModal } = useLogoutModalStore();
   const { setUser } = useUserStore();
-
   const navigate = useNavigate();
 
   if (!isOpen) return null;
 
+  const handleLogout = () => {
+    console.log("Iniciando proceso de logout");
+    toggleLogoutModal();
+  };
+
   const handleAccept = () => {
+    console.log("Aceptando logout");
     localStorage.removeItem("token");
     setUser(null);
-    toggleModal();
+    toggleLogoutModal();
     toast.success("Cierre de sesión exitoso!");
     navigate("/");
+  };
+
+  const handleCancel = () => {
+    console.log("Cancelando logout");
+    toggleLogoutModal();
   };
 
   const navItems = patient
@@ -99,14 +109,13 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
             <CustomButton
               title="Cerrar Sesión"
               appearance={true}
-              onClick={() => {
-                toggleModal();
-              }}
+              onClick={handleLogout}
             />
-            {openModal && (
+            {openLogoutModal && (
               <Modal
                 title="¿Seguro desea cerrar la sesión?"
                 onClick={handleAccept}
+                onClose={handleCancel}
               />
             )}
           </div>

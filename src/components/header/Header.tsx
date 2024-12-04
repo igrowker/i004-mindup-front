@@ -38,9 +38,11 @@ function Header() {
           : location.pathname.includes("/mydates")
           ? "Mis citas"
           : location.pathname.includes("/assistance") ||
-            location.pathname.includes("/emergency")
+            location.pathname.includes("/emergency")||
+            location.pathname.includes("/chatpettient") 
           ? "Asistencia"
-          : "Gestión de turnos"}
+          : "Gestión de turnos"
+          }
       </h2>
     );
 
