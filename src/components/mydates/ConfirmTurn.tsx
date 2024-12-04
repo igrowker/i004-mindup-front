@@ -2,6 +2,11 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { userAppointment } from "../../api/userAppointment";
+import {
+  selectedProfessionalStore,
+  useUserStore,
+} from "../../context/userStore";
 
 function ConfirmTurn({
   selectedDate,
@@ -19,18 +24,47 @@ function ConfirmTurn({
     }
   }, [selectedDate, selectedTime, setFase]);
 
-  const navigate = useNavigate()
+  const { selectedProfessional } = selectedProfessionalStore();
+  const { user } = useUserStore();
+
+  const navigate = useNavigate();
 
   const handleDenied = () => {
-    setFase()
-    toast.info("Seleccione un nuevo turno")
-  }
+    setFase();
+    toast.info("Seleccione un nuevo turno");
+  };
 
   const handleAccept = () => {
-    console.log(`Turno aceptado en dia ${selectedDate} y hora ${selectedTime}`)
-    toast.success(`Turno aceptado en dia ${selectedDate} y hora ${selectedTime}`)
-    navigate("/home")
-  }
+    if (!user || !selectedDate || !selectedTime || !selectedProfessional) {
+      toast.error("Faltan datos para completar la operación.");
+      return;
+    }
+
+    // Combinar fecha y hora en formato ISO
+    const [hours, minutes] = selectedTime.split(":").map(Number);
+    const combinedDateTime = new Date(selectedDate);
+    combinedDateTime.setHours(hours, minutes);
+
+    const isoDateTime = combinedDateTime.toISOString();
+
+    // Mostrar notificación de éxito
+    toast.success(`Turno aceptado para ${isoDateTime}`);
+
+    // Llamada a la API con el formato correcto
+    userAppointment({
+      patientId: user.id,
+      psychologistId: selectedProfessional,
+      date: isoDateTime,
+    })
+      .then(() => {
+        toast.success("Turno guardado con exito.");
+        navigate("/home");
+      })
+      .catch((error) => {
+        toast.error("Hubo un problema al guardar el turno.");
+        console.error(error);
+      });
+  };
 
   const options: Intl.DateTimeFormatOptions = {
     //Formateo de la fecha
@@ -59,18 +93,18 @@ function ConfirmTurn({
 
   const formattedDate = selectedDate
     ? capitalize(
-      `${selectedDate.toLocaleDateString("es-ES", options)} ${monthNames[selectedDate.getMonth()]
-      } ${selectedDate.getFullYear()}`
-    )
+        `${selectedDate.toLocaleDateString("es-ES", options)} ${
+          monthNames[selectedDate.getMonth()]
+        } ${selectedDate.getFullYear()}`
+      )
     : "Fecha no seleccionada";
-
 
   const fadeInOut = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: -20 },
     transition: { duration: 0.3 },
-  }
+  };
 
   return (
     <article className="flex flex-col items-center w-full p-4 gap-8 mt-4">
@@ -90,9 +124,7 @@ function ConfirmTurn({
           <h3 className="text-[#4A4A4A]">Terapia Cognitiva</h3>
         </div>
       </div>
-      <motion.div
-        {...fadeInOut}
-      >
+      <motion.div {...fadeInOut}>
         <div className="shadow-[0px_0px_16px_rgba(0,0,0,0.2)] rounded-sm py-4 w-[288px] flex flex-col text-center items-center justify-center gap-2">
           <h5 className="font-medium text-black">
             ¿Seguro deseas agendar tu nuevo horario?

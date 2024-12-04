@@ -42,6 +42,19 @@ export const selectStore = create<SelectState>((set) => ({
     })),
 }));
 
+// Selected Professional Store
+interface SelectedProfessionalState {
+  selectedProfessional: string | null;
+  setSelectedProfessional: (professional: string | null) => void;
+}
+
+export const selectedProfessionalStore = create<SelectedProfessionalState>((set) => ({
+    selectedProfessional: null,
+    setSelectedProfessional: (professional) =>
+      set({ selectedProfessional: professional }),
+  })
+);
+
 // Modal Store
 interface ModalState {
   openModal: boolean;

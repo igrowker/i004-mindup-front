@@ -4,6 +4,7 @@ import Header from "../header/Header";
 
 export interface CardData {
   id: number;
+  userId?: string;
   first?: boolean;
   name?: string;
   lastname?: string;
@@ -38,6 +39,7 @@ const Slider = ({ userData }: { userData: any[] }) => {
     // Mapear los datos de la API a `CardData` y añadir el slide de presentación
     const userSlides = userData.map((user, index) => ({
       id: index + 1, // Evita conflicto de IDs
+      userId: user.userId,
       name: user.name,
       lastname: "",
       image: user.image || "/default-profile.png", // Imagen por defecto si no hay
@@ -49,6 +51,7 @@ const Slider = ({ userData }: { userData: any[] }) => {
       song: "",
     }));
     setCardList([presentationSlide, ...userSlides]);
+    console.log(cardList);
   }, [userData]);
 
   const touchStartX = useRef<number | null>(null);

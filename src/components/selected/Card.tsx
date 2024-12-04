@@ -1,15 +1,17 @@
-import { LuMusic } from 'react-icons/lu';
-import { RiGroupLine } from 'react-icons/ri';
-import { LuBookOpen } from 'react-icons/lu';
-import { CiMoneyBill } from 'react-icons/ci';
-import { CardData } from './SliderCard';
-import CustomButton from '../shared/CustomButton';
-import { useNavigate } from 'react-router-dom';
+import { LuMusic } from "react-icons/lu";
+import { RiGroupLine } from "react-icons/ri";
+import { LuBookOpen } from "react-icons/lu";
+import { CiMoneyBill } from "react-icons/ci";
+import { CardData } from "./SliderCard";
+import CustomButton from "../shared/CustomButton";
+import { useNavigate } from "react-router-dom";
+import { selectedProfessionalStore } from "../../context/userStore";
 
 const Card: React.FC<CardData> = ({
   first,
   text,
   paragraph,
+  userId,
   name,
   lastname,
   image,
@@ -20,8 +22,18 @@ const Card: React.FC<CardData> = ({
   author,
   song,
 }) => {
+  const navigate = useNavigate();
+  const { setSelectedProfessional } = selectedProfessionalStore();
 
-const navigate = useNavigate();
+  const handleAppointment = () => {
+    if (!userId) {
+      navigate("/questionnaire");
+      return;
+    }
+
+    setSelectedProfessional(userId);
+    navigate("/mydates");
+  };
 
   if (first) {
     return (
@@ -124,8 +136,14 @@ const navigate = useNavigate();
           <p className="text-xs font-medium">{song}</p>
         </div>
       </main>
-      <div className='flex justify-center mt-4 gap-4'>
-        <CustomButton title="Agendar turno" appearance={true} onClick={()=>{navigate("/mydates")}}/>
+      <div className="flex justify-center mt-4 gap-4">
+        <CustomButton
+          title="Agendar turno"
+          appearance={true}
+          onClick={() => {
+            handleAppointment();
+          }}
+        />
       </div>
     </div>
   );
