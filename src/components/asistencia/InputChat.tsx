@@ -1,19 +1,45 @@
 import { useState, FormEvent } from "react";
 import { LuSendHorizonal } from "react-icons/lu";
+import { useStompClient } from "react-stomp-hooks";
+import { useUserStore } from "../../context/userStore";
 
 interface InputChatProps {
-  onSendMessage: (text: string) => void; // Función para enviar mensajes al componente padre
+  profesionalId: any; // Permitir que sea opcional para manejar escenarios sin datos
 }
 
-export default function InputChat({ onSendMessage }: InputChatProps) {
+export default function InputChat({ profesionalId }: InputChatProps) {
   const [inputValue, setInputValue] = useState("");
+  const stompClient = useStompClient();
+  const { user } = useUserStore();
+
+  const isInputValid = (): boolean => {
+    if (!profesionalId) {
+      console.warn("Profesional ID no disponible.");
+      return false;
+    }
+    if (!stompClient) {
+      console.warn("Cliente STOMP no inicializado.");
+      return false;
+    }
+    return true;
+  };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!inputValue.trim()) return;
+    if (!isInputValid()) return;
 
-    onSendMessage(inputValue); // Enviar mensaje al componente padre
-    setInputValue(""); // Limpiar el campo de entrada
+    const message = {
+      patientId: user?.id,
+      sender: user?.id,
+      content: inputValue.trim(), // Eliminar espacios en blanco
+    };
+
+    stompClient?.publish({
+      destination: `/queue/reply-${profesionalId}`,
+      body: JSON.stringify(message),
+    });
+
+    setInputValue(""); // Limpiar el input
   };
 
   return (
@@ -32,6 +58,7 @@ export default function InputChat({ onSendMessage }: InputChatProps) {
         <button
           type="submit"
           className="absolute right-2 top-1/2 transform -translate-y-1/2 text-[#7a5fe7] hover:bg-[#f3f3f3] p-1 rounded-full"
+          disabled={!inputValue.trim()} // Desactivar si el input está vacío
         >
           <LuSendHorizonal className="size-6" />
         </button>

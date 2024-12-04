@@ -3,12 +3,11 @@ import { motion } from "framer-motion";
 
 interface ModalProps {
   title: string;
-  hideCancelBtn?: boolean;
   onClose?: () => void;
   onClick: () => void;
 }
 
-const Modal = ({ title, hideCancelBtn, onClick, onClose }: ModalProps) => {
+const NotificationModal = ({ title, onClick, onClose }: ModalProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 0 }}
@@ -25,14 +24,7 @@ const Modal = ({ title, hideCancelBtn, onClick, onClose }: ModalProps) => {
           </div>
           <hr className="my-4 -mx-4" />
           <div className="flex gap-5 justify-center my-2">
-            {hideCancelBtn ? (
-              <CustomButton
-                title="Aceptar"
-                appearance={true}
-                option
-                onClick={onClick}
-              />
-            ) : (
+            
               <>
                 <CustomButton
                   title="Cancelar"
@@ -47,7 +39,6 @@ const Modal = ({ title, hideCancelBtn, onClick, onClose }: ModalProps) => {
                   onClick={onClick}
                 />
               </>
-            )}
           </div>
         </div>
       </div>
@@ -55,4 +46,4 @@ const Modal = ({ title, hideCancelBtn, onClick, onClose }: ModalProps) => {
   );
 };
 
-export default Modal;
+export default NotificationModal;

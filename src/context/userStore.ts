@@ -20,7 +20,7 @@ export const useUserStore = create<UserState>((set) => ({
   setRegistering: (registering) => set({ registering }),
 }));
 
-// Modal Store
+// Notification Modal Store
 interface ModalState {
   openModal: boolean;
   toggleModal: () => void;
@@ -29,4 +29,31 @@ interface ModalState {
 export const useModalStore = create<ModalState>((set) => ({
   openModal: false,
   toggleModal: () => set((state) => ({ openModal: !state.openModal })),
+}));
+
+// Logout Modal Store
+interface LogoutModalState {
+  openLogoutModal: boolean;
+  toggleLogoutModal: () => void;
+}
+
+export const useLogoutModalStore = create<LogoutModalState>((set) => ({
+  openLogoutModal: false,
+  toggleLogoutModal: () => set((state) => ({ openLogoutModal: !state.openLogoutModal })),
+}));
+
+interface SocketData {
+  professionalId: string;
+  temporalChatId: string;
+}
+
+// Store para manejar los datos del socket
+interface SocketStore {
+  socketData: SocketData | null; // Guardamos los datos del socket
+  setSocketData: (data: SocketData | null) => void; // Función para actualizar los datos
+}
+
+export const useSocketStore = create<SocketStore>((set) => ({
+  socketData: null, // Inicialmente no hay datos del socket
+  setSocketData: (data) => set({ socketData: data }), // Función para actualizar los datos del socket
 }));
