@@ -4,9 +4,10 @@ export interface AppointmentData {
     date: string;
   }
   
-  export const userAppointment = async (appointmentData: AppointmentData) => {
+  export const userAppointmentCreate = async (appointmentData: AppointmentData) => {
     const token = localStorage.getItem("token");
     const apiUrl = import.meta.env.VITE_COREURL;
+    console.log(appointmentData);
     try {
       const response = await fetch(`${apiUrl}/appointment/create`, {
         method: "POST",

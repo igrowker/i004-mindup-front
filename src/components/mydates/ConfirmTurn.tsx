@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { userAppointment } from "../../api/userAppointment";
+import { userAppointmentCreate } from "../../api/userAppointment";
 import {
   selectedProfessionalStore,
   useUserStore,
@@ -51,7 +51,7 @@ function ConfirmTurn({
     toast.success(`Turno aceptado para ${isoDateTime}`);
 
     // Llamada a la API con el formato correcto
-    userAppointment({
+    userAppointmentCreate({
       patientId: user.id,
       psychologistId: selectedProfessional,
       date: isoDateTime,

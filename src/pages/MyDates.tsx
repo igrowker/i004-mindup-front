@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/header/Header";
 import SelectDay from "../components/mydates/SelectDay";
 import ConfirmTurn from "../components/mydates/ConfirmTurn";
@@ -8,6 +8,13 @@ function MyDates() {
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [selectedTime, setSelectedTime] = useState<string>();
 
+  // Dentro del componente MyDates
+  useEffect(() => {
+    if (selectedTime) {
+      console.log(selectedTime); // Este console.log ahora mostrará el valor actualizado
+    }
+  }, [selectedTime]);
+  
   const handleChipClick = (time: string) => {
     setSelectedTime(time); // Guarda el horario seleccionado
     setFase(2); // Cambia la fase

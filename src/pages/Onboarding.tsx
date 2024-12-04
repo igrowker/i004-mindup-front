@@ -1,12 +1,20 @@
 import { useEffect, useState } from 'react';
 import FinalView from '../components/onboarding/FinalView';
 import OnboardingView from '../components/onboarding/OnboardingView';
+import { useUserStore } from '../context/userStore';
+import { useNavigate } from 'react-router-dom';
 
 const Onboarding = () => {
   const [view, setView] = useState(1);
   const [gifBackground, setGifBackground] = useState('');
 
+  const {user} = useUserStore();
+  const navigate = useNavigate()
+
   useEffect(() => {
+    if (user?.role === 'PATIENT') {
+      navigate("/home");
+    }
     const loadGif = async () => {
       const gif = await import('/bg2.gif');
       setGifBackground(gif.default);
