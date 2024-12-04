@@ -83,7 +83,7 @@ function HomePsychologist() {
         />
         <div className="w-60 mt-4">
           <h2 className="text-xl font-semibold text-gray-800">
-            Hola, Trinidad
+          Hola, {user?.name}
           </h2>
           <p className="text-[#A1A1A1] text-[15px] leading-tight">
             Tu empatía y profesionalismo marcan una gran diferencia en la vida

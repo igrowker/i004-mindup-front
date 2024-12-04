@@ -4,6 +4,9 @@ interface DecodedUser {
   id: string;
   email: string;
   role: string;
+  professional?: string;
+  name?: string;
+  image?: string;
 }
 
 interface UserState {
@@ -20,7 +23,39 @@ export const useUserStore = create<UserState>((set) => ({
   setRegistering: (registering) => set({ registering }),
 }));
 
-// Notification Modal Store
+// Select Store
+interface DecodedSelect {
+  isBelow35?: boolean;
+  gender?: string;
+}
+
+interface SelectState {
+  select: DecodedSelect;
+  setSelect: (select: Partial<DecodedSelect>) => void; // Cambiamos a Partial
+}
+
+export const selectStore = create<SelectState>((set) => ({
+  select: {},
+  setSelect: (partialSelect) =>
+    set((state) => ({
+      select: { ...state.select, ...partialSelect }, // Combina el estado actual con los nuevos valores
+    })),
+}));
+
+// Selected Professional Store
+interface SelectedProfessionalState {
+  selectedProfessional: string | null;
+  setSelectedProfessional: (professional: string | null) => void;
+}
+
+export const selectedProfessionalStore = create<SelectedProfessionalState>((set) => ({
+    selectedProfessional: null,
+    setSelectedProfessional: (professional) =>
+      set({ selectedProfessional: professional }),
+  })
+);
+
+// Modal Store
 interface ModalState {
   openModal: boolean;
   toggleModal: () => void;

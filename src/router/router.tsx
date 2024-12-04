@@ -1,4 +1,3 @@
-import Slider from "../components/selected/SliderCard";
 import App from "../App";
 import RegisterForm from "../pages/RegisterForm";
 import Onboarding from "../pages/Onboarding";
@@ -47,10 +46,30 @@ export const router = createBrowserRouter([
           </PublicRoute>
         ),
       },
-      { path: "onboard", element: <Onboarding /> },
-      { path: "questionnaire", element: <Questionnaire /> },
-      // Ruta de prueba para la pantalla final de asistencia
-      { path: "emergency", element: <Emergency /> },
+      {
+        path: "onboard",
+        element: (
+          <ProtectedRoute>
+            <Onboarding />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "questionnaire",
+        element: (
+          <ProtectedRoute>
+            <Questionnaire />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "emergency",
+        element: (
+          <ProtectedRoute>
+            <Emergency />
+          </ProtectedRoute>
+        ),
+      },
 
       {
         path: "assistance",
@@ -97,14 +116,6 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <MyPatients />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "slider",
-        element: (
-          <ProtectedRoute>
-            <Slider />
           </ProtectedRoute>
         ),
       },

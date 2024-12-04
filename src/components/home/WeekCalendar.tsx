@@ -30,7 +30,8 @@ const WeekCalendar: React.FC<WeekCalendarProps> = ({ onDateSelect }) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Ignorar las horas para la comparación
 
-    if (date >= today) {
+    if (date > today) {
+      // Solo permitir fechas mayores al día de hoy
       setSelectedDate(date); // Actualizar localmente la fecha seleccionada
       onDateSelect(date); // Notificar al componente padre
     }
@@ -43,19 +44,19 @@ const WeekCalendar: React.FC<WeekCalendarProps> = ({ onDateSelect }) => {
 
     return daysInWeek.map((day, i) => {
       const isSelected = selectedDate?.toDateString() === day.toDateString();
-      const isPast = day < today;
+      const isPastOrToday = day <= today; // Incluir el día de hoy como no seleccionable
 
       return (
         <div
           key={i}
           className={`flex items-center justify-center size-8 rounded-full cursor-pointer ${
-             isSelected
+            isSelected
               ? "bg-[#97D0C3] text-white" // Día seleccionado por el usuario
-              : isPast
-              ? "text-[#DDDDDD] cursor-not-allowed" // Días pasados deshabilitados
+              : isPastOrToday
+              ? "text-[#DDDDDD] cursor-not-allowed" // Días pasados y el día de hoy deshabilitados
               : "text-[#444444] hover:bg-gray-200" // Días disponibles
           }`}
-          onClick={() => !isPast && handleDateSelect(day)} // Solo permite seleccionar días futuros o actuales
+          onClick={() => !isPastOrToday && handleDateSelect(day)} // Solo permite seleccionar días mayores al día de hoy
         >
           {day.getDate()}
         </div>

@@ -21,7 +21,6 @@ function Chat() {
   useSubscription("/queue/reply-" + profesionalId, (message) => {
     try {
       const parsedMessage = JSON.parse(message.body);
-      console.log(parsedMessage.sender); 
 
       setMessages((prev) => [
         ...prev,
