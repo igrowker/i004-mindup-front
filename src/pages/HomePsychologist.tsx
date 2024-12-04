@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Header from "../components/header/Header";
 import { motion } from "framer-motion";
+import { useUserStore } from "../context/userStore";
 
 const appointments = [
   //EJEMPLO SIMULANDO BASE DE DATOS MUCHACHADA
@@ -30,6 +31,7 @@ const appointments = [
 function HomePsychologist() {
   const navigate = useNavigate();
   const [availableForUrgencies, setAvailableForUrgencies] = useState(false);
+  const {user} = useUserStore();
 
   const handleDateSelect = (date: Date | null) => {
     console.log("Día seleccionado:", date);
@@ -54,7 +56,7 @@ function HomePsychologist() {
       <article className="flex my-4 justify-center items-center gap-2 w-[343px]">
         <img className="size-[86px] rounded-full" src="public/Imágenes/TrinidadProfesional.png" alt="Imagen de perfil" />
         <div className="w-60 mt-4">
-          <h2 className="text-xl font-semibold text-gray-800">Hola, Trinidad</h2>
+          <h2 className="text-xl font-semibold text-gray-800">Hola, {user?.name}</h2>
           <p className="text-[#A1A1A1] text-[15px] leading-tight">Tu empatía y profesionalismo marcan una gran diferencia en la vida de quienes necesitan apoyo.</p>
         </div>
       </article>

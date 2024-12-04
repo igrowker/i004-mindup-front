@@ -3,13 +3,15 @@ import ProfileInformation from "../components/profile/ProfileInformation";
 import ProfileTerapy from "../components/profile/ProfileTerapy";
 import CustomButton from "../components/shared/CustomButton";
 import { useState } from "react";
-import { useModalStore} from "../context/userStore";
+import { useModalStore, useUserStore } from "../context/userStore";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/header/Header";
 import Modal from "../components/modal/Modal";
 
 const ProfilePacient = () => {
-  const {openModal, toggleModal} = useModalStore();
+  const { openModal, toggleModal } = useModalStore();
+
+  const { user } = useUserStore();
 
   const navigate = useNavigate();
 
@@ -43,17 +45,17 @@ const ProfilePacient = () => {
     },
   };
 
-  const handleAccept = () =>{
-    navigate("/questionnaire")
-    toggleModal()
-  }
+  const handleAccept = () => {
+    navigate("/questionnaire");
+    toggleModal();
+  };
 
   return (
     <main className="w-full min-w-mobile flex flex-col items-center justify-center bg-background">
       <Header />
       <ProfileHeader
-        imagen={pacient.imagen}
-        nombre={pacient.nombre}
+        imagen={user?.image || pacient.imagen}
+        nombre={user?.name || pacient.nombre}
         especialidad={pacient.especialidad}
       />
       <hr className="w-[290px] my-4 -mx-4" />
@@ -102,12 +104,19 @@ const ProfilePacient = () => {
               title="Rehacer cuestionario"
               appearance={true}
               type="submit"
-              onClick={() => { toggleModal() }}
+              onClick={() => {
+                toggleModal();
+              }}
             />
           </article>
         </>
       )}
-    {openModal && <Modal title="Seguro que desea rehacer el formulario? Esto no se puede deshacer." onClick={handleAccept} />}
+      {openModal && (
+        <Modal
+          title="Seguro que desea rehacer el formulario? Esto no se puede deshacer."
+          onClick={handleAccept}
+        />
+      )}
       <br />
     </main>
   );

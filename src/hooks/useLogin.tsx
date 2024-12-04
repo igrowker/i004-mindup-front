@@ -31,6 +31,8 @@ const useLoginMutation = () => {
         id: decodedToken.userId,
         email: decodedToken.email,
         role: decodedToken.role,
+        name: decodedToken.name,
+        image: decodedToken.image
       }); // actualizo estado global con losd atos del user
     },
     onError: (error) => {

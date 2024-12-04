@@ -15,7 +15,7 @@ const ProfileHeader = ({ imagen, nombre, especialidad }: ProfileData) => {
             <div className="relative">
                 <div className="rounded-full mt-2 h-[104px] w-[104px] bg-zinc-500"></div>
                 <div className="absolute top-[1px] -left-[6px] w-[118px] h-[118px] rounded-full border-[5px] border-transparent border-t-secondary border-l-secondary transform -rotate-45 flex items-center justify-center">
-                    <img src={imagen} alt="mi foto" className="rotate-45" />
+                    <img src={imagen} alt="mi foto" className="rotate-45 rounded-full" />
                 </div>
                 <div className="absolute top-3 -right-2 size-[26px] rounded-full bg-background border-2 border-secondary flex items-center justify-center">
                     <MdEdit className="text-secondary" />

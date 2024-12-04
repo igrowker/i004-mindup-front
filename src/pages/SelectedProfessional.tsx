@@ -5,54 +5,40 @@ import { selectStore } from "../context/userStore";
 import { userSelect } from "../api/userSelect";
 import { useNavigate } from "react-router-dom";
 
-interface SelectData {
-  isBelow35: boolean;
-  gender: string; // Asegúrate de que el string sea "MALE" o "FEMALE" según tu necesidad
-}
-
 function SelectedProfessional() {
-  const [isLoading, setIsLoading] = useState(true); // Estado para manejar la carga
+  const [isLoading, setIsLoading] = useState(true); 
+  const [userData, setUserData] = useState([]); // Nuevo estado para usuarios
   const { select } = selectStore();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getMatchs = async () => {
       try {
         setIsLoading(true);
 
-        // Verifica si los valores de 'select' están definidos
         if (select?.gender && typeof select?.isBelow35 !== "undefined") {
-          const transformedSelect: SelectData = {
-            isBelow35: select.isBelow35, // 'isBelow35' es un booleano
-            gender:
-              select.gender === "MALE" || select.gender === "FEMALE"
-                ? select.gender
-                : "OTHER", // Aseguramos que gender sea 'MALE' o 'FEMALE'
+          const transformedSelect = {
+            isBelow35: select.isBelow35,
+            gender: select.gender === "MALE" || select.gender === "FEMALE" ? select.gender : "OTHER",
           };
-          console.log(transformedSelect);
           const response = await userSelect(transformedSelect);
-          console.log(response);
+          setUserData(response); // Guardar usuarios
         } else {
-          navigate('/questionnaire')
+          navigate("/questionnaire");
         }
       } catch (error) {
-        navigate('/')
+        navigate("/");
       } finally {
-        setIsLoading(false); // Finaliza la carga
+        setIsLoading(false);
       }
     };
 
     getMatchs();
-  }, [select]);
+  }, [select, navigate]);
 
   return (
     <>
-      {isLoading ? (
-        // Pantalla de carga mientras isLoading es true
-        <Loading />
-      ) : (
-        <Slider />
-      )}
+      {isLoading ? <Loading /> : <Slider userData={userData} />}
     </>
   );
 }

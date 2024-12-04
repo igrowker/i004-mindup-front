@@ -15,16 +15,14 @@ const useAuthorization = () => {
         // Decodifica el token y extrae los datos del usuario
         const decoded = decodeToken(token);
 
-        console.log(decoded)
         // Verifica que los datos mínimos necesarios estén presentes
         if (decoded && decoded.userId && decoded.sub) {
           setUser({
             id: decoded.userId,
             email: decoded.sub,
             role: decoded.role,
-          //  professional: decoded.professional,
-          // name: decoded.name,
-          //  image: decoded.image,
+            name: decoded.name,
+            image: decoded.image,
           });
         } else {
           console.error("Token inválido: faltan datos del usuario.");

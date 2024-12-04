@@ -3,9 +3,11 @@ import Header from "../components/header/Header";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import DynamicButton from "../components/onboarding/DynamicButton";
+import { useUserStore } from "../context/userStore";
 
 function HomePacient() {
   const navigate = useNavigate();
+  const {user} = useUserStore();
 
   const fadeInOut = {
     initial: { opacity: 0, y: 20 },
@@ -26,7 +28,7 @@ function HomePacient() {
           alt="Imagen de perfil"
         />
         <div className="w-60 mt-4">
-          <h2 className="text-xl font-semibold  text-gray-800">Hola, Miguel</h2>
+          <h2 className="text-xl font-semibold  text-gray-800">Hola, {user?.name}</h2>
           <p className="text-[#A1A1A1] text-[15px] leading-tight">
             Estamos aquí para escucharte y apoyarte en todo momento.
           </p>
