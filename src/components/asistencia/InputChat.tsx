@@ -31,7 +31,7 @@ export default function InputChat({ profesionalId }: InputChatProps) {
     const message = {
       patientId: user?.id,
       sender: user?.id,
-      content: inputValue.trim(), // Eliminar espacios en blanco
+      content: inputValue.trim(),
     };
 
     stompClient?.publish({

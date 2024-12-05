@@ -77,6 +77,17 @@ export const useLogoutModalStore = create<LogoutModalState>((set) => ({
   toggleLogoutModal: () => set((state) => ({ openLogoutModal: !state.openLogoutModal })),
 }));
 
+// Recovery Password Modal Store
+interface RecoveryModalState {
+  openRecoveryModal: boolean;
+  toggleRecoveryModal: () => void;
+}
+
+export const useRecoveryModalStore = create<RecoveryModalState>((set) => ({
+  openRecoveryModal: false,
+  toggleRecoveryModal: () => set((state) => ({ openRecoveryModal: !state.openRecoveryModal })),
+}));
+
 interface SocketData {
   professionalId: string;
   temporalChatId: string;

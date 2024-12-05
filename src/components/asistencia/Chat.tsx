@@ -19,6 +19,8 @@ function Chat() {
 
   // Suscripción al broker de mensajes
   useSubscription("/queue/reply-" + profesionalId, (message) => {
+    console.log(message.body);
+    
     try {
       const parsedMessage = JSON.parse(message.body);
 
