@@ -6,6 +6,7 @@ import { CardData } from "./SliderCard";
 import CustomButton from "../shared/CustomButton";
 import { useNavigate } from "react-router-dom";
 import { selectedProfessionalStore } from "../../context/userStore";
+import { FaUser } from "react-icons/fa6";
 
 const Card: React.FC<CardData> = ({
   first,
@@ -64,11 +65,15 @@ const Card: React.FC<CardData> = ({
     <div className="bg-background shadow-md rounded-lg p-4 w-full max-w-[21rem] sm:max-w-sm flex flex-col justify-between h-auto mb-4">
       <header className="flex items-center mb-2 border-b-2 border-secondary pb-2">
         <div className="flex-shrink-0 ml-4">
-          <img
-            className="w-20 h-20 object-cover rounded-full"
-            src="/Imágenes/TrinidadProfesional.png"
-            alt="Trinidad García"
-          />
+          {image ? (
+            <img
+              className="w-20 h-20 object-cover rounded-full"
+              src={image}
+              alt="Imagen de perfil del profesional."
+            />
+          ) : (
+            <FaUser className="size-[86px] bg-[#989898] fill-zinc-600 rounded-full" />
+          )}
         </div>
         <div className="ml-6">
           <h3 className="text-base font-bold text-black inline-flex items-center">
@@ -103,13 +108,7 @@ const Card: React.FC<CardData> = ({
 
         <div>
           <h5 className="text-xs font-bold mb-2">Sobre {name}</h5>
-          <div className="relative w-full flex justify-center">
-            <img
-              className="w-full max-w-xs "
-              src="/Imágenes/TrinidadVideo.png"
-              alt="Trinidad video presentacional"
-            />
-
+          <div className="relative w-full h-48 bg-zinc-500 flex justify-center">
             <img
               className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-14 h-14"
               src="/public/Íconos/PlayIcon.png"

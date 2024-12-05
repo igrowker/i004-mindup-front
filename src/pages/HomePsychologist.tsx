@@ -7,6 +7,7 @@ import Header from "../components/header/Header";
 import { motion } from "framer-motion";
 import { useSocketStore, useUserStore } from "../context/userStore";
 import { toggleAvailableForUrgencies } from "../api/userToggleAviable";
+import { FaUser } from "react-icons/fa6";
 
 const appointments = [
   //EJEMPLO SIMULANDO BASE DE DATOS MUCHACHADA
@@ -56,11 +57,15 @@ function HomePsychologist() {
     <section className="flex flex-col items-center pb-2">
       <Header />
       <article className="flex my-4 justify-center items-center gap-2 w-[343px]">
-        <img
-          className="size-[86px] rounded-full"
-          src="public/Imágenes/TrinidadProfesional.png"
-          alt="Imagen de perfil"
-        />
+        {user?.image ? (
+          <img
+            className="size-[86px] rounded-full"
+            src={user?.image}
+            alt="Imagen de perfil"
+          />
+        ) : (
+          <FaUser className="size-[86px] bg-[#989898] fill-zinc-600 rounded-full" />
+        )}
         <div className="w-60 mt-4">
           <h2 className="text-xl font-semibold text-gray-800">
             Hola, {user?.name}
@@ -98,6 +103,7 @@ function HomePsychologist() {
               checked={availableForUrgencies}
               onChange={() =>
                 toggleAvailableForUrgencies(
+                  user?.id,
                   availableForUrgencies,
                   setAvailableForUrgencies
                 )

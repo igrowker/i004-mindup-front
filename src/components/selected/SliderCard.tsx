@@ -42,10 +42,10 @@ const Slider = ({ userData }: { userData: any[] }) => {
       userId: user.userId,
       name: user.name,
       lastname: "",
-      image: user.image || "/default-profile.png", // Imagen por defecto si no hay
+      image: user.image || "",
       terapy_type: user.specialty,
       attention_type: user.availability ? "Virtual y presencial" : "Presencial",
-      honorarys: "$ Consultar", // Ajusta este dato si está en la API
+      honorarys: "$ Consultar",
       phrase: user.information || "Información no disponible",
       author: "",
       song: "",
