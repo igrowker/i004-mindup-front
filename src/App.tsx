@@ -16,7 +16,6 @@ function App() {
 
   useSubscription(`/queue/notifications/${user?.id}`, (message) => {
     const parsedMessage = JSON.parse(message.body);
-    console.log("Notificación recibida:", parsedMessage);
     setSocketData(parsedMessage);
     toggleModal();
   });

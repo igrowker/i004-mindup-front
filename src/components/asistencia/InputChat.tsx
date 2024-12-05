@@ -23,6 +23,8 @@ export default function InputChat({ profesionalId }: InputChatProps) {
     }
     return true;
   };
+  
+
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();

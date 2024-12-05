@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Header from "../components/header/Header";
 import { motion } from "framer-motion";
-import { useSocketStore, useUserStore } from "../context/userStore";
+import {useUserStore } from "../context/userStore";
 
 const appointments = [
   //EJEMPLO SIMULANDO BASE DE DATOS MUCHACHADA
@@ -31,8 +31,6 @@ function HomePsychologist() {
   const { user } = useUserStore();
   const navigate = useNavigate();
   const [availableForUrgencies, setAvailableForUrgencies] = useState(false);
-  const { socketData } = useSocketStore();
-  console.log(socketData);
 
   const handleDateSelect = (date: Date | null) => {
     console.log("Día seleccionado:", date);
