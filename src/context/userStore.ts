@@ -103,3 +103,14 @@ export const useSocketStore = create<SocketStore>((set) => ({
   socketData: null, // Inicialmente no hay datos del socket
   setSocketData: (data) => set({ socketData: data }), // Función para actualizar los datos del socket
 }));
+
+// Questionnaire Modal Store
+interface QuestionnaireModalState {
+  openQuestionnaireModal: boolean;
+  toggleQuestionnaireModal: () => void;
+}
+
+export const useQuestionnaireModalStore = create<QuestionnaireModalState>((set) => ({
+  openQuestionnaireModal: false,
+  toggleQuestionnaireModal: () => set((state) => ({ openQuestionnaireModal: !state.openQuestionnaireModal })),
+}));

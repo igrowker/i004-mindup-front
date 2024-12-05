@@ -5,15 +5,22 @@ import Chat from "../components/asistencia/Chat";
 import { useSocketStore, useUserStore } from "../context/userStore";
 import { useStompClient, useSubscription } from "react-stomp-hooks";
 import EmergencyNumber from "../components/asistencia/EmergencyNumber";
+import { FaRegUserCircle } from "react-icons/fa";
+
+interface SenderInfo {
+  name: string;
+  image?: string;
+}
 
 const Assistance = () => {
   const { user } = useUserStore();
   const { socketData, setSocketData } = useSocketStore();
   const profesionalId = socketData?.professionalId;
   const stompClient = useStompClient();
+  
   const [isLoading, setIsLoading] = useState(true);
-  const [psychologistsNotAvailable, setPsychologistsNotAvailable] =
-    useState(false);
+  const [psychologistsNotAvailable, setPsychologistsNotAvailable] = useState(false);
+  const [sender, setSender] = useState<SenderInfo>({ name: "", image: undefined });
 
   const notification = useCallback(() => {
     fetch(`http://localhost:8090/api/message/request-chat/${user?.id}`, {
@@ -24,7 +31,6 @@ const Assistance = () => {
     })
       .then((r) => r.json())
       .then((data) => {
-        console.log(data);
         if (data.statusCode === 404) {
           setPsychologistsNotAvailable(true);
         } else {
@@ -48,7 +54,6 @@ const Assistance = () => {
   }, [isLoading, notification]);
 
   useSubscription(`/queue/reply-${profesionalId}`, (message) => {
-    console.log(message.body);
     if (message.body === "ok") {
       setIsLoading(false);
     } else if (message.body === "cancel") {
@@ -56,35 +61,45 @@ const Assistance = () => {
     }
   });
 
+  const handleSenderChange = (name: string, image?: string) => {
+    setSender({ name, image });
+  };
+
+  if (psychologistsNotAvailable) {
+    return <EmergencyNumber />;
+  }
+
+  if (isLoading) {
+    return <Loading text />;
+  }
+
   return (
-    <>
-      {psychologistsNotAvailable ? (
-        <EmergencyNumber />
-      ) : (
-        <>
-          {isLoading ? (
-            <Loading text />
-          ) : (
-            <div className="min-h-screen w-full min-w-mobile flex flex-col items-center bg-background">
-              <Header />
-              <section className="w-full shadow justify-center border flex p-4 items-center border-[#E5E7EB] gap-4">
-                <img
-                  src="public/Imágenes/miguel.png"
-                  alt="Foto del profesional"
-                  className="size-10 bg-[#989898] rounded-full"
-                />
-                <div className="flex flex-col justify-center">
-                  <h2 className="text-lg">Estás hablando con Ludwing</h2>
-                </div>
-              </section>
-              <section className="w-full shadow justify-center border flex p-4 items-center border-[#E5E7EB] gap-4">
-                <Chat />
-              </section>
-            </div>
-          )}
-        </>
-      )}
-    </>
+    <div className="min-h-screen w-full min-w-mobile flex flex-col items-center bg-background">
+      <Header />
+      <section className="w-full shadow justify-center border flex p-4 items-center border-[#E5E7EB] gap-4">
+        {sender.image ? (
+          <img
+            src={sender.image}
+            alt="Foto del paciente"
+            className="size-10 bg-[#989898] rounded-full object-cover"
+          />
+        ) : (
+          <FaRegUserCircle size={25} />
+        )}
+        <div className="flex flex-col justify-center">
+          <h2 className="text-lg">
+            {sender.name ? (
+              `Estás hablando con ${sender.name}`
+            ) : (
+              "Cargando paciente"
+            )}
+          </h2>
+        </div>
+      </section>
+      <section className="w-full shadow justify-center border flex p-4 items-center border-[#E5E7EB] gap-4">
+        <Chat onSenderChange={handleSenderChange} />
+      </section>
+    </div>
   );
 };
 

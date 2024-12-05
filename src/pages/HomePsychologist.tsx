@@ -32,7 +32,6 @@ function HomePsychologist() {
   const navigate = useNavigate();
   const [availableForUrgencies, setAvailableForUrgencies] = useState(false);
   const { socketData } = useSocketStore();
-  console.log(socketData);
 
   const handleDateSelect = (date: Date | null) => {
     console.log("Día seleccionado:", date);
