@@ -2,10 +2,11 @@ import WeekCalendar from "../components/home/WeekCalendar";
 import DateCardList from "../components/home/DateCardList";
 import CustomButton from "../components/shared/CustomButton";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Header from "../components/header/Header";
 import { motion } from "framer-motion";
 import { useSocketStore, useUserStore } from "../context/userStore";
+import { toggleAvailableForUrgencies } from "../api/userToggleAviable";
 
 const appointments = [
   //EJEMPLO SIMULANDO BASE DE DATOS MUCHACHADA
@@ -33,9 +34,6 @@ function HomePsychologist() {
   const [availableForUrgencies, setAvailableForUrgencies] = useState(false);
   const { socketData } = useSocketStore();
 
-  const apiUrl = import.meta.env.VITE_COREURL;
-  const token = localStorage.getItem("token");
-
   console.log(socketData);
 
   const handleDateSelect = (date: Date | null) => {
@@ -53,23 +51,6 @@ function HomePsychologist() {
     exit: { opacity: 0, y: -20 },
     transition: { duration: 0.3 },
   };
-  const toggleAvailableForUrgencies = () => {
-    fetch(`${apiUrl}/user/availability/${user?.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        setAvailableForUrgencies(data.availability);
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
 
   return (
     <section className="flex flex-col items-center pb-2">
@@ -82,7 +63,7 @@ function HomePsychologist() {
         />
         <div className="w-60 mt-4">
           <h2 className="text-xl font-semibold text-gray-800">
-          Hola, {user?.name}
+            Hola, {user?.name}
           </h2>
           <p className="text-[#A1A1A1] text-[15px] leading-tight">
             Tu empatía y profesionalismo marcan una gran diferencia en la vida
@@ -115,9 +96,15 @@ function HomePsychologist() {
             <input
               type="checkbox"
               checked={availableForUrgencies}
-              onChange={() => toggleAvailableForUrgencies()}
+              onChange={() =>
+                toggleAvailableForUrgencies(
+                  availableForUrgencies,
+                  setAvailableForUrgencies
+                )
+              }
               className="hidden"
             />
+
             <span
               className={`w-12 h-6 flex items-center flex-shrink-0 p-1 bg-gray-400 rounded-full duration-300 ease-in-out ${
                 availableForUrgencies ? "bg-lime-600" : "bg-gray-400"
