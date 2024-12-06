@@ -1,72 +1,63 @@
-import Header from '../components/header/Header'
-import PatientCardList from '../components/mypatients/PatientCardList';
+import { useNavigate } from "react-router-dom";
+import Header from "../components/header/Header";
+import PatientCardList from "../components/mypatients/PatientCardList";
+import AppointmentCardList from "../components/mypatients/AppointmentCardList";
+import { useUserStore } from "../context/userStore";
+import { useEffect, useState } from "react";
+import { getPatients } from "../api/userPatients";
 
 const MyPatients = () => {
+  const [patients, setPatients] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    const confirmAppointments = [
-        //EJEMPLO SIMULANDO BASE DE DATOS MUCHACHADA PARA CONFIRMAR
-        {
-            img: "/Imágenes/image1.png",
-            time: "Próximo turno: Lunes, 8 hs - 9 hs",
-            patient: "Lucio Crack",
-            options: "Emociones y ánimo",
-            btnPendiente: false
-        },
-        {
-            img: "/Imágenes/image2.png",
-            time: "Turno pendiente: Lunes, 15 hs - 16 hs",
-            patient: "Ludgwing Tipazo",
-            options: "Hábitos y conductas, " + "Cambios importantes",
-            btnPendiente: false
-        },
-        {
-            img: "/Imágenes/image4.png",
-            time: "Turno pendiente: Lunes, 17 hs - 18 hs",
-            patient: "Kevin Master",
-            options: "Relaciones interpersonales",
-            btnPendiente: false
-        },
-    ];
+  const { user } = useUserStore();
 
-    const PendingAppointments = [
-        //EJEMPLO SIMULANDO BASE DE DATOS MUCHACHADA PARA CONFIRMAR
-        {
-            img: "/Imágenes/image3.png",
-            time: "Turno solicitado: Miércoles, 10 hs - 11 hs",
-            patient: "Camilo crack de cracks",
-            options: "Emociones y ánimo",
-            btnPendiente: true
-        },
-        {
-            img: "/Imágenes/image5.png",
-            time: "Turno solicitado: Viernes, 15 hs - 16 hs",
-            patient: "Camilo Messi",
-            options: "Crecimiento personal",
-            btnPendiente: true
-        },
-    ];
+  const navigate = useNavigate();
 
-    return (
-        <section className="flex flex-col items-center pb-2">
-            <Header />
-            <article className="flex my-4 justify-center items-center gap-2 w-[343px]">
-                <h2 className="font-medium text-gray-800 text-lg">
-                    Mis pacientes
-                </h2>
-            </article>
-            <article className="flex flex-col my-4 justify-center items-center gap-2 w-[343px]">
-                <PatientCardList appointments={confirmAppointments} />
-            </article>
-            <article className="flex my-4 justify-center items-center gap-2 w-[343px]">
-                <h2 className="font-medium text-gray-800 text-lg">
-                    Solicitudes
-                </h2>
-            </article>
-            <article className="flex flex-col my-4 justify-center items-center gap-2 w-[343px]">
-                <PatientCardList appointments={PendingAppointments} />
-            </article>
-        </section>
-    )
-}
+  if (user?.role != "PSYCHOLOGIST") {
+    navigate("/");
+    return;
+  }
 
-export default MyPatients
+  useEffect(() => {
+    const fetchPatients = async () => {
+      setLoading(true);
+      try {
+        const response = await getPatients(user.id);
+        setPatients(response);
+        console.log(response);
+      } catch (error) {
+        console.error("Error fetching patients:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPatients();
+  }, []);
+
+  return (
+    <section className="flex flex-col items-center pb-2">
+      <Header />
+      <article className="flex my-4 justify-center items-center gap-2 w-[343px]">
+        <h2 className="font-medium text-gray-800 text-lg">Mis pacientes</h2>
+      </article>
+      <article className="flex flex-col my-4 justify-center items-center gap-2 w-[343px]">
+        {loading ? (
+          <p>Cargando...</p>
+        ) : patients.length === 0 ? (
+          <div>No tienes pacientes aun.</div>
+        ) : (
+          <PatientCardList appointments={patients} />
+        )}
+      </article>
+      <article className="flex my-4 justify-center items-center gap-2 w-[343px]">
+        <h2 className="font-medium text-gray-800 text-lg">Solicitudes</h2>
+      </article>
+      <article className="flex flex-col my-4 justify-center items-center gap-2 w-[343px]">
+        <AppointmentCardList appointments={patients} />
+      </article>
+    </section>
+  );
+};
+
+export default MyPatients;

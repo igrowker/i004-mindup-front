@@ -12,8 +12,13 @@ import {
   validateName,
 } from "../utils/validationUtils";
 import TextError from "../components/shared/Inputs/TextError";
+import { UserData } from "../api/userRegister";
+import useRegisterMutation from "../hooks/useRegister";
+import useLoginMutation from "../hooks/useLogin";
+import { useUserStore } from "../context/userStore";
 
 const RegisterForm = () => {
+  // Considerar reducir esta logica a un solo estado que sea un objeto con propiedades:
   const [soy, setSoy] = useState("");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,6 +32,11 @@ const RegisterForm = () => {
   });
 
   const navigate = useNavigate();
+  const { mutate, isPending } = useRegisterMutation();
+  const loginMutation = useLoginMutation();
+
+
+  const { setRegistering, registering } = useUserStore();
 
   const handleValidation = () => {
     const nameError = validateName(fullName);
@@ -45,17 +55,47 @@ const RegisterForm = () => {
     return !nameError && !emailError && !passwordError && !repeatPasswordError;
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (handleValidation()) {
-      if (soy == "Paciente") {
-        navigate("/questionnaire");
-      } else {
-        navigate("/onboard");
+  const logInPostReg = () => {
+    loginMutation.mutate(
+      { email, password },
+      {
+        onSuccess: () => {
+          if (soy === "Paciente") {
+            navigate("/questionnaire");
+          } else {
+            navigate("/onboard");
+          }
+
+          setRegistering(false); // Desactivar el estado de registro
+        },
+        onError: () => {
+          setRegistering(false); // Asegurarse de limpiar el estado en caso de error
+        },
       }
+    );
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (handleValidation()) {
+      const userData: UserData = {
+        name: fullName,
+        password,
+        email,
+        role: soy === "Paciente" ? "PATIENT" : "PSYCHOLOGIST",
+      };
+
+      setRegistering(true); // Activar el estado de registro
+      mutate(userData, {
+        onSuccess: () => {
+          logInPostReg(); // Procede con el flujo de login
+        },
+      });
     }
   };
 
+  //Si se unifican los estados de los inputs en uno solo, esto cambia a una version mas modular y centralizada:
   const handleChange = (field: string, value: string) => {
     if (field === "fullName") {
       setFullName(value);
@@ -85,6 +125,7 @@ const RegisterForm = () => {
 
   return (
     <div className="min-h-screen w-full min-w-mobile flex flex-col items-center justify-center bg-background">
+      {isPending && <p>Registrando...</p>}
       <motion.div
         key={soy}
         initial={{ opacity: 0, y: 20 }}
@@ -197,8 +238,9 @@ const RegisterForm = () => {
               <div className="h-36 flex flex-col items-center justify-evenly">
                 {" "}
                 <CustomButton
-                  title="Registrarme"
+                  title={registering ? "Loading..." : "Registrarme"}
                   appearance={true}
+                  loading={registering}
                   type="submit"
                 />
                 <Link to="/">

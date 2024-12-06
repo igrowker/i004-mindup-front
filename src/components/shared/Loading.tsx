@@ -6,7 +6,6 @@ interface Loadingdata {
 }
 
 const Loading = ({ text }: Loadingdata) => {
-
     const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
 
     const titles = [
@@ -32,24 +31,24 @@ const Loading = ({ text }: Loadingdata) => {
     return (
         <article className="h-screen flex justify-center items-center flex-col w-full gap-8">
             <img src="/Gifs/Loading.gif" alt="Gif de carga" />
-            <p className="text-wrap text-secondary text-xl font-bold w-52 text-center">
-                {text ?
-                    <motion.div
+            <div className="text-wrap text-secondary text-xl font-bold w-52 text-center">
+                {text ? (
+                    <motion.p
                         key={currentTitleIndex}
                         {...fadeInOut}
                     >
                         {titles[currentTitleIndex]}
-                    </motion.div>
-                    :
-                    <motion.div
+                    </motion.p>
+                ) : (
+                    <motion.p
                         {...fadeInOut}
                     >
                         Buscando los mejores perfiles profesionales que se adecuen a ti...
-                    </motion.div>
-                }
-            </p>
+                    </motion.p>
+                )}
+            </div>
             {text && <p className="text-text">Conectándote con un profesional...</p>}
-        </article >
+        </article>
     );
 };
 
