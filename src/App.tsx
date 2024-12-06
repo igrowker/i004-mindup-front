@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { Toaster } from "sonner";
 import useAuthorization from "./hooks/useAuth";
-import { useModalStore, useSocketStore, useUserStore } from "./context/userStore";
+import { useAvailableForUrgenciesStore, useModalStore, useSocketStore, useUserStore } from "./context/userStore";
 import { useStompClient, useSubscription } from "react-stomp-hooks";
 import Modal from "./components/modal/Modal";
 
@@ -11,6 +11,8 @@ function App() {
   const { socketData, setSocketData } = useSocketStore();
   const navigate = useNavigate();
   const stompClient = useStompClient();
+  const {toggleAvailableForUrgencie } =
+    useAvailableForUrgenciesStore();
 
   const apiUrl = import.meta.env.VITE_MONGOURL;
   const token = localStorage.getItem("token");
@@ -19,7 +21,6 @@ function App() {
 
   useSubscription(`/queue/notifications/${user?.id}`, (message) => {
     const parsedMessage = JSON.parse(message.body);
-    console.log("Notificación recibida:", parsedMessage);
     setSocketData(parsedMessage);
     toggleModal();
   });
@@ -56,10 +57,13 @@ function App() {
             navigate("chatpettient");
             toggleModal();
             handleRequest("accept");
+            toggleAvailableForUrgencie();
           }}
           onClose={() => {
             handleRequest("cancel");
             toggleModal(); // Cierra el modal
+            toggleAvailableForUrgencie();
+
           }}
         />
       )}

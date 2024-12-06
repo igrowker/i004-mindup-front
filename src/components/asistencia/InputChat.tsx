@@ -23,6 +23,8 @@ export default function InputChat({ profesionalId }: InputChatProps) {
     }
     return true;
   };
+  
+
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -31,7 +33,7 @@ export default function InputChat({ profesionalId }: InputChatProps) {
     const message = {
       patientId: user?.id,
       sender: user?.id,
-      content: inputValue.trim(), // Eliminar espacios en blanco
+      content: inputValue.trim(),
     };
 
     stompClient?.publish({

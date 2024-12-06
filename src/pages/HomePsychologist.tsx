@@ -1,14 +1,17 @@
+import { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+
+import Header from "../components/header/Header";
 import WeekCalendar from "../components/home/WeekCalendar";
 import DateCardList from "../components/home/DateCardList";
 import CustomButton from "../components/shared/CustomButton";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Header from "../components/header/Header";
-import { motion } from "framer-motion";
-import { useUserStore } from "../context/userStore";
-import { toggleAvailableForUrgencies } from "../api/userToggleAviable";
+
+
+import { useAvailableForUrgenciesStore, useEmergencyModalStore, useUserStore } from "../context/userStore";
 import { getAppointmentByDate } from "../api/userDates";
 import { FaUser } from "react-icons/fa6";
+import Modal from "../components/modal/Modal";
 
 type Appointment = {
   date: string;
@@ -19,8 +22,13 @@ type Appointment = {
 
 function HomePsychologist() {
   const { user } = useUserStore();
+  const apiUrl = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
-  const [availableForUrgencies, setAvailableForUrgencies] = useState(false);
+  const { openEmergencyModal, toggleEmergencyModal } = useEmergencyModalStore();
+  const { openAvailableForUrgencies, toggleAvailableForUrgencie } =
+    useAvailableForUrgenciesStore();
+
+  const [availableForUrgencies, setAvailableForUrgencies] = useState(false)
   const [selectedDate, setSelectedDate] = useState<Appointment[]>([]);
 
   if (!user) {
@@ -47,6 +55,36 @@ function HomePsychologist() {
       console.error("Error obteniendo citas:", error);
     }
   };
+
+  // Sincronizar disponibilidad inicial
+  useEffect(() => {
+    setAvailableForUrgencies(openAvailableForUrgencies);
+  }, [openAvailableForUrgencies]);
+
+  // Función para alternar disponibilidad
+  const toggleUrgenciesAvailability = useCallback(() => {
+    const fetchAvailability = async () => {
+      try {
+        const response = await fetch(
+          `${apiUrl}/user/availability/${user.id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const data = await response.json();
+        toggleEmergencyModal();
+        toggleAvailableForUrgencie();
+        setAvailableForUrgencies(data.availability);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    fetchAvailability();
+  }, [toggleEmergencyModal, toggleAvailableForUrgencie, user?.id]);
 
   const fadeInOut = {
     initial: { opacity: 0, y: 20 },
@@ -101,13 +139,7 @@ function HomePsychologist() {
             <input
               type="checkbox"
               checked={availableForUrgencies}
-              onChange={() =>
-                toggleAvailableForUrgencies(
-                  user?.id,
-                  availableForUrgencies,
-                  setAvailableForUrgencies
-                )
-              }
+              onChange={toggleEmergencyModal}
               className="hidden"
             />
             <span
@@ -129,8 +161,20 @@ function HomePsychologist() {
           </label>
         </article>
       </motion.div>
+      {openEmergencyModal && (
+        <Modal
+          title={
+            availableForUrgencies
+              ? "¿Desactivar su disponibilidad para urgencias?"
+              : "¿Activar su disponibilidad para urgencias?"
+          }
+          onClose={toggleEmergencyModal}
+          onClick={toggleUrgenciesAvailability}
+        />
+      )}
     </section>
   );
 }
 
 export default HomePsychologist;
+

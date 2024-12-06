@@ -48,7 +48,8 @@ interface SelectedProfessionalState {
   setSelectedProfessional: (professional: string | null) => void;
 }
 
-export const selectedProfessionalStore = create<SelectedProfessionalState>((set) => ({
+export const selectedProfessionalStore = create<SelectedProfessionalState>(
+  (set) => ({
     selectedProfessional: null,
     setSelectedProfessional: (professional) =>
       set({ selectedProfessional: professional }),
@@ -74,7 +75,20 @@ interface LogoutModalState {
 
 export const useLogoutModalStore = create<LogoutModalState>((set) => ({
   openLogoutModal: false,
-  toggleLogoutModal: () => set((state) => ({ openLogoutModal: !state.openLogoutModal })),
+  toggleLogoutModal: () =>
+    set((state) => ({ openLogoutModal: !state.openLogoutModal })),
+}));
+
+// Recovery Password Modal Store
+interface RecoveryModalState {
+  openRecoveryModal: boolean;
+  toggleRecoveryModal: () => void;
+}
+
+export const useRecoveryModalStore = create<RecoveryModalState>((set) => ({
+  openRecoveryModal: false,
+  toggleRecoveryModal: () =>
+    set((state) => ({ openRecoveryModal: !state.openRecoveryModal })),
 }));
 
 interface SocketData {
@@ -92,3 +106,45 @@ export const useSocketStore = create<SocketStore>((set) => ({
   socketData: null, // Inicialmente no hay datos del socket
   setSocketData: (data) => set({ socketData: data }), // Función para actualizar los datos del socket
 }));
+
+// Questionnaire Modal Store
+interface QuestionnaireModalState {
+  openQuestionnaireModal: boolean;
+  toggleQuestionnaireModal: () => void;
+}
+
+export const useQuestionnaireModalStore = create<QuestionnaireModalState>(
+  (set) => ({
+    openQuestionnaireModal: false,
+    toggleQuestionnaireModal: () =>
+      set((state) => ({
+        openQuestionnaireModal: !state.openQuestionnaireModal,
+      })),
+  })
+);
+
+interface EmergencyModalState {
+  openEmergencyModal: boolean;
+  toggleEmergencyModal: () => void;
+}
+
+export const useEmergencyModalStore = create<EmergencyModalState>((set) => ({
+  openEmergencyModal: false,
+  toggleEmergencyModal: () =>
+    set((state) => ({ openEmergencyModal: !state.openEmergencyModal })),
+}));
+
+interface availableForUrgenciesState {
+  openAvailableForUrgencies: boolean;
+  toggleAvailableForUrgencie: () => void;
+}
+
+export const useAvailableForUrgenciesStore = create<availableForUrgenciesState>(
+  (set) => ({
+    openAvailableForUrgencies: false,
+    toggleAvailableForUrgencie: () =>
+      set((state) => ({
+        openAvailableForUrgencies: !state.openAvailableForUrgencies,
+      })),
+  })
+);
