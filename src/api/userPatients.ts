@@ -3,7 +3,7 @@ export const getPatients = async (userId: string) => {
   const token = localStorage.getItem("token");
   try {
     const response = await fetch(
-      `${apiUrl}/appointment/pysychologist-patients/${userId}`,
+      `${apiUrl}/appointment/psychologist-patients/${userId}`,
       {
         method: "GET",
         headers: {

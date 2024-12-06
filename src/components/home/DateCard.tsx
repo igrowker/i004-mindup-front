@@ -1,61 +1,109 @@
 import React, { useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
-
+import { cancelDate, confirmDate } from "../../api/userDates";
+import { MdOutlineCancel } from "react-icons/md";
 
 type CardProps = {
+  id: string;
   day: string;
   timeRange: string;
-  patient?: string;
-  consultationType?: string;
-  blocked?: boolean;
+  psycho?: string;
+  status: string;
 };
 
 const DateCard: React.FC<CardProps> = ({
+  id,
   day,
   timeRange,
-  patient = "",
-  blocked = false,
+  psycho = "",
+  status,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  const handleAccept = async () => {
+    setIsLoading(true);
+    try {
+      await confirmDate(id);
+    } catch (error) {
+      console.error("Error al aceptar la cita:", error);
+    } finally {
+      setIsLoading(false);
+      setIsMenuOpen(false);
+    }
+  };
+
+  const handleCancel = async () => {
+    setIsLoading(true);
+    try {
+      await cancelDate(id);
+    } catch (error) {
+      console.error("Error al cancelar la cita:", error);
+    } finally {
+      setIsLoading(false);
+      setIsMenuOpen(false);
+    }
   };
 
   return (
     <div className="relative border border-zinc-200 rounded-md h-[68px] py-2 px-4 w-[343px] flex items-center gap-2">
       <header className="h-full flex justify-center items-center">
-        {blocked ? (
+        {status == "ACCEPTED" ? (
           <img
             className="w-6 h-6"
             src="public/Íconos/DobleConfirmación.svg"
             alt="Icono de confirmacion"
           />
-        ) : (
+        ) : status == "PENDING" ? (
           <img
             className="w-6 h-6"
-            src="public/Íconos/HorarioBloqueado.svg"
-            alt="Icono de horario bloqueado"
+            src="public/Íconos/Confirmado.svg"
+            alt="Icono de cita pendiente"
           />
+        ) : (
+          status == "CANCELED" && (
+            <MdOutlineCancel className="size-6 text-red-800" />
+          )
         )}
       </header>
       <div className="h-full flex flex-col justify-center flex-grow">
         <h3 className="text-secondary font-bold">
           {day}, {timeRange}
         </h3>
-        {patient && <p className="text-sm text-[#444444]">{patient}</p>}
+        {psycho && <p className="text-sm text-[#444444]">{psycho}</p>}
       </div>
-      <button
-        className="ml-auto"
-        onClick={toggleMenu}
-        aria-expanded={isMenuOpen}
-      >
-        <IoChevronDownSharp className="size-4 text-[#85868B]"/>
-      </button>
+      {status != "CANCELED" && (
+        <button
+          className="ml-auto"
+          onClick={toggleMenu}
+          aria-expanded={isMenuOpen}
+        >
+          <IoChevronDownSharp className="size-4 text-[#85868B]" />
+        </button>
+      )}
       {isMenuOpen && (
         <ul className="absolute right-0 top-[72px] bg-white border border-zinc-200 rounded-md shadow-lg w-[343px] z-10">
-          <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-            Cancelar
+          <li>
+            {status == "PENDING" && (
+              <button
+                className="px-4 py-2 hover:bg-gray-100"
+                disabled={isLoading}
+                onClick={handleAccept}
+              >
+                {isLoading ? "Aceptando..." : "Aceptar"}
+              </button>
+            )}
+          </li>
+          <li>
+            <button
+              className="px-4 py-2 hover:bg-gray-100"
+              disabled={isLoading}
+              onClick={handleCancel}
+            >
+              {isLoading ? "Cancelando..." : "Cancelar"}
+            </button>
           </li>
         </ul>
       )}

@@ -67,6 +67,31 @@ export const cancelDate = async (dateId: string) => {
     throw error;
   }
 };
+
+export const confirmDate = async (dateId: string) => {
+  const apiUrl = import.meta.env.VITE_COREURL;
+  const token = localStorage.getItem("token");
+  try {
+    const response = await fetch(`${apiUrl}/appointment/${dateId}/confirm`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Error al eliminar la cita");
+    }
+    const res = await response.json();
+    console.log(res);
+    return await res;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const getAppointmentByDate = async (date: string, userId: string) => {
   const apiUrl = import.meta.env.VITE_COREURL;
   const token = localStorage.getItem("token");

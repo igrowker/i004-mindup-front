@@ -2,49 +2,51 @@ import WeekCalendar from "../components/home/WeekCalendar";
 import DateCardList from "../components/home/DateCardList";
 import CustomButton from "../components/shared/CustomButton";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/header/Header";
 import { motion } from "framer-motion";
-import { useSocketStore, useUserStore } from "../context/userStore";
+import { useUserStore } from "../context/userStore";
 import { toggleAvailableForUrgencies } from "../api/userToggleAviable";
+import { getAppointmentByDate } from "../api/userDates";
 import { FaUser } from "react-icons/fa6";
 
-const appointments = [
-  //EJEMPLO SIMULANDO BASE DE DATOS MUCHACHADA
-  {
-    day: "Lunes",
-    timeRange: "8 hs - 9 hs",
-  },
-  {
-    day: "Martes",
-    timeRange: "10 hs - 11 hs",
-    patient: "Carlos Ruiz",
-    aviable: false,
-    blocked: true,
-  },
-  {
-    day: "Miércoles",
-    timeRange: "14 hs - 15 hs",
-  },
-];
-// const [drawer, setDrawer] = useState(false);
+type Appointment = {
+  date: string;
+  id: string;
+  patientName: string;
+  status: string;
+};
 
 function HomePsychologist() {
   const { user } = useUserStore();
   const navigate = useNavigate();
   const [availableForUrgencies, setAvailableForUrgencies] = useState(false);
-  const { socketData } = useSocketStore();
+  const [selectedDate, setSelectedDate] = useState<Appointment[]>([]);
 
-  console.log(socketData);
+  if (!user) {
+    return null;
+  }
 
-  const handleDateSelect = (date: Date | null) => {
-    console.log("Día seleccionado:", date);
-    // Aquí puedes manejar el día seleccionado para agendar horarios
+  useEffect(() => {
+    if (user) {
+      handleDateSelect(new Date());
+    }
+  }, []);
+
+  const handleDateSelect = async (date: Date | null) => {
+    if (!date) return;
+    setSelectedDate([]);
+
+    // Formatear la fecha a "YYYY-MM-DD"
+    const formattedDate = date.toISOString().split("T")[0];
+
+    try {
+      const response = await getAppointmentByDate(formattedDate, user.id);
+      setSelectedDate(response);
+    } catch (error) {
+      console.error("Error obteniendo citas:", error);
+    }
   };
-
-  const filteredAppointments = appointments.filter(
-    (appointment) => appointment.blocked
-  );
 
   const fadeInOut = {
     initial: { opacity: 0, y: 20 },
@@ -77,14 +79,14 @@ function HomePsychologist() {
         </div>
       </article>
       <motion.div {...fadeInOut}>
-        <article className=" mb-3 text-center">
+        <article className="mb-3 text-center">
           <h1 className="font-medium text-gray-800 text-lg">
             Tus turnos de esta semana
           </h1>
           <WeekCalendar onDateSelect={handleDateSelect} />
         </article>
         <article className="mb-8">
-          <DateCardList appointments={filteredAppointments} />
+          <DateCardList appointments={selectedDate} />
         </article>
         <div className="flex justify-center">
           <CustomButton
@@ -94,8 +96,6 @@ function HomePsychologist() {
             appearance={true}
           />
         </div>
-
-        {/* Nuevo interruptor */}
         <article className="mt-12 flex items-center justify-center gap-2">
           <label className="flex items-center gap-2 cursor-pointer">
             <input
@@ -110,7 +110,6 @@ function HomePsychologist() {
               }
               className="hidden"
             />
-
             <span
               className={`w-12 h-6 flex items-center flex-shrink-0 p-1 bg-gray-400 rounded-full duration-300 ease-in-out ${
                 availableForUrgencies ? "bg-lime-600" : "bg-gray-400"

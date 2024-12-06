@@ -42,7 +42,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           >
             {image ? (
               <img
-                className="w-12 h-12"
+                className="w-12 h-12 rounded-full"
                 src={image}
                 alt="Icono de horario bloqueado"
               />
