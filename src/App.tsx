@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { Toaster } from "sonner";
 import useAuthorization from "./hooks/useAuth";
-import { useModalStore, useSocketStore, useUserStore } from "./context/userStore";
+import { useAvailableForUrgenciesStore, useModalStore, useSocketStore, useUserStore } from "./context/userStore";
 import { useStompClient, useSubscription } from "react-stomp-hooks";
 import Modal from "./components/modal/Modal";
 
@@ -11,6 +11,8 @@ function App() {
   const { socketData, setSocketData } = useSocketStore();
   const navigate = useNavigate();
   const stompClient = useStompClient();
+  const {toggleAvailableForUrgencie } =
+    useAvailableForUrgenciesStore();
 
   useAuthorization(); // Hook que realiza la autorización del user
 
@@ -52,10 +54,13 @@ function App() {
             navigate("chatpettient");
             toggleModal();
             handleRequest("accept");
+            toggleAvailableForUrgencie();
           }}
           onClose={() => {
             handleRequest("cancel");
             toggleModal(); // Cierra el modal
+            toggleAvailableForUrgencie();
+
           }}
         />
       )}
