@@ -5,37 +5,31 @@ import DateCardList from "../components/home/DateCardList";
 import Header from "../components/header/Header";
 import ConfirmDateCardList from "../components/home/ConfirmDateCardList";
 import CustomButton from "../components/shared/CustomButton";
-import { getAppointmentByDate } from "../api/userDates";
+import {
+  getAppointmentByDate,
+  getPendientAppointments,
+} from "../api/userDates";
 import { useUserStore } from "../context/userStore";
 
-type Appointment = {
+type DateAppointment = {
   date: string;
   id: string;
   patientName: string;
   status: string;
 };
 
-const confirmAppointments = [
-  //EJEMPLO SIMULANDO BASE DE DATOS MUCHACHADA PARA CONFIRMAR
-  {
-    day: "Lunes",
-    timeRange: "8 hs - 9 hs",
-    patient: "Lucio Crack",
-  },
-  {
-    day: "Martes",
-    timeRange: "10 hs - 11 hs",
-    patient: "Ludgwing Tipazo",
-  },
-  {
-    day: "Miércoles",
-    timeRange: "14 hs - 15 hs",
-    patient: "Kevin Master",
-  },
-];
+type Appointment = {
+  id: string;
+  date: string;
+  patient: {
+    name: string;
+  };
+};
+
 function AppointmentManage() {
   const [typeCalendar, setTypeCalendar] = useState("month");
-  const [selectedDate, setSelectedDate] = useState<Appointment[]>([]);
+  const [selectedDate, setSelectedDate] = useState<DateAppointment[]>([]);
+  const [pendientDates, setPendientDates] = useState<Appointment[]>([]);
   const { user } = useUserStore();
 
   if (!user) {
@@ -43,10 +37,14 @@ function AppointmentManage() {
   }
 
   useEffect(() => {
-    if (user) {
-      handleDateSelect(new Date());
-    }
+    handleDateSelect(new Date());
+    handlePendientDates();
   }, []);
+
+  const handlePendientDates = async () => {
+    const response = await getPendientAppointments(user.id);
+    setPendientDates(response);
+  };
 
   const handleDateSelect = async (date: Date | null) => {
     if (!date) return;
@@ -92,11 +90,21 @@ function AppointmentManage() {
       </article>
       <article className="w-full p-4 flex flex-col items-center gap-4">
         <h1 className="font-medium text-gray-800 text-lg">Próximos turnos</h1>
-        <DateCardList appointments={selectedDate} />
+        {selectedDate.length > 0 ? (
+          <DateCardList appointments={selectedDate} />
+        ) : (
+          <h3>No hay turnos para esta fecha</h3>
+        )}
+
         <h2 className="font-medium text-gray-800 text-lg">
           Turnos pendientes de confirmación
         </h2>
-        <ConfirmDateCardList appointments={confirmAppointments} />
+        {pendientDates.length > 0 ? (
+          <ConfirmDateCardList appointments={pendientDates} />
+        ) : (
+          <h3>No hay turnos pendientes de confirmación</h3>
+        )}
+        
       </article>
       <CustomButton title="Agregar horario" appearance={true} />
     </section>

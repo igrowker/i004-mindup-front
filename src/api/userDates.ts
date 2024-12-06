@@ -44,6 +44,36 @@ export const getDatesPsychologist = async (userId: string) => {
   }
 };
 
+export interface AppointmentData {
+  patientId: string;
+  psychologistId: string;
+  date: string;
+}
+
+export const createDate = async (appointmentData: AppointmentData) => {
+  const token = localStorage.getItem("token");
+  const apiUrl = import.meta.env.VITE_COREURL;
+  try {
+    const response = await fetch(`${apiUrl}/appointment/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(appointmentData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Error en el inicio de sesión");
+    }
+    console.log(await response.json());
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 export const cancelDate = async (dateId: string) => {
   const apiUrl = import.meta.env.VITE_COREURL;
   const token = localStorage.getItem("token");
@@ -109,6 +139,36 @@ export const getAppointmentByDate = async (date: string, userId: string) => {
           psychologistId: userId,
           date: date,
         }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Error al obtener las citas");
+    }
+
+    const res = await response.json();
+    console.log(res);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const getPendientAppointments = async (userId: string) => {
+  const apiUrl = import.meta.env.VITE_COREURL;
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch(
+      `${apiUrl}/appointment/psychologist-pending/${userId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
 

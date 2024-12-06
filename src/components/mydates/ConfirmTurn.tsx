@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { userAppointmentCreate } from "../../api/userAppointment";
+import { createDate } from "../../api/userDates";
 import {
   selectedProfessionalStore,
   useUserStore,
@@ -36,6 +36,7 @@ function ConfirmTurn({
   };
 
   const handleAccept = () => {
+    console.log(user, selectedDate, selectedTime, selectedProfessional);
     if (!user || !selectedDate || !selectedTime || !selectedProfessional) {
       toast.error("Faltan datos para completar la operación.");
       return;
@@ -52,7 +53,7 @@ function ConfirmTurn({
     toast.success(`Turno aceptado para ${isoDateTime}`);
 
     // Llamada a la API con el formato correcto
-    userAppointmentCreate({
+    createDate({
       patientId: user.id,
       psychologistId: selectedProfessional,
       date: isoDateTime,

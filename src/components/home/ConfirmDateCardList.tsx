@@ -2,9 +2,11 @@ import React from "react";
 import ConfirmDateCard from "./ConfirmDateCard";
 
 type Appointment = {
-  day: string;
-  timeRange: string;
-  patient?: string;
+  id: string;
+  date: string;
+  patient: {
+    name: string;
+  } 
 };
 
 type DateCardListProps = {
@@ -17,9 +19,9 @@ const ConfirmDateCardList: React.FC<DateCardListProps> = ({ appointments }) => {
       {appointments.map((appointment, index) => (
         <ConfirmDateCard
           key={index}
-          day={appointment.day}
-          timeRange={appointment.timeRange}
-          patient={appointment.patient}
+          id={appointment.id}
+          day={appointment.date}
+          patient={appointment.patient.name}
         />
       ))}
     </div>
