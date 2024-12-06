@@ -1,17 +1,17 @@
 import { FaUser } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
-type PatientCardProps = {
+type AppointmentCardProps = {
   image: string;
   time: string;
   patient?: string;
   consultationType?: string;
   options?: string;
-  btnPendiente: boolean;
   id: string;
 };
 
-const PatientCard: React.FC<PatientCardProps> = ({
+const AppointmentCard: React.FC<AppointmentCardProps> = ({
   id,
   image,
   time,
@@ -19,6 +19,18 @@ const PatientCard: React.FC<PatientCardProps> = ({
   options,
 }) => {
   const navigate = useNavigate();
+
+  const handleAccept = () => {
+    console.log("Se acepto la cita de " + patient);
+    toast.success(`Se acepto la cita de ${patient}`);
+    //TODO aplicar logica para que la tarjeta se elimine de la lista
+  };
+
+  const handleDenied = () => {
+    console.log("Se rechazo la cita de " + patient);
+    toast.info(`Se rechazo la cita de ${patient}`);
+    //TODO aplicar logica para que la tarjeta se elimine de la lista
+  };
 
   return (
     <>
@@ -44,9 +56,24 @@ const PatientCard: React.FC<PatientCardProps> = ({
             <p className="text-[12px] text-[#969696]">{options}</p>
           </div>
         </div>
+        <div className="w-full h-[1px] bg-gray-200"></div>
+        <main className="flex gap-4 justify-center items-center w-full">
+          <button
+            onClick={handleDenied}
+            className="rounded border p-2 text-center text-xs font-medium w-24"
+          >
+            Rechazar
+          </button>
+          <button
+            onClick={handleAccept}
+            className="rounded border p-2 text-center text-xs text-white bg-secondary w-24"
+          >
+            Aceptar
+          </button>
+        </main>
       </div>
     </>
   );
 };
 
-export default PatientCard;
+export default AppointmentCard;

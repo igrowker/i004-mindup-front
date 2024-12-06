@@ -12,57 +12,50 @@ type Appointment = {
 
 type DateCardListProps = {
   appointments: Appointment[];
+  setAppointments: React.Dispatch<React.SetStateAction<Appointment[]>>; // Permite actualizar las citas desde el padre
 };
 
-const DateCardList: React.FC<DateCardListProps> = ({ appointments }) => {
+const DateCardList: React.FC<DateCardListProps> = ({
+  appointments,
+  setAppointments,
+}) => {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    const today = new Date();
-    const startOfWeek = new Date(today);
-    const endOfWeek = new Date(today);
-
-    // Calcular el inicio y fin de la semana
-    startOfWeek.setDate(today.getDate() - today.getDay()); // Domingo de esta semana
-    endOfWeek.setDate(today.getDate() + (6 - today.getDay())); // Sábado de esta semana
-
-    // Verificar si la fecha está dentro de la semana actual
-    const isThisWeek = date >= startOfWeek && date <= endOfWeek;
-
-    // Formatear el día
-    let day = date
-      .toLocaleDateString("es-ES", { weekday: "long" })
-      .replace(/^\w/, (c) => c.toUpperCase()); // Convertir la primera letra en mayúscula
-
-    // Agregar el número del día si no está en esta semana
-    if (!isThisWeek) {
-      const dayNumber = date.getDate();
-      day = `${day}, ${dayNumber}`;
-    }
-
-    // Formatear el rango de horas
+    const day = date.toLocaleDateString("es-ES", {
+      weekday: "long",
+      day: "numeric",
+    });
     const timeRange = date.toLocaleTimeString("es-ES", {
       hour: "2-digit",
       minute: "2-digit",
     });
-
     return { day, timeRange };
+  };
+
+  const handleCancel = (id: string) => {
+    setAppointments((prev) =>
+      prev.filter((appointment) => appointment.id !== id)
+    );
   };
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {appointments.map((appointment) => {
-        const { day, timeRange } = formatDate(appointment.date);
-
-        return (
-          <DateCard
-            key={appointment.id}
-            day={day}
-            timeRange={timeRange}
-            psycho={appointment.psychologist.name}
-            accepted={appointment.status === "ACCEPTED"}
-          />
-        );
-      })}
+      {appointments
+        .filter((appointment) => appointment.status !== "CANCELED") // Evita renderizar citas canceladas
+        .map((appointment) => {
+          const { day, timeRange } = formatDate(appointment.date);
+          return (
+            <DateCard
+              key={appointment.id}
+              id={appointment.id}
+              day={day}
+              timeRange={timeRange}
+              psycho={appointment.psychologist.name}
+              accepted={appointment.status === "ACCEPTED"}
+              onCancel={handleCancel} // Pasa la función de cancelación al hijo
+            />
+          );
+        })}
     </div>
   );
 };

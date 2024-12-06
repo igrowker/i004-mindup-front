@@ -1,24 +1,40 @@
 import React, { useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
+import { cancelDate } from "../../api/userDates";
 
 type CardProps = {
+  id: string;
   day: string;
   timeRange: string;
   psycho?: string;
-  consultationType?: string;
   accepted?: boolean;
+  onCancel: (id: string) => void; // Recibe esta función desde el padre
 };
 
 const DateCard: React.FC<CardProps> = ({
+  id,
   day,
   timeRange,
   psycho = "",
   accepted = false,
+  onCancel,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  const handleCancel = async () => {
+    setIsLoading(true);
+    try {
+      await cancelDate(id); // Llamamos a la API para cancelar
+      onCancel(id); // Notificamos al padre que la cita fue cancelada
+    } catch (error) {
+      console.error("Error al cancelar la cita:", error);
+    } finally {
+      setIsLoading(false);
+      setIsMenuOpen(false);
+    }
   };
 
   return (
@@ -49,9 +65,13 @@ const DateCard: React.FC<CardProps> = ({
       </button>
       {isMenuOpen && (
         <ul className="absolute right-0 top-[72px] bg-white border border-zinc-200 rounded-md shadow-lg w-[343px] z-10">
-          <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-            Cancelar
-          </li>
+          <button
+            className="px-4 py-2 hover:bg-gray-100"
+            onClick={handleCancel}
+            disabled={isLoading}
+          >
+            {isLoading ? "Cancelando..." : "Cancelar"}
+          </button>
         </ul>
       )}
     </div>

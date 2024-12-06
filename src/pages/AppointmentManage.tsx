@@ -5,6 +5,8 @@ import DateCardList from "../components/home/DateCardList";
 import Header from "../components/header/Header";
 import ConfirmDateCardList from "../components/home/ConfirmDateCardList";
 import CustomButton from "../components/shared/CustomButton";
+import { getAppointmentByDate } from "../api/userDates";
+import { useUserStore } from "../context/userStore";
 
 const appointments = [
   //EJEMPLO SIMULANDO BASE DE DATOS MUCHACHADA PARA TURNOS CONFIRMADOS
@@ -25,7 +27,6 @@ const appointments = [
   },
 ];
 
-
 const confirmAppointments = [
   //EJEMPLO SIMULANDO BASE DE DATOS MUCHACHADA PARA CONFIRMAR
   {
@@ -36,19 +37,30 @@ const confirmAppointments = [
   {
     day: "Martes",
     timeRange: "10 hs - 11 hs",
-    patient: "Ludgwing Tipazo"
+    patient: "Ludgwing Tipazo",
   },
   {
     day: "Miércoles",
     timeRange: "14 hs - 15 hs",
-    patient: "Kevin Master"
+    patient: "Kevin Master",
   },
 ];
 function AppointmentManage() {
   const [typeCalendar, setTypeCalendar] = useState("month");
-  const handleDateSelect = (date: Date | null) => {
-    console.log("Día seleccionado:", date);
-    // Aquí puedes manejar el día seleccionado para agendar horarios
+  const { user } = useUserStore();
+
+  if (!user) {
+    return null;
+  }
+
+  const handleDateSelect = async (date: Date | null) => {
+    if (!date) return;
+
+    // Convierte la fecha al formato "YYYY-MM-DD"
+    const formattedDate = date.toISOString().split("T")[0];
+
+    const response = await getAppointmentByDate(formattedDate, user.id);
+    console.log(await response)
   };
 
   return (
@@ -77,19 +89,21 @@ function AppointmentManage() {
             Vista Mensual
           </button>
         </div>
-        {typeCalendar == "month" ? <MonthCalendar onDateSelect={handleDateSelect}  /> : <WeekCalendar onDateSelect={handleDateSelect} />}
+        {typeCalendar == "month" ? (
+          <MonthCalendar onDateSelect={handleDateSelect} />
+        ) : (
+          <WeekCalendar onDateSelect={handleDateSelect} />
+        )}
       </article>
       <article className="w-full p-4 flex flex-col items-center gap-4">
-        <h1 className="font-medium text-gray-800 text-lg">
-          Próximos turnos
-        </h1>
+        <h1 className="font-medium text-gray-800 text-lg">Próximos turnos</h1>
         <DateCardList appointments={appointments} />
         <h2 className="font-medium text-gray-800 text-lg">
           Turnos pendientes de confirmación
         </h2>
-        <ConfirmDateCardList appointments={confirmAppointments}/>
+        <ConfirmDateCardList appointments={confirmAppointments} />
       </article>
-      <CustomButton title="Agregar horario" appearance={true}/>
+      <CustomButton title="Agregar horario" appearance={true} />
     </section>
   );
 }

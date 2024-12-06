@@ -7,6 +7,7 @@ import {
   selectedProfessionalStore,
   useUserStore,
 } from "../../context/userStore";
+import SelectedProfessional from "./SelectedProfessional";
 
 function ConfirmTurn({
   selectedDate,
@@ -113,17 +114,7 @@ function ConfirmTurn({
         <h2 className="text-lg text-black font-semibold">{formattedDate}</h2>
         <p className="text-text">{selectedTime}</p>
       </div>
-      <div className="w-[342px] shadow rounded-lg border flex p-2 px-4 items-center border-[#E5E7EB] gap-4">
-        <img
-          src="public/Imágenes/miguel.png"
-          alt="Foto del profesional"
-          className="size-10 bg-[#989898] rounded-full"
-        />
-        <div className="flex flex-col justify-center">
-          <h2 className="text-lg font-bold">Lic. Kevin Jefe</h2>
-          <h3 className="text-[#4A4A4A]">Terapia Cognitiva</h3>
-        </div>
-      </div>
+      <SelectedProfessional/>
       <motion.div {...fadeInOut}>
         <div className="shadow-[0px_0px_16px_rgba(0,0,0,0.2)] rounded-sm py-4 w-[288px] flex flex-col text-center items-center justify-center gap-2">
           <h5 className="font-medium text-black">

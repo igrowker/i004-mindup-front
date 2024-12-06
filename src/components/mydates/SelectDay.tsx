@@ -4,30 +4,8 @@ import MonthCalendar from "../home/MonthCalendar";
 import { motion } from "framer-motion";
 import DateCardList from "./DateCardList";
 import SelectedProfessional from "./SelectedProfessional";
-import { userDates } from "../../api/userDates";
+import { getDatesPatient } from "../../api/userDates";
 import { useUserStore } from "../../context/userStore";
-
-date: "2024-12-05T00:00:00";
-id: "e74eb77c-dd02-42ca-91e2-d7316ddff18d";
-patient: availability: false;
-chosenPsychologist: "36e3f25e-662d-412b-8dca-9d1752e73faf";
-email: "kam@gmail.com";
-name: "Kam";
-preferences: null;
-profile: null;
-role: "PATIENT";
-userId: "1a282f2a-2b2e-4bbb-a2d1-44e7ca526b2d";
-Object;
-psychologist: availability: false;
-chosenPsychologist: null;
-email: "mario@gmail.com";
-name: "Mario";
-preferences: null;
-profile: null;
-role: "PSYCHOLOGIST";
-userId: "63fc7555-f2d0-49a5-9e56-829bc1aa8262";
-Object;
-status: "PENDING";
 
 interface DateData {
   date: string;
@@ -48,17 +26,19 @@ function SelectDay({
   const [firstTurn, setFirstTurn] = useState(false);
   const [selectTurn, setSelectTurn] = useState(false);
   const [dateSelected, setDateSelected] = useState<Date | null>(null);
-  const [dates, setDates] = useState<DateData[]>([]);
+  const [dates, setDates] = useState<DateData[]>([]); // Estado para las citas
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useUserStore();
 
+  // Maneja la selección de una fecha
   const handleDateSelect = (date: Date | null) => {
     if (date) {
       setDateSelected(date);
-      onDateSelect(date); // Notifica a MyDates sobre la fecha seleccionada
+      onDateSelect(date); // Notifica la fecha seleccionada
     }
   };
 
+  // Alterna el estado de "Primer turno disponible"
   const handleChange = () => {
     setFirstTurn(!firstTurn);
     setSelectTurn(false);
@@ -71,23 +51,24 @@ function SelectDay({
     transition: { duration: 0.3 },
   };
 
+  // Selecciona automáticamente el primer turno disponible
   useEffect(() => {
     if (firstTurn) {
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
       setDateSelected(tomorrow);
-      onDateSelect(tomorrow); // Notifica automáticamente el día de mañana
+      onDateSelect(tomorrow);
     }
   }, [firstTurn, onDateSelect]);
 
+  // Obtiene las citas del usuario
   useEffect(() => {
-    if (!user) {
-      return;
-    }
+    if (!user) return;
+
     const fetchDateData = async () => {
       setIsLoading(true);
       try {
-        const dateData = (await userDates(user.id)) as DateData[];
+        const dateData = (await getDatesPatient(user.id)) as DateData[];
         setDates(dateData);
       } catch (error) {
         console.error("Error fetching dates:", error);
@@ -95,8 +76,9 @@ function SelectDay({
         setIsLoading(false);
       }
     };
+
     fetchDateData();
-  }, []);
+  }, [user]);
 
   return (
     <article className="min-h-screen w-full min-w-mobile flex flex-col items-center bg-background gap-5">
@@ -108,7 +90,7 @@ function SelectDay({
         {isLoading ? (
           <div>Cargando Citas...</div>
         ) : (
-          <DateCardList appointments={dates} />
+          <DateCardList appointments={dates} setAppointments={setDates} />
         )}
       </article>
       <label className="flex items-center gap-2 cursor-pointer w-full justify-center">
