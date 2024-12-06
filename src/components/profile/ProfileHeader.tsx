@@ -24,9 +24,9 @@ const ProfileHeader = ({ imagen, nombre, especialidad }: ProfileData) => {
             <FaUser className=" bg-[#989898] rotate-45 size-full fill-zinc-600 rounded-full" />
           )}
         </div>
-        <div className="absolute top-3 -right-2 size-[26px] rounded-full bg-background border-2 border-secondary flex items-center justify-center">
+        <button className="absolute top-3 -right-2 size-[26px] rounded-full bg-background border-2 border-secondary flex items-center justify-center">
           <MdEdit className="text-secondary" />
-        </div>
+        </button>
         <span className="absolute -bottom-6 -left-7 bg-gradient-to-r from-secondary font-medium to-[#82BFAF] text-white w-40 h-6 text-center text-md rounded-full">
           50% COMPLETADO
         </span>

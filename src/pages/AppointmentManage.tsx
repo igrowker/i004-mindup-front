@@ -4,7 +4,6 @@ import WeekCalendar from "../components/home/WeekCalendar";
 import DateCardList from "../components/home/DateCardList";
 import Header from "../components/header/Header";
 import ConfirmDateCardList from "../components/home/ConfirmDateCardList";
-import CustomButton from "../components/shared/CustomButton";
 import {
   getAppointmentByDate,
   getPendientAppointments,
@@ -106,7 +105,6 @@ function AppointmentManage() {
         )}
         
       </article>
-      <CustomButton title="Agregar horario" appearance={true} />
     </section>
   );
 }
