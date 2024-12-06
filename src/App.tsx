@@ -14,6 +14,9 @@ function App() {
   const {toggleAvailableForUrgencie } =
     useAvailableForUrgenciesStore();
 
+  const apiUrl = import.meta.env.VITE_MONGOURL;
+  const token = localStorage.getItem("token");
+
   useAuthorization(); // Hook que realiza la autorización del user
 
   useSubscription(`/queue/notifications/${user?.id}`, (message) => {
@@ -23,11 +26,11 @@ function App() {
   });
 
   const handleRequest = (action : string) => {
-    fetch(`http://localhost:8090/api/message/professional-accepted`, {
+    fetch(`${apiUrl}/professional-accepted`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(socketData),
     })

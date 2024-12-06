@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -6,34 +6,55 @@ import Header from "../components/header/Header";
 import WeekCalendar from "../components/home/WeekCalendar";
 import DateCardList from "../components/home/DateCardList";
 import CustomButton from "../components/shared/CustomButton";
+
+
+import { useAvailableForUrgenciesStore, useEmergencyModalStore, useUserStore } from "../context/userStore";
+import { getAppointmentByDate } from "../api/userDates";
+import { FaUser } from "react-icons/fa6";
 import Modal from "../components/modal/Modal";
 
-import {
-  useAvailableForUrgenciesStore,
-  useEmergencyModalStore,
-  useUserStore,
-} from "../context/userStore";
-
-const appointments = [
-  { day: "Lunes", timeRange: "8 hs - 9 hs" },
-  {
-    day: "Martes",
-    timeRange: "10 hs - 11 hs",
-    patient: "Carlos Ruiz",
-    aviable: false,
-    blocked: true,
-  },
-  { day: "Miércoles", timeRange: "14 hs - 15 hs" },
-];
+type Appointment = {
+  date: string;
+  id: string;
+  patientName: string;
+  status: string;
+};
 
 function HomePsychologist() {
   const { user } = useUserStore();
+  const apiUrl = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const { openEmergencyModal, toggleEmergencyModal } = useEmergencyModalStore();
   const { openAvailableForUrgencies, toggleAvailableForUrgencie } =
     useAvailableForUrgenciesStore();
 
-  const [availableForUrgencies, setAvailableForUrgencies] = useState(false);
+  const [availableForUrgencies, setAvailableForUrgencies] = useState(false)
+  const [selectedDate, setSelectedDate] = useState<Appointment[]>([]);
+
+  if (!user) {
+    return null;
+  }
+
+  useEffect(() => {
+    if (user) {
+      handleDateSelect(new Date());
+    }
+  }, []);
+
+  const handleDateSelect = async (date: Date | null) => {
+    if (!date) return;
+    setSelectedDate([]);
+
+    // Formatear la fecha a "YYYY-MM-DD"
+    const formattedDate = date.toISOString().split("T")[0];
+
+    try {
+      const response = await getAppointmentByDate(formattedDate, user.id);
+      setSelectedDate(response);
+    } catch (error) {
+      console.error("Error obteniendo citas:", error);
+    }
+  };
 
   // Sincronizar disponibilidad inicial
   useEffect(() => {
@@ -45,7 +66,7 @@ function HomePsychologist() {
     const fetchAvailability = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8090/api/core/user/availability/${user?.id}`,
+          `${apiUrl}/user/availability/${user.id}`,
           {
             method: "PUT",
             headers: {
@@ -65,31 +86,26 @@ function HomePsychologist() {
     fetchAvailability();
   }, [toggleEmergencyModal, toggleAvailableForUrgencie, user?.id]);
 
-  const filteredAppointments = useMemo(
-    () => appointments.filter((appointment) => appointment.blocked),
-    []
-  );
-
-  const fadeInOut = useMemo(
-    () => ({
-      initial: { opacity: 0, y: 20 },
-      animate: { opacity: 1, y: 0 },
-      exit: { opacity: 0, y: -20 },
-      transition: { duration: 0.1 },
-    }),
-    []
-  );
+  const fadeInOut = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -20 },
+    transition: { duration: 0.3 },
+  };
 
   return (
     <section className="flex flex-col items-center pb-2">
       <Header />
-
       <article className="flex my-4 justify-center items-center gap-2 w-[343px]">
-        <img
-          className="size-[86px] rounded-full"
-          src="public/Imágenes/TrinidadProfesional.png"
-          alt="Imagen de perfil"
-        />
+        {user?.image ? (
+          <img
+            className="size-[86px] rounded-full"
+            src={user?.image}
+            alt="Imagen de perfil"
+          />
+        ) : (
+          <FaUser className="size-[86px] bg-[#989898] fill-zinc-600 rounded-full" />
+        )}
         <div className="w-60 mt-4">
           <h2 className="text-xl font-semibold text-gray-800">
             Hola, {user?.name}
@@ -100,21 +116,16 @@ function HomePsychologist() {
           </p>
         </div>
       </article>
-
       <motion.div {...fadeInOut}>
         <article className="mb-3 text-center">
           <h1 className="font-medium text-gray-800 text-lg">
             Tus turnos de esta semana
           </h1>
-          <WeekCalendar
-            onDateSelect={(date) => console.log("Día seleccionado:", date)}
-          />
+          <WeekCalendar onDateSelect={handleDateSelect} />
         </article>
-
         <article className="mb-8">
-          <DateCardList appointments={filteredAppointments} />
+          <DateCardList appointments={selectedDate} />
         </article>
-
         <div className="flex justify-center">
           <CustomButton
             title="Gestionar Turnos"
@@ -123,7 +134,6 @@ function HomePsychologist() {
             appearance={true}
           />
         </div>
-
         <article className="mt-12 flex items-center justify-center gap-2">
           <label className="flex items-center gap-2 cursor-pointer">
             <input
@@ -133,7 +143,7 @@ function HomePsychologist() {
               className="hidden"
             />
             <span
-              className={`w-12 h-6 flex items-center flex-shrink-0 p-1 rounded-full duration-300 ease-in-out ${
+              className={`w-12 h-6 flex items-center flex-shrink-0 p-1 bg-gray-400 rounded-full duration-300 ease-in-out ${
                 availableForUrgencies ? "bg-lime-600" : "bg-gray-400"
               }`}
             >
@@ -151,7 +161,6 @@ function HomePsychologist() {
           </label>
         </article>
       </motion.div>
-
       {openEmergencyModal && (
         <Modal
           title={
@@ -168,3 +177,4 @@ function HomePsychologist() {
 }
 
 export default HomePsychologist;
+

@@ -56,11 +56,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "questionnaire",
-        element: (
-          <ProtectedRoute>
-            <Questionnaire />
-          </ProtectedRoute>
-        ),
+        element: <Questionnaire />,
       },
       {
         path: "emergency",
@@ -129,9 +125,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "chatpettient",
-        element: (
-            <ChatPattient />
-        ),
+        element: <ChatPattient />,
       },
     ],
   },

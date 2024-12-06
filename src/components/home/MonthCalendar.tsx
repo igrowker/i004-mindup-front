@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { useUserStore } from "../../context/userStore";
 
 interface MonthCalendarProps {
   onDateSelect: (date: Date | null) => void; // Callback para manejar la fecha seleccionada
@@ -8,6 +9,9 @@ interface MonthCalendarProps {
 const MonthCalendar: React.FC<MonthCalendarProps> = ({ onDateSelect }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date()); // Día actual por defecto
+
+  const { user } = useUserStore();
+  const isPatient = user?.role === "PATIENT";
 
   const changeMonth = (increment: number) => {
     const newDate = new Date(currentDate);
@@ -43,22 +47,25 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ onDateSelect }) => {
 
   const handleDateSelect = (date: Date) => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Ignorar horas en la comparación
-  
-    if (date > today) {
-      setSelectedDate(date); // Actualizar la fecha seleccionada
+    today.setHours(0, 0, 0, 0); // Ignorar las horas para la comparación
+
+    if (!isPatient || date > today) {
+      // Permitir selección del día actual solo si no es un paciente
+      setSelectedDate(date); // Actualizar localmente la fecha seleccionada
       onDateSelect(date); // Notificar al componente padre
     }
   };
-  
+
   const renderCalendar = () => {
     const daysInMonth = getDaysInMonth(currentDate);
     const firstDayIndex = getFirstDayOfMonth(currentDate);
     const previousMonthDays = getPreviousMonthDays(currentDate, firstDayIndex);
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Ignorar horas para comparación
+
     const days = [];
-  
+
+    // Días del mes anterior
     previousMonthDays.forEach((day, i) => {
       days.push(
         <div
@@ -69,28 +76,32 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ onDateSelect }) => {
         </div>
       );
     });
-  
+
+    // Días del mes actual
     daysInMonth.forEach((day, i) => {
       const isSelected = selectedDate?.toDateString() === day.toDateString();
-      const isPastOrToday = day <= today; // Incluye el día de hoy como no seleccionable
-  
+      const isToday = day.toDateString() === today.toDateString();
+      const isPast = day < today;
+      const isNotSelectable = isPatient ? isPast || isToday : isPast;
+
       days.push(
         <div
           key={i}
           className={`flex items-center text-center justify-center size-8 rounded-full cursor-pointer ${
             isSelected
-              ? "bg-[#97D0C3] text-white"
-              : isPastOrToday
-              ? "text-[#DDDDDD] cursor-not-allowed"
-              : "text-[#444444] hover:bg-gray-200"
+              ? "bg-[#97D0C3] text-white" // Día seleccionado
+              : isNotSelectable
+              ? "text-[#DDDDDD] cursor-not-allowed" // Días no seleccionables
+              : "text-[#444444] hover:bg-gray-200" // Días disponibles
           }`}
-          onClick={() => !isPastOrToday && handleDateSelect(day)} // Evita seleccionar días pasados o hoy
+          onClick={() => !isNotSelectable && handleDateSelect(day)} // Solo permite seleccionar días válidos
         >
           {day.getDate()}
         </div>
       );
     });
-  
+
+    // Días del siguiente mes
     const totalDays = previousMonthDays.length + daysInMonth.length;
     const nextMonthDaysCount = totalDays % 7 === 0 ? 0 : 7 - (totalDays % 7);
     for (let i = 1; i <= nextMonthDaysCount; i++) {
@@ -103,7 +114,7 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ onDateSelect }) => {
         </div>
       );
     }
-  
+
     return days;
   };
 
@@ -135,7 +146,7 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ onDateSelect }) => {
       </div>
       <div className="grid grid-cols-7 my-2 place-items-center text-[#737373]">
         {["D", "L", "M", "M", "J", "V", "S"].map((day) => (
-          <div key={day} className="size-8 flex justify-center items-center">
+          <div key={day + Math.random()} className="size-8 flex justify-center items-center">
             {day}
           </div>
         ))}

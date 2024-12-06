@@ -2,11 +2,27 @@ import ProfileHeader from "../components/profile/ProfileHeader";
 import ProfileInformation from "../components/profile/ProfileInformation";
 import ProfileTerapy from "../components/profile/ProfileTerapy";
 import CustomButton from "../components/shared/CustomButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuestionnaireModalStore, useUserStore } from "../context/userStore";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/header/Header";
 import Modal from "../components/modal/Modal";
+import { userProfile } from "../api/userProfile";
+
+interface Profile {
+  id: string;
+  name: string;
+  age: number;
+  gender: string;
+  specialty: string;
+  tuition: string;
+  location: string;
+  birth: string;
+  information: string;
+  image: string;
+  video: string;
+  chosenPsychologist: string;
+}
 
 const ProfilePacient = () => {
   const { openQuestionnaireModal, toggleQuestionnaireModal } = useQuestionnaireModalStore();
@@ -17,6 +33,9 @@ const ProfilePacient = () => {
   const [showTerapy, setShowTerapy] = useState(false);
   const [personalDisabled, setPersonalDisabled] = useState(true);
   const [terapyDisabled, setTerapyDisabled] = useState(false);
+  
+  const [isLoading, setIsLoading] = useState(true);
+  const [userProfileData, setUserProfileData] = useState<Profile | null>(null);
 
   const toggleShowPersonal = () => {
     setShowPersonal(true);
@@ -32,6 +51,35 @@ const ProfilePacient = () => {
     setTerapyDisabled(true);
   };
 
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+    setIsLoading(true);
+
+    const fetchProfiles = async () => {
+      try {
+        const profileData = (await userProfile(user.id)) as Profile;
+        if (profileData) {
+          setUserProfileData(profileData);
+        }
+      } catch (error) {
+        console.error("Error fetching profiles:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProfiles();
+  }, [user]);
+
+  if (isLoading) {
+    return <div>Cargando...</div>;
+  }
+
+  if (!userProfileData) {
+    navigate("/home");
+    return <div>No se encontró ese perfil.</div>;
+  }
   const pacient = {
     imagen: "/Imágenes/miguel.png",
     nombre: "Miguel Rojas",
@@ -52,9 +100,9 @@ const ProfilePacient = () => {
     <main className="w-full min-w-mobile flex flex-col items-center justify-center bg-background">
       <Header />
       <ProfileHeader
-        imagen={user?.image || pacient.imagen}
-        nombre={user?.name || pacient.nombre}
-        especialidad={pacient.especialidad}
+        imagen={userProfileData?.image || pacient.imagen}
+        nombre={userProfileData?.name || pacient.nombre}
+        especialidad={userProfileData.specialty || pacient.especialidad}
       />
       <hr className="w-[290px] my-4 -mx-4" />
 
