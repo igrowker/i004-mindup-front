@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { selectedProfessionalStore, useUserStore } from "../../context/userStore";
+import {
+  selectedProfessionalStore,
+  useUserStore,
+} from "../../context/userStore";
 import { userProfile } from "../../api/userProfile";
 import { useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
@@ -18,9 +21,9 @@ interface ProfessionalProfile {
 }
 
 function SelectedProfessional() {
-
   const { user } = useUserStore();
-  const { setSelectedProfessional } = selectedProfessionalStore();
+  const { setSelectedProfessional, selectedProfessional } =
+    selectedProfessionalStore();
 
   const [selectedProfessionalLocal, setSelectedProfessionalLocal] =
     useState<ProfessionalProfile | null>(null);
@@ -48,6 +51,11 @@ function SelectedProfessional() {
             pacientProfileData.chosenPsychologist
           )) as ProfessionalProfile;
           setSelectedProfessionalLocal(professionalProfile);
+        } else if (selectedProfessional) {
+          const professionalProfile = (await userProfile(
+            selectedProfessional
+          )) as ProfessionalProfile;
+          setSelectedProfessionalLocal(professionalProfile);
         }
       } catch (error) {
         console.error("Error fetching profiles:", error);
@@ -63,14 +71,14 @@ function SelectedProfessional() {
     return <div>Cargando...</div>;
   }
 
-  if (!selectedProfessionalLocal) {
+  if (!selectedProfessional) {
     navigate("/questionnaire");
     return <div>No se encontró un profesional seleccionado.</div>;
   }
 
   return (
     <div className="w-[342px] shadow rounded-lg border flex p-2 px-4 items-center border-[#E5E7EB] gap-4">
-      {selectedProfessionalLocal.image ? (
+      {selectedProfessionalLocal?.image ? (
         <img
           src={selectedProfessionalLocal.image}
           alt={`Foto del profesional ${selectedProfessionalLocal.name}`}
@@ -81,9 +89,9 @@ function SelectedProfessional() {
       )}
 
       <div className="flex flex-col justify-center">
-        <h2 className="text-lg font-bold">{selectedProfessionalLocal.name}</h2>
+        <h2 className="text-lg font-bold">{selectedProfessionalLocal?.name}</h2>
         <h3 className="text-[#4A4A4A]">
-          {selectedProfessionalLocal.specialty || "Psicólogo"}
+          {selectedProfessionalLocal?.specialty || "Psicólogo"}
         </h3>
       </div>
     </div>
