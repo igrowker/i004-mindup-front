@@ -6,7 +6,7 @@ import ButtonNav from "./ButtonNav";
 import { IoPeopleOutline } from "react-icons/io5";
 import Modal from "../modal/Modal";
 import CustomButton from "../shared/CustomButton";
-import { useModalStore, useUserStore } from "../../context/userStore";
+import { useLogoutModalStore, useUserStore } from "../../context/userStore";
 import { toast } from "sonner";
 
 type DrawerProps = {
@@ -16,58 +16,64 @@ type DrawerProps = {
 };
 
 const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
-  
-  const { openModal, toggleModal } = useModalStore();
+  const { openLogoutModal, toggleLogoutModal } = useLogoutModalStore();
   const { setUser } = useUserStore();
-  
   const navigate = useNavigate();
 
   if (!isOpen) return null;
 
+  const handleLogout = () => {
+    console.log("Iniciando proceso de logout");
+    toggleLogoutModal();
+  };
+
   const handleAccept = () => {
-    setUser("")
-    toggleModal();
-    toast.success('Cierre de sesión exitoso!')
-    navigate("/")
+    console.log("Aceptando logout");
+    localStorage.removeItem("token");
+    setUser(null);
+    toggleLogoutModal();
+    toast.success("Cierre de sesión exitoso!");
+    navigate("/");
+  };
+
+  const handleCancel = () => {
+    console.log("Cancelando logout");
+    toggleLogoutModal();
   };
 
   const navItems = patient
     ? [
-      { to: "/profile", 
-        label: "Perfil", 
-        Icon: "public/Íconos/Perfil.svg" },
-      {
-        to: "/selected",
-        label: "Profesionales compatibles",
-        Icon: "public/Íconos/ProfesionalesCompatibles.png",
-      },
-      { to: "/assistance", 
-        label: "Asistencia", 
-        Icon: "public/Íconos/Asistencia.svg" },
-      {
-        to: "/mydates",
-        label: "Mis citas",
-        Icon: "public/Íconos/MisCitas.png",
-      },
-    ]
+        { to: "/profile", label: "Perfil", Icon: "public/Íconos/Perfil.svg" },
+        {
+          to: "/selected",
+          label: "Profesionales compatibles",
+          Icon: "public/Íconos/ProfesionalesCompatibles.png",
+        },
+        {
+          to: "/assistance",
+          label: "Asistencia",
+          Icon: "public/Íconos/Asistencia.svg",
+        },
+        {
+          to: "/mydates",
+          label: "Mis citas",
+          Icon: "public/Íconos/MisCitas.png",
+        },
+      ]
     : [
-      { to: "/profile", 
-        label: "Perfil", 
-        Icon: "public/Íconos/Perfil.svg" },
-      {
-        to: "/manage-appointment",
-        label: "Gestión de turnos",
-        Icon: "public/Íconos/ProfesionalesCompatibles.png",
-      },
-      { to: "/mypatients", 
-        label: "Mis pacientes", 
-        Icon: IoPeopleOutline },
-      {
-        to: null,
-        label: "Ayuda y soporte técnico",
-        Icon: FaRegCircleQuestion,
-      },
-    ];
+        { to: "/profile", label: "Perfil", Icon: "public/Íconos/Perfil.svg" },
+        {
+          to: "/manage-appointment",
+          label: "Gestión de turnos",
+          Icon: "public/Íconos/ProfesionalesCompatibles.png",
+        },
+        { to: "/mypatients", label: "Mis pacientes", Icon: IoPeopleOutline },
+        {
+          to: null,
+          label: "Ayuda y soporte técnico",
+          Icon: FaRegCircleQuestion,
+        },
+      ];
 
   return (
     <AnimatePresence mode="popLayout">
@@ -99,16 +105,19 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, patient }) => {
             </div>
           ))}
 
-          <div
-            className="flex justify-center mt-6"
-          >
-            <CustomButton title="Cerrar Sesión" appearance={true} onClick={() => { toggleModal() }} />
-            {openModal &&
+          <div className="flex justify-center mt-6">
+            <CustomButton
+              title="Cerrar Sesión"
+              appearance={true}
+              onClick={handleLogout}
+            />
+            {openLogoutModal && (
               <Modal
                 title="¿Seguro desea cerrar la sesión?"
                 onClick={handleAccept}
+                onClose={handleCancel}
               />
-            }
+            )}
           </div>
         </nav>
       </motion.div>

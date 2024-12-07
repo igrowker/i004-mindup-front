@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { useUserStore } from "../../context/userStore";
 
 interface WeekCalendarProps {
   onDateSelect: (date: Date | null) => void; // Callback para manejar la fecha seleccionada
@@ -8,6 +9,9 @@ interface WeekCalendarProps {
 const WeekCalendar: React.FC<WeekCalendarProps> = ({ onDateSelect }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date()); // Día actual por defecto
+
+  const { user } = useUserStore(); // Acceso al rol del usuario
+  const isPatient = user?.role === "PATIENT";
 
   const changeWeek = (increment: number) => {
     const newDate = new Date(currentDate);
@@ -30,7 +34,8 @@ const WeekCalendar: React.FC<WeekCalendarProps> = ({ onDateSelect }) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Ignorar las horas para la comparación
 
-    if (date >= today) {
+    if ((isPatient && date > today) || (!isPatient && date >= today)) {
+      // Verificar condiciones según el rol
       setSelectedDate(date); // Actualizar localmente la fecha seleccionada
       onDateSelect(date); // Notificar al componente padre
     }
@@ -43,19 +48,20 @@ const WeekCalendar: React.FC<WeekCalendarProps> = ({ onDateSelect }) => {
 
     return daysInWeek.map((day, i) => {
       const isSelected = selectedDate?.toDateString() === day.toDateString();
-      const isPast = day < today;
+      const isPastOrInvalid =
+        (isPatient && day <= today) || (!isPatient && day < today); // Condición para pacientes y psicólogos
 
       return (
         <div
           key={i}
           className={`flex items-center justify-center size-8 rounded-full cursor-pointer ${
-             isSelected
+            isSelected
               ? "bg-[#97D0C3] text-white" // Día seleccionado por el usuario
-              : isPast
-              ? "text-[#DDDDDD] cursor-not-allowed" // Días pasados deshabilitados
+              : isPastOrInvalid
+              ? "text-[#DDDDDD] cursor-not-allowed" // Días no válidos deshabilitados
               : "text-[#444444] hover:bg-gray-200" // Días disponibles
           }`}
-          onClick={() => !isPast && handleDateSelect(day)} // Solo permite seleccionar días futuros o actuales
+          onClick={() => !isPastOrInvalid && handleDateSelect(day)} // Solo permite seleccionar días válidos
         >
           {day.getDate()}
         </div>
@@ -94,7 +100,10 @@ const WeekCalendar: React.FC<WeekCalendarProps> = ({ onDateSelect }) => {
       {/* Días de la semana */}
       <div className="grid grid-cols-7 my-2 place-items-center text-[#737373]">
         {["D", "L", "M", "M", "J", "V", "S"].map((day) => (
-          <div key={day} className="size-8 flex justify-center items-center">
+          <div
+            key={day + Math.random()}
+            className="size-8 flex justify-center items-center"
+          >
             {day}
           </div>
         ))}

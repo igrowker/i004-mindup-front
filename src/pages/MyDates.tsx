@@ -8,6 +8,8 @@ function MyDates() {
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [selectedTime, setSelectedTime] = useState<string>();
 
+
+
   const handleChipClick = (time: string) => {
     setSelectedTime(time); // Guarda el horario seleccionado
     setFase(2); // Cambia la fase

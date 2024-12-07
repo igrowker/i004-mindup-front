@@ -5,8 +5,11 @@ import SelectedProfessional from "../pages/SelectedProfessional";
 const SelectedRoute = () => {
   const { user } = useUserStore(); // Accedemos al usuario actual.
 
+  if (!user) {
+    return <Navigate to="/" replace />;
+  }
   // Si no hay usuario, redirige al login.
-  if (user.rol != "Paciente") {
+  if (user.role != "PATIENT") {
     return <Navigate to="/" replace />;
   } else {
     return <SelectedProfessional />;

@@ -4,24 +4,23 @@ import InputText from '../components/shared/Inputs/InputText';
 import InputPassword from '../components/shared/Inputs/InputPassword';
 import CustomButton from '../components/shared/CustomButton';
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { validateEmail, validatePassword } from '../utils/validationUtils';
 import TextError from '../components/shared/Inputs/TextError';
-import { useUserQuery } from '../hooks/useUserQuery';
-import { useUserStore } from '../context/userStore';
+
+import useLoginMutation from '../hooks/useLogin';
 
 function LoginForm() {
-  const { refetch, isLoading, error } = useUserQuery(); // hook que gestiona la solicitud http
-  const { setUser, user } = useUserStore();
+  const navigate = useNavigate();
+  const loginMutation = useLoginMutation();
 
+  // estos dos estados podrian ser 1 solo estado: {email: '', password:''}
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ email: string; password: string }>({
     email: '',
     password: '',
   });
-
-  const navigate = useNavigate();
 
   const fadeInOut = {
     initial: { opacity: 0, y: 20 },
@@ -40,39 +39,21 @@ function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (handleValidation()) {
-      try {
-        // ejecuto la solicitud http
-        const { data } = await refetch();
-        // console.log(data[0]);
 
-        //Modifique este cacho de codigo para que verifique que mail es que, asi filtro ambos usuarios del array y pongo uno solo
-        if (data && data[0]) {
-          if (data[0]?.email == email){
-          setUser(data[0]);
-          }
-          else if (data[1]?.email == email) {
-            setUser(data[1])
-          }
-          else {
-            console.log("Usuario no existente")
-          }
-          console.log('estado global inmediato:', user);
+    if (!handleValidation()) return;
 
-          // navego al onboarding
+    loginMutation.mutate(
+      { email, password },
+      {
+        onSuccess: () => {
           navigate('/home');
-        }
-      } catch (error) {
-        console.error('Error al iniciar sesión:', error);
+        },
       }
-    }
+    );
   };
 
-  //prueba para verificar que el user se almaceno en el global state
-  useEffect(() => {
-    console.log('Estado global user ha cambiado:', user);
-  }, [user]);
-
+  // Si unificamos el estado {email: '', password:''}
+  // estas dos funciones deben refactorizarse a una sola
   const handleEmailChange = (value: string) => {
     setEmail(value);
     const emailError = validateEmail(value);
@@ -84,7 +65,7 @@ function LoginForm() {
     const passwordError = validatePassword(value);
     setErrors((prev) => ({ ...prev, password: passwordError }));
   };
-  if (error) return 'ocurrio un error :(';
+
   return (
     <div className="min-h-screen w-full min-w-mobile flex flex-col items-center bg-background">
       <div className="h-64 flex flex-col items-center justify-evenly">
@@ -116,6 +97,12 @@ function LoginForm() {
           {errors.password && <TextError text={errors.password} />}
         </AnimatePresence>
 
+        {loginMutation.isError && (
+          <p className="text-red-500 text-sm">
+            {(loginMutation.error as Error).message}
+          </p>
+        )}
+
         <Link to="/forgotPassword">
           <p className="text-[#0a135d] text-sm font-medium text-end mt-2 underline">
             ¿Ha olvidado su contraseña?
@@ -124,8 +111,9 @@ function LoginForm() {
 
         <div className="h-36 flex flex-col items-center justify-evenly">
           <CustomButton
-            title={isLoading ? 'Loading..' : 'Iniciar sesion'}
+            title={loginMutation.isPending ? 'Loading...' : 'Iniciar sesión'}
             appearance={true}
+            loading={loginMutation.isPending}
             type="submit"
           />
           <Link to="/register">

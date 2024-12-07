@@ -1,29 +1,29 @@
-import Slider from '../components/selected/SliderCard';
-import App from '../App';
-import RegisterForm from '../pages/RegisterForm';
-import Onboarding from '../pages/Onboarding';
-import { createBrowserRouter } from 'react-router-dom';
-import LoginForm from '../pages/LoginForm';
-import ForgotPassword from '../pages/ForgotPassword';
-import AppointmentManage from '../pages/AppointmentManage';
-import Questionnaire from '../pages/Questionnaire';
-import ProtectedRoute from './ProtectedRoute';
-import DynamicProfile from './DynamicProfile';
-import DynamicHome from './DynamicHome';
-import SelectedRoute from './DynamicSelected';
-import PublicRoute from './PublicRoute';
-import MyPatients from '../pages/MyPatients';
-import MyDates from '../pages/MyDates';
-import Assistance from '../pages/Assistance';
-import Emergency from '../pages/Emergency';
+import App from "../App";
+import RegisterForm from "../pages/RegisterForm";
+import Onboarding from "../pages/Onboarding";
+import { createBrowserRouter } from "react-router-dom";
+import LoginForm from "../pages/LoginForm";
+import ForgotPassword from "../pages/ForgotPassword";
+import AppointmentManage from "../pages/AppointmentManage";
+import Questionnaire from "../pages/Questionnaire";
+import ProtectedRoute from "./ProtectedRoute";
+import DynamicProfile from "./DynamicProfile";
+import DynamicHome from "./DynamicHome";
+import SelectedRoute from "./DynamicSelected";
+import PublicRoute from "./PublicRoute";
+import MyPatients from "../pages/MyPatients";
+import MyDates from "../pages/MyDates";
+import Assistance from "../pages/Assistance";
+import Emergency from "../pages/Emergency";
+import ChatPattient from "../pages/ChatPattient";
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <App />,
     children: [
       {
-        path: '',
+        path: "",
         element: (
           <PublicRoute>
             <LoginForm />
@@ -31,7 +31,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'register',
+        path: "register",
         element: (
           <PublicRoute>
             <RegisterForm />
@@ -39,20 +39,36 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'forgotPassword',
+        path: "forgotPassword",
         element: (
           <PublicRoute>
             <ForgotPassword />
           </PublicRoute>
         ),
       },
-      { path: 'onboard', element: <Onboarding /> },
-      { path: 'questionnaire', element: <Questionnaire /> },
-      // Ruta de prueba para la pantalla final de asistencia
-      { path: 'emergency', element: <Emergency /> },
+      {
+        path: "onboard",
+        element: (
+          <ProtectedRoute>
+            <Onboarding />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "questionnaire",
+        element: <Questionnaire />,
+      },
+      {
+        path: "emergency",
+        element: (
+          <ProtectedRoute>
+            <Emergency />
+          </ProtectedRoute>
+        ),
+      },
 
       {
-        path: 'assistance',
+        path: "assistance",
         element: (
           <ProtectedRoute>
             <Assistance />
@@ -60,7 +76,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'profile',
+        path: "profile",
         element: (
           <ProtectedRoute>
             <DynamicProfile />
@@ -68,7 +84,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'home',
+        path: "home",
         element: (
           <ProtectedRoute>
             <DynamicHome />
@@ -76,7 +92,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'manage-appointment',
+        path: "manage-appointment",
         element: (
           <ProtectedRoute>
             <AppointmentManage />
@@ -84,7 +100,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'selected',
+        path: "selected",
         element: (
           <ProtectedRoute>
             <SelectedRoute />
@@ -92,7 +108,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'mypatients',
+        path: "mypatients",
         element: (
           <ProtectedRoute>
             <MyPatients />
@@ -100,20 +116,16 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'slider',
-        element: (
-          <ProtectedRoute>
-            <Slider />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: 'mydates',
+        path: "mydates",
         element: (
           <ProtectedRoute>
             <MyDates />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: "chatpettient",
+        element: <ChatPattient />,
       },
     ],
   },

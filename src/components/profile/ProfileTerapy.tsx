@@ -1,6 +1,8 @@
+import { useUserStore } from '../../context/userStore';
 import ProfileAppHistory from './ProfileAppHistory'
 
 const ProfileTerapy = () => {
+    const {user} = useUserStore();
     return (
         <>
             {/* Tipo de terapia */}
@@ -17,7 +19,7 @@ const ProfileTerapy = () => {
             <article className="w-[343px] bg-background my-2 pb-2 px-6 gap-2 flex flex-col text-base rounded-2xl leading-tight">
                 <h2 className="font-medium">Email</h2>
                 <p className="text-[#969696]">
-                    miguelrojas@gmail.com
+                    {user?.email}
                 </p>
 
                 <p className="self-end">-</p>

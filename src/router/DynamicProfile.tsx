@@ -9,7 +9,7 @@ const DynamicProfile = () => {
     return <div>Error: No user found</div>; // Manejo de casos en los que no hay usuario.
   }
 
-  return user.rol === "Paciente" ? <ProfilePacient /> : <ProfileProfessional />;
+  return user.role === "PATIENT" ? <ProfilePacient /> : <ProfileProfessional />;
 };
 
 export default DynamicProfile;
