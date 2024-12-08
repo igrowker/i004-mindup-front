@@ -23,7 +23,10 @@ jobs:
       - name: Generate .env file from GitHub secrets
         run: |
           echo "NGINX_SERVER_NAME=${{ secrets.NGINX_SERVER_NAME }}" >> .env
-
+          echo "VITE_COREURL=${{ secrets.VITE_COREURL }}" >> .env
+          echo "VITE_MONGOURL=${{ secrets.VITE_MONGOURL }}" >> .env
+          echo "VITE_URL=${{ secrets.VITE_URL }}" >> .env
+          
       - name: Build and Push Docker Image
         run: |
           docker build -t igrowker/i004-mindup-front:${{ github.sha }} .
@@ -45,5 +48,8 @@ jobs:
             sudo docker run -d \
               --name mindup-front \
               -p 80:80 \
+              -e VITE_COREURL=${{ secrets.VITE_COREURL }} \
+              -e VITE_MONGOURL=${{ secrets.VITE_MONGOURL }} \
+              -e VITE_URL=${{ secrets.VITE_URL }} \
               -e NGINX_SERVER_NAME=${{ secrets.NGINX_SERVER_NAME }} \
               igrowker/i004-mindup-front:${{ github.sha }}
