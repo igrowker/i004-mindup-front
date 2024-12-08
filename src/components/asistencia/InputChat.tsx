@@ -68,3 +68,4 @@ export default function InputChat({ profesionalId }: InputChatProps) {
     </form>
   );
 }
+
