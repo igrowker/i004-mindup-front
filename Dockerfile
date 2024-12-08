@@ -1,5 +1,5 @@
 # Usa una imagen base de Node.js para instalar dependencias
-FROM node:current-alpine AS build
+FROM node:FROM node:lts AS build
 
 # Establece el directorio de trabajo en /app
 WORKDIR /app
