@@ -1,29 +1,30 @@
-# Usa una imagen base de Node.js para instalar dependencias
-FROM node:18 AS build
+# Etapa 1: Construcción
+FROM node:lts AS build
 
-# Establece el directorio de trabajo en /app
+# Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia el archivo package.json y package-lock.json e instala las dependencias
+# Copia el archivo de dependencias y limpia posibles residuos
 COPY package*.json ./
 
-RUN npm config set registry https://registry.npmmirror.com && npm ci
+# Fuerza instalación limpia (npm ci asegura que se usen solo las dependencias en package-lock.json)
+RUN npm ci --prefer-dedupe --legacy-peer-deps
 
-# Copia el resto de los archivos de la aplicación y ejecuta el script de construcción
+# Copia el resto de los archivos de la aplicación y ejecuta la construcción
 COPY . .
-RUN npm run build && ls -al /app/dist 
+RUN npm run build
 
-# Usa una imagen ligera de Nginx para servir los archivos estáticos de producción
+# Etapa 2: Producción con Nginx
 FROM nginx:stable-alpine
 
-# Copia el archivo de configuración personalizado de Nginx
+# Copia la configuración de Nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Copia los archivos de la aplicación construida desde el paso anterior
+# Copia los archivos construidos desde la etapa 1
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Expone el puerto 80 para el servidor web
+# Exponer el puerto 80
 EXPOSE 80
 
-# Comando para iniciar Nginx en primer plano, evitando que el contenedor se detenga
+# Inicia Nginx
 CMD ["/bin/sh", "-c", "envsubst '${NGINX_SERVER_NAME}' < /etc/nginx/nginx.conf > /etc/nginx/nginx_resolved.conf && nginx -g 'daemon off;'"]
