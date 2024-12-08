@@ -1,5 +1,5 @@
 import { useState, FormEvent } from "react";
-import { LuSendHorizonal } from "react-icons/lu";
+import { LuSendHorizontal } from "react-icons/lu";
 import { useStompClient } from "react-stomp-hooks";
 import { useUserStore } from "../../context/userStore";
 
@@ -62,7 +62,7 @@ export default function InputChat({ profesionalId }: InputChatProps) {
           className="absolute right-2 top-1/2 transform -translate-y-1/2 text-[#7a5fe7] hover:bg-[#f3f3f3] p-1 rounded-full"
           disabled={!inputValue.trim()} // Desactivar si el input está vacío
         >
-          <LuSendHorizonal className="size-6" />
+          <LuSendHorizontal className="size-6" />
         </button>
       </div>
     </form>
