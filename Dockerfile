@@ -1,5 +1,5 @@
 # Usa una imagen base de Node.js para instalar dependencias
-FROM node:lts AS build
+FROM node:18 AS build
 
 # Establece el directorio de trabajo en /app
 WORKDIR /app
