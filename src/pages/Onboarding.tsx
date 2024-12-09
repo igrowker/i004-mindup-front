@@ -27,7 +27,7 @@ const Onboarding = () => {
       backgroundImage: '/bg1.png',
       logo: '/logo2.png',
       texts: [
-        '¡Hola, Trinidad!',
+        `¡Hola, ${user?.name}!`,
         'Nos alegra que quieras ser parte de nuestra comunidad de psicólogos.',
       ],
       buttonText: 'Comenzar',

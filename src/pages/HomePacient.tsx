@@ -50,7 +50,7 @@ function HomePacient() {
               onClick={() => navigate("/mydates")}
             />
             <div className="text-lg bg-secondary shadow-[0_4px_4px_rgba(0,0,0,0.25)] rounded text-[#FFFFFF] w-72 p-2 px-4 text-wrap text-start">
-              Hoy tienes una nueva cita 9 am {/* "9am" va a ser una variable */}
+              Todavia no tienes citas, ¡Agenda una! {/* "9am" va a ser una variable */}
             </div>
             <CustomButtonHome
               onClick={() => navigate("/selected")}

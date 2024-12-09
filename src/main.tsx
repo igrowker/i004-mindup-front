@@ -5,7 +5,6 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
 import queryClient from "./queryClient.ts";
 import { StompSessionProvider } from "react-stomp-hooks";
-import React from "react";
 const apiUrl = import.meta.env.VITE_URL;
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -16,10 +15,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       console.log("conetaooooo");
     }}
   >
-    <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
     </QueryClientProvider>
-    </React.StrictMode>
   </StompSessionProvider>
 );
