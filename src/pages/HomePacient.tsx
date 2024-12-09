@@ -28,7 +28,7 @@ function HomePacient() {
             alt="Imagen de perfil"
           />
         ) : (
-          <FaUser className="size-10 bg-[#989898] fill-zinc-600 rounded-full" />
+          <FaUser className="size-[86px] bg-[#989898] fill-zinc-600 rounded-full" />
         )}
 
         <div className="w-60 mt-4">
@@ -50,7 +50,7 @@ function HomePacient() {
               onClick={() => navigate("/mydates")}
             />
             <div className="text-lg bg-secondary shadow-[0_4px_4px_rgba(0,0,0,0.25)] rounded text-[#FFFFFF] w-72 p-2 px-4 text-wrap text-start">
-              Hoy tienes una nueva cita 9 am {/* "9am" va a ser una variable */}
+              No tienes citas hoy. {/* "9am" va a ser una variable */}
             </div>
             <CustomButtonHome
               onClick={() => navigate("/selected")}

@@ -55,6 +55,11 @@ function AppointmentManage() {
     setSelectedDate(response);
   };
 
+  const removePendientDate = (id: string) => {
+    setPendientDates((prev) => prev.filter((appointment) => appointment.id !== id));
+  };
+  
+
   return (
     <section className="flex flex-col items-center pb-2 gap-4">
       <Header />
@@ -90,7 +95,7 @@ function AppointmentManage() {
       <article className="w-full p-4 flex flex-col items-center gap-4">
         <h1 className="font-medium text-gray-800 text-lg">Próximos turnos</h1>
         {selectedDate.length > 0 ? (
-          <DateCardList appointments={selectedDate} />
+          <DateCardList appointments={selectedDate} onRefresh={handleDateSelect} />
         ) : (
           <h3>No hay turnos para esta fecha</h3>
         )}
@@ -99,7 +104,7 @@ function AppointmentManage() {
           Turnos pendientes de confirmación
         </h2>
         {pendientDates.length > 0 ? (
-          <ConfirmDateCardList appointments={pendientDates} />
+          <ConfirmDateCardList appointments={pendientDates} onRemove={removePendientDate}  />
         ) : (
           <h3>No hay turnos pendientes de confirmación</h3>
         )}

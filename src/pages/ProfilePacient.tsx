@@ -100,9 +100,9 @@ const ProfilePacient = () => {
     <main className="w-full min-w-mobile flex flex-col items-center justify-center bg-background">
       <Header />
       <ProfileHeader
-        imagen={userProfileData?.image || pacient.imagen}
-        nombre={userProfileData?.name || pacient.nombre}
-        especialidad={userProfileData.specialty || pacient.especialidad}
+        imagen={userProfileData?.image}
+        nombre={userProfileData?.name}
+        especialidad={userProfileData.specialty}
       />
       <hr className="w-[290px] my-4 -mx-4" />
 
