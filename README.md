@@ -9,7 +9,7 @@
 
 El proyecto Mindup tiene un planteamiento sólido y detallado que aborda un problema real en la conexión entre pacientes y psicólogos, centrándose en personalización y humanización. A continuación, se destacan los elementos clave, las áreas de oportunidad y posibles recomendaciones para fortalecer la propuesta: 
 
-- Accede al repositorio FrontEnd: <a href="https://github.com/Galylilian/i004-mindup-front">
+- Accede al repositorio BackEnd: <a href="https://github.com/igrowker/i004-mindup-back">
   <img src="https://img.icons8.com/?size=100&id=efFfwotdkiU5&format=png&color=000000" width="40" height="40"/>
 </a>
 
