@@ -43,7 +43,7 @@ El proyecto Mindup tiene un planteamiento sólido y detallado que aborda un prob
   - Gestión integrada: Sincronización para facilitar la administración de citas.
 
 ---
-## Galería de imágenes
+## Galería de imágenes :framed_picture:
 
 ![Mindup marketing](https://github.com/igrowker/i004-mindup-front/blob/kn-readme/public/flow_paciente.jpg?raw=true)
 ![Mindup marketing](https://github.com/igrowker/i004-mindup-front/blob/kn-readme/public/flow_prof.jpg?raw=true)
