@@ -95,7 +95,7 @@ function AppointmentManage() {
       <article className="w-full p-4 flex flex-col items-center gap-4">
         <h1 className="font-medium text-gray-800 text-lg">Próximos turnos</h1>
         {selectedDate.length > 0 ? (
-          <DateCardList appointments={selectedDate} />
+          <DateCardList appointments={selectedDate} onRefresh={handleDateSelect} />
         ) : (
           <h3>No hay turnos para esta fecha</h3>
         )}

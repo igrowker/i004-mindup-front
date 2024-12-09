@@ -5,7 +5,7 @@ import Chat from "../components/asistencia/Chat";
 import { useSocketStore, useUserStore } from "../context/userStore";
 import { useStompClient, useSubscription } from "react-stomp-hooks";
 import EmergencyNumber from "../components/asistencia/EmergencyNumber";
-import { FaRegUserCircle } from "react-icons/fa";
+import { FaUser } from "react-icons/fa6";
 
 interface SenderInfo {
   name: string;
@@ -17,11 +17,14 @@ const Assistance = () => {
   const { socketData, setSocketData } = useSocketStore();
   const profesionalId = socketData?.professionalId;
   const stompClient = useStompClient();
-  
+
   const [isLoading, setIsLoading] = useState(true);
   const [psychologistsNotAvailable, setPsychologistsNotAvailable] =
     useState(false);
-  const [sender, setSender] = useState<SenderInfo>({ name: "", image: undefined });
+  const [sender, setSender] = useState<SenderInfo>({
+    name: "",
+    image: undefined,
+  });
   const apiUrl = import.meta.env.VITE_MONGOURL;
   const token = localStorage.getItem("token");
 
@@ -83,19 +86,17 @@ const Assistance = () => {
         {sender.image ? (
           <img
             src={sender.image}
-            alt="Foto del paciente"
+            alt="Foto del profesional"
             className="size-10 bg-[#989898] rounded-full object-cover"
           />
         ) : (
-          <FaRegUserCircle size={25} />
+          <FaUser className="bg-[#989898] fill-zinc-600 rounded-full size-10" />
         )}
         <div className="flex flex-col justify-center">
           <h2 className="text-lg">
-            {sender.name ? (
-              `Estás hablando con ${sender.name}`
-            ) : (
-              "Cargando paciente"
-            )}
+            {sender.name
+              ? `Estás hablando con ${sender.name}`
+              : "Cargando paciente"}
           </h2>
         </div>
       </section>

@@ -9,6 +9,7 @@ type CardProps = {
   timeRange: string; // Hora inicial en formato "HH:mm"
   psycho?: string;
   status: string;
+  onRefresh: (date: Date | null) => void;
 };
 
 const DateCard: React.FC<CardProps> = ({
@@ -17,6 +18,7 @@ const DateCard: React.FC<CardProps> = ({
   timeRange,
   psycho = "",
   status,
+  onRefresh,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +29,9 @@ const DateCard: React.FC<CardProps> = ({
     setIsLoading(true);
     try {
       await confirmDate(id);
+      if (onRefresh) {
+        onRefresh(new Date())
+      }
     } catch (error) {
       console.error("Error al aceptar la cita:", error);
     } finally {
@@ -39,6 +44,9 @@ const DateCard: React.FC<CardProps> = ({
     setIsLoading(true);
     try {
       await cancelDate(id);
+      if (onRefresh) {
+        onRefresh(new Date())
+      }
     } catch (error) {
       console.error("Error al cancelar la cita:", error);
     } finally {

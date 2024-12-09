@@ -10,10 +10,11 @@ type Appointment = {
 
 type DateCardListProps = {
   appointments: Appointment[];
+  onRefresh: (date: Date | null) => void;
 };
 
 const DateCardList: React.FC<DateCardListProps> = ({
-  appointments,
+  appointments, onRefresh
 }) => {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -40,6 +41,7 @@ const DateCardList: React.FC<DateCardListProps> = ({
             timeRange={timeRange}
             psycho={appointment.patientName}
             status={appointment.status}
+            onRefresh={onRefresh}
           />
         );
       })}
