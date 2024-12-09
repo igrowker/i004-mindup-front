@@ -1,4 +1,5 @@
 ![Logo de Mindup](https://github.com/igrowker/i004-mindup-back/blob/develop/core/src/main/resources/images/MindUpLogo.png?raw=true)
+![Mindup marketing](https://github.com/igrowker/i004-mindup-back/blob/develop/core/src/main/resources/images/MindUpLogo.png?raw=true)
 
 ---
 
