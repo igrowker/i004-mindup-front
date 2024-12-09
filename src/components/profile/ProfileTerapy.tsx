@@ -1,5 +1,4 @@
 import { useUserStore } from '../../context/userStore';
-import ProfileAppHistory from './ProfileAppHistory'
 
 const ProfileTerapy = () => {
     const {user} = useUserStore();
@@ -28,8 +27,7 @@ const ProfileTerapy = () => {
             {/* Historial de turnos */}
             <article className="w-[343px] bg-background my-2 pb-2 px-6 gap-2 flex flex-col text-base rounded-2xl leading-tight">
                 <h2 className="font-medium">Historial de turnos</h2>
-                <ProfileAppHistory />
-                <ProfileAppHistory />
+                
                 <p className="self-end">-</p>
             </article>
         </>

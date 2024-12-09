@@ -7,7 +7,7 @@ export interface UserData {
   
   export const userRegister = async (userData: UserData) => {
     const apiUrl = import.meta.env.VITE_COREURL;
-  
+    console.log(userData);
     try {
       const response = await fetch(`${apiUrl}/register`, {
         method: "POST",
@@ -19,6 +19,7 @@ export interface UserData {
   
       if (!response.ok) {
         const errorData = await response.json();
+        console.log(errorData);
         throw new Error(errorData.message || "Error en el registro");
       }
   

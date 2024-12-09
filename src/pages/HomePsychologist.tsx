@@ -124,7 +124,7 @@ function HomePsychologist() {
           <WeekCalendar onDateSelect={handleDateSelect} />
         </article>
         <article className="mb-8">
-          <DateCardList appointments={selectedDate} />
+          <DateCardList appointments={selectedDate} onRefresh={handleDateSelect} />
         </article>
         <div className="flex justify-center">
           <CustomButton

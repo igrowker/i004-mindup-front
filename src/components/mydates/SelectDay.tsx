@@ -6,6 +6,7 @@ import DateCardList from "./DateCardList";
 import SelectedProfessional from "./SelectedProfessional";
 import { getDatesPatient } from "../../api/userDates";
 import { useUserStore } from "../../context/userStore";
+import { useNavigate } from "react-router-dom";
 
 interface DateData {
   date: string;
@@ -28,6 +29,7 @@ function SelectDay({
   const [dateSelected, setDateSelected] = useState<Date | null>(null);
   const [dates, setDates] = useState<DateData[]>([]); // Estado para las citas
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
   const { user } = useUserStore();
 
   // Maneja la selección de una fecha
@@ -170,14 +172,19 @@ function SelectDay({
           {...fadeInOut}
           className="w-[370px]"
         >
-          <div className="grid grid-cols-3 gap-2 gap-y-4 w-full items-center place-items-center">
-            <Chip time="8:00" onClick={onChipClick} />
-            <Chip time="12:00" onClick={onChipClick} />
-            <Chip time="14:00" onClick={onChipClick} />
-            <Chip time="16:00" onClick={onChipClick} />
-            <Chip time="18:00" onClick={onChipClick} />
-            <Chip time="20:00" onClick={onChipClick} />
-          </div>
+          <section className="w-full flex flex-col items-center gap-8 mb-4">
+            <div className="grid grid-cols-3 gap-2 gap-y-4 w-full items-center place-items-center">
+              <Chip time="8:00" onClick={onChipClick} />
+              <Chip time="12:00" onClick={onChipClick} />
+              <Chip time="14:00" onClick={onChipClick} />
+              <Chip time="16:00" onClick={onChipClick} />
+              <Chip time="18:00" onClick={onChipClick} />
+              <Chip time="20:00" onClick={onChipClick} />
+            </div>
+            <button className="bg-gray-100 h-10 w-80 flex items-center justify-center text-center relative rounded-lg" onClick={() => navigate('/selected')}>
+              Cancelar
+            </button>
+          </section>
         </motion.div>
       )}
     </article>
