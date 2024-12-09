@@ -28,7 +28,7 @@ function HomePacient() {
             alt="Imagen de perfil"
           />
         ) : (
-          <FaUser className="size-10 bg-[#989898] fill-zinc-600 rounded-full" />
+          <FaUser className="size-[86px] bg-[#989898] fill-zinc-600 rounded-full" />
         )}
 
         <div className="w-60 mt-4">

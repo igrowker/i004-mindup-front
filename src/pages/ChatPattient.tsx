@@ -2,7 +2,7 @@ import Header from "../components/header/Header";
 import Chat from "../components/asistencia/Chat";
 import { useState } from "react";
 import Loading from "../components/shared/Loading";
-import { FaRegUserCircle } from "react-icons/fa";
+import { FaUser } from "react-icons/fa6";
 
 interface SenderInfo {
   name: string;
@@ -27,7 +27,7 @@ const ChatPattient = () => {
             className="size-10 bg-[#989898] rounded-full object-cover"
           />
         ) : (
-          <FaRegUserCircle size={25} />
+          <FaUser className="bg-[#989898] fill-zinc-600 rounded-full size-10" />
         )}
         <div className="flex flex-col justify-center">
           <h2 className="text-lg">

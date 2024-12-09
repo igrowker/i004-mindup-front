@@ -3,12 +3,13 @@ import { toast } from "sonner";
 import { cancelDate, confirmDate } from "../../api/userDates";
 
 type CardProps = {
-  day: string; // Formato ISO: "2024-12-07T15:00:03.832"
+  day: string;
   id: string;
   patient?: string;
+  onRemove: (id: string) => void;
 };
 
-const ConfirmDateCard: React.FC<CardProps> = ({ day, id, patient = "" }) => {
+const ConfirmDateCard: React.FC<CardProps> = ({ day, id, patient = "", onRemove}) => {
   const [isLoading, setIsLoading] = useState(false);
   const formatDateTime = (isoDate: string) => {
     const date = new Date(isoDate);
@@ -36,6 +37,7 @@ const ConfirmDateCard: React.FC<CardProps> = ({ day, id, patient = "" }) => {
     setIsLoading(true);
     try {
       await confirmDate(id);
+      onRemove(id);
       toast.success(`Se aceptó la cita de ${patient}`);
     } catch (error) {
       toast.error(`Error en aceptar la cita de ${patient}`);
@@ -48,6 +50,7 @@ const ConfirmDateCard: React.FC<CardProps> = ({ day, id, patient = "" }) => {
     setIsLoading(true);
     try {
       await cancelDate(id);
+      onRemove(id);
       toast.success(`Se rechazó la cita de ${patient}`);
     } catch (error) {
       toast.error(`Error en rechazar la cita de ${patient}`);

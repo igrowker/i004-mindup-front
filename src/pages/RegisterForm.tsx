@@ -91,7 +91,7 @@ const RegisterForm = () => {
         onSuccess: () => {
           logInPostReg(); // Procede con el flujo de login
         },
-      });
+      })
     }
   };
 
