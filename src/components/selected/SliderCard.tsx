@@ -44,7 +44,7 @@ const Slider = ({ userData }: { userData: any[] }) => {
       lastname: "",
       image: user.image || "",
       terapy_type: user.specialty,
-      attention_type: user.availability ? "Virtual y presencial" : "Presencial",
+      attention_type: user.availability ? "Virtual y presencial" : "Virtual",
       honorarys: "$ Consultar",
       phrase: user.information || "Información no disponible",
       author: "",

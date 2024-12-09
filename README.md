@@ -13,10 +13,6 @@ El proyecto Mindup tiene un planteamiento sólido y detallado que aborda un prob
   <img src="https://img.icons8.com/?size=100&id=efFfwotdkiU5&format=png&color=000000" width="40" height="40"/>
 </a>
 
-- Accede al sitio web: <a href="sitio web">
-  <img src="https://cdn-icons-png.flaticon.com/512/5602/5602732.png" width="40" height="40"/>
-</a>
-
 ---
 
 ## Análisis de los Desafíos 🧠 

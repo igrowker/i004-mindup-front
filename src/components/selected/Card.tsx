@@ -5,7 +5,7 @@ import { CiMoneyBill } from "react-icons/ci";
 import { CardData } from "./SliderCard";
 import CustomButton from "../shared/CustomButton";
 import { useNavigate } from "react-router-dom";
-import { selectedProfessionalStore } from "../../context/userStore";
+import { selectedProfessionalStore, useUserStore } from "../../context/userStore";
 import { FaUser } from "react-icons/fa6";
 
 const Card: React.FC<CardData> = ({
@@ -25,6 +25,7 @@ const Card: React.FC<CardData> = ({
 }) => {
   const navigate = useNavigate();
   const { setSelectedProfessional } = selectedProfessionalStore();
+  const {user} = useUserStore();
 
   const handleAppointment = () => {
     if (!userId) {
@@ -45,7 +46,7 @@ const Card: React.FC<CardData> = ({
               <img src={image} alt="first card image" />
             </div>
             <div className="text-center w-full">
-              <h3 className="text-xl font-bold">¡Hola, Miguel!</h3>
+              <h3 className="text-xl font-bold">¡Hola, {user?.name}!</h3>
             </div>
           </div>
           <div className="text-center text-xl w-full font-semibold">

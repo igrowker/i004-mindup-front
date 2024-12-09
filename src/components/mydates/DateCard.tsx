@@ -62,7 +62,11 @@ const DateCard: React.FC<CardProps> = ({
             alt="Icono de confirmacion"
           />
         ) : (
-          <div />
+          <img
+            className="w-6 h-6"
+            src="public/Íconos/Confirmado.svg"
+            alt="Icono de confirmacion"
+          />
         )}
       </header>
       <div className="h-full flex flex-col justify-center flex-grow">
