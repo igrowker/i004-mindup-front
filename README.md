@@ -46,7 +46,7 @@ El proyecto Mindup tiene un planteamiento sólido y detallado que aborda un prob
 ## Galería de imágenes
 
 ![Mindup marketing](https://github.com/igrowker/i004-mindup-front/blob/kn-readme/public/flow_paciente.jpg?raw=true)
-![Mindup marketing](https://github.com/igrowker/i004-mindup-front/blob/kn-readme/public/flow_prof.jpeg?raw=true)
+![Mindup marketing](https://github.com/igrowker/i004-mindup-front/blob/kn-readme/public/flow_prof.jpg?raw=true)
 
 ---
 
