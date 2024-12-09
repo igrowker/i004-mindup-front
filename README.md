@@ -85,6 +85,7 @@ Este proyecto está desarrollado utilizando las siguientes tecnologías:
   - React Query: Para el manejo eficiente de la sincronización de datos en la interfaz, realizando llamadas a APIs con un enfoque en el almacenamiento en caché y la gestión del estado.
   - Sonner: Librería para notificaciones ligeras y elegantes en aplicaciones web.
   - Zustand: Gestor de estado simple y sin dependencias para aplicaciones React, con un enfoque en la simplicidad y el rendimiento.
+  - Websocket: Utilizado para establecer los chats entre paciente y profesional
 
 **DevOps**
   - Git y GitHub: Para control de versiones y colaboración en equipo.
